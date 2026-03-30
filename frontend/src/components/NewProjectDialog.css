@@ -1,0 +1,129 @@
+/* NewProjectDialog Modal Styling - Ultra Clean Minimal Theme */
+
+/* Dialog wrapper - ensure fixed positioning */
+.dialog-wrapper {
+  position: fixed !important;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dialog overlay - backdrop */
+.dialog-overlay {
+  position: fixed !important;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9998 !important;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Dialog box - main container */
+.dialog-box {
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.05);
+  max-width: 32rem;
+  width: calc(100% - 2rem);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  z-index: 9999 !important;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Dialog buttons container */
+.dialog-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  z-index: 10000;
+}
+
+/* Button styling within dialog */
+.dialog-buttons button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  border-radius: 0.5rem;
+  border: 1px solid #4a90e2;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+  z-index: 10001;
+}
+
+.dialog-buttons button:hover:not(:disabled) {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.dialog-buttons button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.dialog-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Ensure dialog content is scrollable if needed */
+.dialog-box > div {
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .dialog-box {
+    width: calc(100% - 1rem);
+    padding: 1.5rem;
+    max-height: 95vh;
+  }
+  
+  .dialog-buttons {
+    flex-direction: column;
+  }
+  
+  .dialog-buttons button {
+    width: 100%;
+  }
+}

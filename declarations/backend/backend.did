@@ -1,0 +1,111 @@
+type Time = int;
+type TextPosition = 
+ record {
+   height: float64;
+   width: float64;
+   x: float64;
+   y: float64;
+ };
+type SpineSpec = 
+ record {
+   "text": text;
+   width: float64;
+ };
+type Size = 
+ record {
+   height: float64;
+   width: float64;
+ };
+type ProjectSettings = 
+ record {
+   font: text;
+   fontSize: float64;
+   lineSpacing: float64;
+   margin: float64;
+ };
+type Project = 
+ record {
+   cover: CoverSpec;
+   created: Time;
+   id: text;
+   modified: Time;
+   pages: vec Page;
+   settings: ProjectSettings;
+   story: text;
+   title: text;
+ };
+type Position = 
+ record {
+   x: float64;
+   y: float64;
+ };
+type PageLayout = 
+ record {
+   imagePosition: ImagePosition;
+   textPosition: TextPosition;
+ };
+type Page = 
+ record {
+   imageId: opt text;
+   layout: PageLayout;
+   number: nat;
+   "text": text;
+ };
+type Layout = 
+ record {
+   position: Position;
+   size: Size;
+ };
+type ImagePosition = 
+ record {
+   height: float64;
+   width: float64;
+   x: float64;
+   y: float64;
+ };
+type Image = 
+ record {
+   id: text;
+   pageId: opt text;
+   path: text;
+   projectId: text;
+   uploaded: Time;
+ };
+type FileReference = 
+ record {
+   hash: text;
+   path: text;
+ };
+type Dimensions = 
+ record {
+   height: float64;
+   width: float64;
+ };
+type CoverSpec = 
+ record {
+   back: CoverElement;
+   dimensions: Dimensions;
+   front: CoverElement;
+   spine: SpineSpec;
+ };
+type CoverElement = 
+ record {
+   imageId: opt text;
+   layout: Layout;
+   "text": text;
+ };
+service : {
+  addImage: (projectId: text, path: text) -> (text);
+  createProject: (title: text) -> (text);
+  deleteImage: (id: text) -> ();
+  deleteProject: (id: text) -> ();
+  dropFileReference: (path: text) -> ();
+  getFileReference: (path: text) -> (FileReference) query;
+  getImage: (id: text) -> (opt Image) query;
+  getProject: (id: text) -> (opt Project) query;
+  listFileReferences: () -> (vec FileReference) query;
+  listImages: (projectId: text) -> (vec Image) query;
+  listProjects: () -> (vec Project) query;
+  registerFileReference: (path: text, hash: text) -> ();
+  updateProject: (project: Project) -> ();
+}

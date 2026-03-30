@@ -1,0 +1,145 @@
+/* HomePage Layout and Button Styling - Ultra Clean Minimal Theme */
+
+/* Create Project Button - ensure proper positioning */
+.create-project-button {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 2rem;
+}
+
+/* Project List Container - ensure proper stacking */
+.project-list {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.5rem;
+}
+
+/* Hero Section - ensure proper layering */
+.hero-section {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 3rem;
+}
+
+/* Ensure buttons don't float incorrectly */
+.hero-section button,
+.create-project-button button {
+  position: relative;
+  z-index: 10;
+}
+
+/* Project Cards Grid */
+.projects-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 640px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Project Card - ensure proper elevation */
+.project-card {
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.project-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Empty State Container */
+.empty-state {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+/* Loading State Container */
+.loading-state {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure proper spacing between sections */
+.page-container {
+  position: relative;
+  z-index: 1;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+/* Section Headers */
+.section-header {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 1.5rem;
+}
+
+/* Prevent layout shifts during loading */
+.skeleton-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Ensure dialogs don't interfere with page layout */
+.page-content {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+
+/* Button group spacing */
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .page-container {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .hero-section {
+    margin-bottom: 2rem;
+  }
+  
+  .project-list {
+    margin-top: 1rem;
+  }
+}

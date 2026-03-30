@@ -1,0 +1,566 @@
+# Bamm Book Builder   Production Version
+
+## Overview
+Bamm Book Builder is a full-stack application for creating children's books using a universal 8.5 x 8.5 inch children's paperback format with 0.125 inch bleed and safe margins compliant with Amazon KDP standards. The application features a **minimal, clean UI** design with simple layouts, neutral colors, and plain text elements for an uncluttered user experience.
+
+## Core Features
+
+### Deployment Information System
+- Backend method to retrieve the current public deployment URL of the application
+- Frontend interface to display the live deployment URL for user verification
+- URL retrieval functionality accessible from the main dashboard or settings area
+- Display of the complete public URL where the application is currently deployed
+- Copy-to-clipboard functionality for easy sharing of the deployment URL
+- Verification status indicator showing the deployment is live and accessible
+
+### Ultra-Minimal Clean UI Theme
+- **Complete removal of all visual graphics, background images, decorative elements, and image references** from every page and component
+- **Elimination of all JSX img elements, CSS background-image properties, and image import statements** throughout the entire codebase
+- **Removal of AssetImage.tsx component and all image-rendering utilities** with no remaining references
+- **Complete cleanup of all placeholder icons, logos, and visual decorations** including gnome, owl, quill, parchment, border-twig, and other graphic references
+- **Plain, minimal visual design** with soft neutral backgrounds, centered content, large clear buttons, and clear text
+- **Simple text-based headers** with "Bamm Book Builder" title using plain text only
+- **LandingPage.tsx / LandingPage.css** implementing ultra-clean design with solid neutral background, no images, no textures, simple typography, and minimal styling
+- Hero section with plain background, standard fonts, and neutral aesthetic without any visual graphics
+- Feature cards styled with simple borders and neutral tones, no decorative elements
+- **Header.tsx / Header.css** implementing simple text-based header with "Bamm Book Builder" title and standard "Login" / "Logout" authentication buttons, no logos or graphics
+- **Footer.tsx / Footer.css** with simple solid background and minimal text content, no decorative elements
+- **Sidebar.tsx / Sidebar.css** featuring clean solid background and simple border styling, no textures or graphics
+- **LoadingAnimation.tsx / LoadingAnimation.css** with simple text loading indicator, no animated graphics
+- **LoginMascot.tsx / LoginMascot.css** implementing simple welcome panel with minimal styling, no mascot images
+- **Complete elimination of all image file references** in JSX and CSS across all components
+- **Removal of all unused or orphaned asset references** including icons, textures, logos, and background images
+- **No external image files rendered or referenced** anywhere in the application
+- Clean, minimal visual integration throughout interface with solid backgrounds only
+- Simple neutral color palette using whites, light grays, and subtle tones
+- Standard typography and clean spacing with no decorative fonts
+- Minimal visual elements using only borders, spacing, and typography
+- All UI components updated to remove all asset dependencies and use only text and simple CSS styling
+- **Global CSS cleanup** removing all background-image, background-texture, and decorative CSS properties
+- **Enhanced modal styling** with plain backgrounds and simple borders, no decorative elements
+- Professional, uncluttered appearance with purely functional design elements
+- **Complete verification that no /assets/ references, image tags, or AssetImage components remain anywhere in the UI**
+- **Thorough cleanup of all leftover graphics references ensuring proper app initialization without broken placeholders**
+- **Consistent neutral background colors (whites/creams) with clear typography and properly centered visible buttons**
+- **Complete removal of all unused CSS class names and style rules tied to images, mascots, or graphics**
+- **Verification that all components initialize cleanly with minimal CSS and no dependency on graphic assets**
+
+### Landing Page
+- Public-facing introduction page accessible before login at root route (`/`)
+- **Ultra-clean hero section** with solid neutral background, no images or textures
+- Hero banner with simple text: "Bamm Book Builder — Create timeless children's books for print."
+- Large, centered "Create New Tale" button with simple styling routing to `/home` (dashboard page)
+- **Simple footer** with minimal text content, no decorative elements
+- Standard typography and neutral color palette throughout, no custom fonts or graphics
+- Integration into App.tsx routing without modifying existing routes or logic
+- Clean visual layout with simple borders and minimal functional elements only
+- Responsive scaling maintaining ultra-clean aesthetic across all viewports
+- **LandingPage.css stylesheet** with solid background, simple button styling, and text layout, no images
+
+### Authentication System
+- Internet Identity integration with proper login/logout functionality in Header.tsx
+- **Simple authentication buttons** with "Login" and "Logout" text, no icons
+- Enhanced useActor.ts implementation with proper useRef-based singleton AuthClient pattern for reliable authenticated actor state management
+- AuthClient initialization on first load using useRef to maintain singleton instance across component re-renders with secure Internet Identity integration
+- Proper isInitialized and isAuthenticated flag management with correct state transitions and timing
+- Actor re-creation after login/logout operations ensuring fresh authenticated state with proper identity handling
+- Actor initialization validation ensuring backend actor is fully initialized before any project operations
+- Master fix implementation ensuring actor creation waits for Internet Identity authentication completion
+- Cached AuthClient pattern preventing multiple client instances and ensuring consistent authentication state
+- Redeploy support without race conditions through proper initialization sequencing
+- Enhanced frontend authentication guards preventing all backend operations until `isInitialized && isAuthenticated && actor` are all true
+- Comprehensive useQueries.ts safeguards with authentication validation before any canister interactions using safe call patterns
+- Protected backend function calls in all components ensuring createProject, updateProject, listProjects, and other backend operations execute only after complete authentication
+- Safe guard implementation using requireActor utility before all backend requests with proper anonymous caller prevention
+- Anonymous identity prevention ensuring createProject and other operations reject anonymous callers with proper validation
+- Latest canister ID binding ensuring all actor instances use current backend canister ID from declarations
+- Component-level authentication checks in HomePage.tsx, ProjectEditorPage.tsx, and other components preventing premature backend calls
+- Query hook protection ensuring useQueries mutations and queries validate authentication state before execution using safeCall wrapper
+- Actor readiness validation throughout frontend preventing any backend interaction until actor is fully ready and authenticated
+- Global error handling with safeCall utility that logs and categorizes anonymous, reject code 5, and registration errors
+- Clear visual indicators distinguishing between "not logged in" and "actor still initializing" states
+- Graceful handling of "not signed in" state with clear user feedback and login prompts without error triggering
+- Anonymous user detection with appropriate login guidance without unnecessary blocking
+- Authenticated actor validation ensuring valid identity before project operations
+- Seamless authentication flow with proper state management and user experience
+- Login synchronization ensuring project creation operations are delayed until actor is fully ready
+- Visual loading states during actor initialization with user-friendly messaging
+- Compatibility verification with Internet Identity login flow for seamless project creation once authenticated
+- Secure login/logout flow handling ensuring proper identity management and actor recreation after authentication state changes
+- Single AuthClient instance persistence using useRef to prevent multiple client instances and ensure consistent authentication state
+- Proper actor initialization timing ensuring actor is only created after identity is confirmed ready and available
+
+### Project Management
+- Users can create new book projects with title and basic metadata through a dedicated NewProjectDialog component
+- **NewProjectDialog.tsx component implementing a simple vertical form with truly separate input fields for "Your Name" (authorName) and "Story Title" (storyTitle)**
+- **Each field uses dedicated state variables (authorName, storyTitle) and handlers (setAuthorName, setStoryTitle) with no shared values or overlap**
+- **Enhanced form validation with proper input validation and safe create logic using requireActor utility**
+- **NewProjectDialog.css with ultra-clean modal dialog positioning ensuring proper centering above all elements with plain overlay and correct z-index layering**
+- **Dialog overlay styling with solid background and proper z-index layering, no decorative elements**
+- **Dialog wrapper with clean positioning to prevent interference from flex/grid parent containers**
+- **Global z-index management with proper modal layering, no visual graphics**
+- **HomePage.css with clean styling for .create-project-button and .project-list using simple backgrounds and margins, no decorative elements**
+- Modal overlay with proper z-index layering ensuring no visual conflicts with other UI elements, plain styling only
+- HomePage.tsx includes "Create New Book Project" button that opens the NewProjectDialog with clean modal styling
+- Enhanced handleCreateProject function with comprehensive authentication validation before execution using safeCall wrapper
+- Protected createProject calls ensuring backend operations only execute after complete authentication state validation using requireActor
+- Anonymous caller rejection in createProject flow with proper identity verification before backend interaction
+- Actor readiness verification preventing project creation until actor is fully initialized and authenticated
+- Project list refresh after successful project creation with authentication state validation
+- Updated stable AccessControl module with enhanced user registration and project ownership management
+- Stable Trie-based user tracking ensuring persistent user registration across canister upgrades
+- Stable project ownership mapping using Trie data structures for reliable ownership verification
+- Enhanced automatic user registration that initializes new users when they first attempt to create a project
+- Improved AccessControl.canCreateProject that automatically registers authenticated non-anonymous callers and always returns true
+- Enhanced ensureUser function in backend that adds missing users to the system automatically
+- createProject method calls AccessControl.canCreateProject to ensure user registration before project creation
+- Project ownership automatically registered upon creation with immediate access verification
+- Projects are saved and can be reopened for editing
+- Each project uses the universal 8.5 x 8.5 inch format with fixed specifications
+- Amazon KDP print compliance status tracking for each project
+- Reliable project creation flow with comprehensive error handling and validation using safeCall patterns
+- Seamless first-time user experience without manual setup requirements
+- Authentication-gated project creation ensuring only authenticated users can create projects with proper actor initialization
+- Backend reinstall deployment using `dfx deploy backend --mode reinstall` and `dfx generate` for clean stable storage initialization
+- Verified createProject functionality ensuring authenticated identities are properly recognized after deployment
+
+### Story and Page Management
+- Users can input story text with automatic page splitting for 8.5 x 8.5 format
+- Manual page editing capabilities within safety margin constraints
+- Page-by-page editing interface with visual bleed and safe zone markers
+- Live preview showing exact print formatting with trim lines visualization
+- Per-page text, image, and layout management with individual validation
+- PageCanvas.tsx renders content inside a z-20 flex column container with gap-3 and p-6 over SafeZoneOverlay at z-10
+- Non-overlapping fields ensuring interactive elements remain fully accessible above overlay
+- SafeZoneOverlay maintains pointer-events-none to prevent input blocking
+- Protected page update operations with authentication validation before updateProject calls using safeCall wrapper
+- Enhanced ProjectEditorPage.tsx safeguards ensuring all backend interactions validate authentication state before execution using requireActor
+- Page management authentication gates preventing page operations until actor is fully ready and authenticated
+
+### AI Image Prompt Suggestion System
+- IC Panda API integration for AI-powered image prompt generation based on page text content
+- ProjectEditorPage.tsx includes AI assistant section below each page's text area
+- "Suggest Illustration Prompt" button that analyzes current page text and generates relevant visual prompts using generateImagePrompt API from icPandaClient.ts
+- AI prompt generation using page text content and project context for enhanced relevance
+- Text area displaying AI-generated prompt suggestions with simple formatting and clean styling
+- Editable prompt field allowing users to refine AI suggestions before generation using simple input styling
+- "Use This Prompt" button connecting refined prompts to existing image generation/upload workflow with simple button styling
+- Client-side storage of AI suggestions until user accepts or modifies them
+- Rate limiting handling for IC Panda API calls with simple success and warning messages
+- Immediate AI suggestion display upon prompt generation completion
+- Integration with existing image management system for seamless illustration workflow
+- Error handling for API failures with user-friendly feedback messages
+- Clean design consistency maintained throughout AI assistant interface with simple styling, no decorative elements
+- Non-blocking overlay compatibility ensuring AI interface remains accessible
+- Protected AI prompt generation with authentication validation before IC Panda API calls using safeCall wrapper
+
+### Modular Grok Image Generation System
+- New backend service for secure HTTPS outcalls to xAI Grok API using authenticated API key from secure config variable
+- Grok API integration encapsulated with authentication handling and error catching to never disrupt existing core logic
+- Frontend "AI Illustrations" section in right tools panel of ProjectEditorPage.tsx with simple grid layout and proper z-index
+- Custom image description text area with clean background and simple input styling for user input
+- "Generate Illustration" button styled with simple button class maintaining clean theme consistency, no decorative elements
+- Preview carousel displaying AI-generated images from Grok API responses with simple styling
+- Drag-and-drop image insertion functionality into page canvas with undo support
+- Simulated API calls for initial testing with simple toast notifications for errors and success states
+- Version control safeguards allowing safe reversion of changes if needed
+- Mobile-responsive design verified with ICP HTTPS outcall tests
+- Integration with existing image upload workflow for publication after validation
+- Protected Grok API operations with authentication validation before image generation calls using safeCall wrapper
+- Error handling for Grok API connectivity and generation failures with user-friendly feedback
+- Loading state management during image generation process
+- Seamless coexistence with IC Panda prompt system and existing image management
+
+### Image Management
+- Image upload functionality with non-blocking DPI validation approach treating 300 DPI as a recommendation, not a requirement
+- Effective DPI calculation using pixel dimensions: Math.min(img.naturalWidth / 8.5, img.naturalHeight / 8.5) for 8.5 × 8.5 inch trim size
+- Soft warning system for below-300 DPI images with non-blocking toast/banner messages like "⚠️ This image is approximately XX DPI at 8.5×8.5". Amazon recommends 300 DPI, but you can still use it."
+- Upload continuation after DPI warning display without interrupting workflow
+- Helper function validateImageForKdp that returns warning messages without blocking upload
+- Upload rejection only for genuine failures (corrupted files, unreadable images, network errors)
+- Images automatically positioned within safe zones
+- Support for JPEG and PNG formats with proper format validation
+- Upload progress indicators and success confirmation
+- Per-page image assignment and validation
+- AI-generated illustration integration through IC Panda API with prompt-based image generation
+- Grok-generated image integration with drag-and-drop insertion and automatic page assignment
+- Protected image upload operations with authentication validation before storage calls using safeCall wrapper
+
+### Cover Builder
+- Dedicated interface for designing 8.5 x 8.5 inch print-compliant covers
+- Cover image upload with effective DPI calculation using pixel dimensions (width/8.5 and height/8.5) for 8.5 × 8.5 inch trim size
+- Non-blocking DPI validation displaying soft warnings for images below 300 DPI without blocking upload workflow
+- DPI warning display showing "⚠️ This image is approximately XX DPI at 8.5×8.5 inches. Amazon recommends 300 DPI, but you can still use it."
+- Upload continuation for cover images even with DPI warnings, only blocking on actual file or network errors
+- Cover upload using storageClient.uploadCoverImage with immediate cover preview update via setCoverImageUrl
+- Clear console logging and on-screen messages for DPI warnings and upload errors
+- SafeZoneOverlay displayed beneath uploaded cover images for visual KDP guidance
+- Automatic spine width calculation based on page count
+- Precise 0.125 inch bleed zone implementation with visual guides
+- Safety margin enforcement with overlay indicators
+- Trim lines visualization in preview area
+- Cover component alignment (front, back, spine) with Amazon KDP specifications
+- Fixed SafeZoneOverlay component with proper z-index layering (z-10) and strict TrimSizePreset typing
+- Validated boolean bleed prop with proper guard conditions preventing race condition rendering
+- Dynamic aspect ratio adjustment based on trim size with proper helper functions
+- Interactive elements positioned above overlay (z-20) ensuring full clickability
+- Loading state guards preventing overlay rendering before project data is available
+- Memoized cover image URL handling with proper relative container positioning
+- Protected cover operations with authentication validation before cover-related backend calls using safeCall wrapper
+
+### Print Compliance System
+- Automatic enforcement of Amazon KDP print guidelines
+- Real-time compliance checking with visual indicators
+- Print compliance validation ensuring upload-readiness
+- SafeZoneOverlay component as purely non-blocking background element using pointer-events-none, absolute inset-0, and z-10 positioning
+- SafeZoneOverlay never interferes with user interaction in book or cover builder editors
+- PageCanvas component wrapping text/image content in relative container with interactive elements inside single absolute inset-0 z-20 flex column with gap-4 to avoid layer overlap
+- SafeZoneOverlay rendered underneath PageCanvas at z-10 for proper visual layering
+- Page and cover editors using PageCanvas pattern ensuring all editable content sits above overlay
+- Containers maintain aspect-[1/1], bg-slate-900, and overflow-hidden structure for visual consistency
+- SafeZoneOverlay visual styling uses simple border lines for bleed/trim/grid visualization
+- Preserved bleed/grid rendering options while remaining purely visual
+- Simple border styling for compliance visualization without decorative elements
+- Comprehensive validation reports with pass/fail status
+- Page-by-page validation for 8.5×8.5" trim, 0.125" bleed requirements
+- Individual page compliance status tracking
+- Enhanced SafeZoneOverlay component with validated props and proper error handling
+- Verified parent container properties supporting bleed/trim visual guides
+- Fixed overlay layering issues with proper z-index management and interactive element accessibility
+- SafeZoneOverlay.tsx uses absolute inset-0 z-10 pointer-events-none with simple border visualization ensuring it never blocks input interaction
+
+### Export System
+- Generate complete print-ready PDF files combining cover and interior pages
+- Amazon KDP compatible PDF format with proper bleed and trim marks for 8.5 x 8.5 format
+- Include metadata formatted according to Amazon KDP requirements
+- Comprehensive pre-export validation for all print requirements
+- Export workflow with standard filenames and specifications
+- Final validation report confirming upload-readiness for Amazon KDP
+- Complete book assembly process (cover + interior) for single-file export
+- Simulated PDF export functionality with JSON data output for consistency verification
+- Data output consistency validation between internal state and export format
+- Enhanced error diagnostics with detailed backend method tracing and user-friendly recovery hints
+- Robust JSON serialization handling with BigInt conversion safeguards using safeStringify function
+- Centralized export utilities with proper data type normalization via normalizeExportResult function
+- Safe JSON stringification with BigInt leak detection and prevention through safeStringify helper
+- Fixed BigInt serialization failure in export process with mandatory conversion of all timestamp and numeric fields (createdAt, updatedAt, pageNumber) to numbers or ISO strings before safeStringify
+- Enhanced export payload normalization ensuring all BigInt values are converted to safe JSON-serializable types
+- Diagnostic instrumentation in ExportPage.tsx with detailed payload analysis including type checking for createdAt, updatedAt, and pageNumber fields
+- Browser console logging with clear labels for export diagnostics and BigInt detection
+- debugHasBigInt utility integration for comprehensive payload validation before serialization
+- Automatic BigInt diagnostics in ExportPage.tsx handleExport and handleExportJSON functions with data type logging for payload.createdAt, payload.updatedAt, and first page pageNumber
+- Clear browser console alerts showing BigInt detection status during export operations
+- Informational diagnostic logging that does not alter export logic functionality
+- Export test harness integration with normalizeExportResult function converting timestamp and page number fields from BigInt to Number before serialization
+- safeStringify function implementation in bigIntJson.ts utility replacing JSON.stringify calls on raw export results
+- Clean export validation using safeStringify(normalizeExportResult(...)) pattern for all JSON serialization operations
+- Protected export operations with authentication validation before export-related backend calls using safeCall wrapper
+- Export interface styled with simple CSS classes including clean button styling for export actions and simple modal styling for export dialogs, no decorative elements
+
+### Comprehensive Integration Testing System
+- Full end-to-end workflow testing from project creation through export generation
+- Automated project creation testing with error-free validation
+- Per-page text, image, and layout addition testing
+- Individual page validation testing for 8.5×8.5" trim and 0.125" bleed compliance
+- Non-blocking DPI validation testing with warning display verification
+- Spine width calculation accuracy testing and display verification
+- Amazon KDP bleed, margin, and safe area compliance verification
+- Simulated PDF export generation with JSON data consistency validation using normalizeExportResult
+- TestPage interface integration with visual completion status and detailed logging
+- Real-time test execution with step-by-step progress tracking
+- Comprehensive test result reporting with pass/fail indicators
+- Error detection and resolution workflow testing
+- Complete workflow integrity validation ensuring all components function together
+- Mock project generation with sample content for thorough testing scenarios
+- Export data consistency validation with BigInt serialization error prevention
+- Protected testing operations with authentication validation before test-related backend calls using safeCall wrapper
+
+### Ultra-Clean Minimal CSS System
+- **Complete removal of all visual graphics, background images, decorative elements, and image references** from every page and component
+- **Elimination of all JSX img elements, CSS background-image properties, and image import statements** throughout the entire codebase
+- **Removal of AssetImage.tsx component and all image-rendering utilities** with no remaining references
+- **Complete cleanup of all placeholder icons, logos, and visual decorations** including gnome, owl, quill, parchment, border-twig, and other graphic references
+- **Plain, minimal visual design** with soft neutral backgrounds, centered content, large clear buttons, and clear text
+- **Simple text-based headers** with "Bamm Book Builder" title using plain text only, no logos or graphics
+- **Ultra-clean UI** implementation across all components with solid neutral backgrounds and minimal styling, no textures or images
+- **Simple CSS classes for clean theme consistency including minimal modal overlays and button styling, no decorative elements**
+- **Clean modal dialog CSS with proper z-index layering ensuring dialogs stay centered above all elements with plain styling**
+- **NewProjectDialog.css with solid overlay backgrounds and simple dialog styling, no decorative elements**
+- **Dialog wrapper positioning with clean layout to prevent flex/grid parent interference**
+- **Global z-index management with proper modal layering using plain styling**
+- **HomePage.css with clean .create-project-button and .project-list styling using solid backgrounds and margins, no decorative elements**
+- **LandingPage.css stylesheet** implementing solid background, simple button styling, and text layout with clean theme, no images or textures
+- Simple solid backgrounds and neutral color palette throughout interface, no patterns or textures
+- Standard typography implementation with clean fonts, no decorative typography
+- Minimal visual elements maintaining ultra-clean aesthetic using only borders, spacing, and typography
+- Simple color palette using whites, light grays, and neutral tones, no decorative colors
+- Clean visual hierarchy with proper contrast and readability using functional design only
+- Responsive design maintaining minimal aesthetic across all screen sizes
+- Non-intrusive styling preserving functionality while providing clean visual appeal through simple elements only
+- Harmonious integration of minimal design elements without disrupting existing app logic
+- Clean typography and spacing for professional, uncluttered appearance
+- **LoadingAnimation.tsx / LoadingAnimation.css** with simple text loading indicator, no animated graphics
+- **LoginMascot.tsx / LoginMascot.css** featuring simple welcome panel with minimal styling, no mascot images
+- Consistent ultra-clean theme application across authentication, project management, and export interfaces
+- All UI components updated to remove all asset dependencies and use only text and simple CSS styling
+- **Global CSS cleanup** removing all background-image, background-texture, and decorative CSS properties from all components
+- **Complete elimination of all image file references** in JSX and CSS across all components
+- **Removal of all unused or orphaned asset references** including icons, textures, logos, and background images to prevent loading residual graphics
+- **No external image files rendered or referenced** anywhere in the application
+- **Thorough verification that all /assets/ references, image tags, and AssetImage components are completely removed**
+- **Complete cleanup of leftover graphics ensuring proper app initialization without broken placeholders**
+- **Consistent neutral background colors (whites/creams) with clear typography and properly centered visible buttons**
+- **Complete removal of all unused CSS class names and style rules tied to images, mascots, or graphics**
+- **Verification that all components initialize cleanly with minimal CSS and no dependency on graphic assets**
+
+## Backend Data Storage
+The backend stores:
+- Book projects with 8.5 x 8.5 inch format and Amazon KDP compliance status
+- Stable users Trie tracking registered user Principals with persistent storage across canister upgrades
+- Stable projectOwners Trie mapping project IDs to owner Principals with reliable ownership verification
+- Project ownership mapping with immediate access verification
+- Story content with format-specific page divisions and per-page layouts
+- Images with effective DPI metrics and quality assessments
+- Cover specifications with calculated spine width
+- Print formatting preferences and compliance settings for Amazon KDP
+- Validation history and export readiness status
+- Template configurations for 8.5 x 8.5 inch format
+- Complete book assembly data for export generation
+- Comprehensive test execution logs and validation results
+- Mock project data for automated testing scenarios
+- Detailed workflow step logs for transparency
+- Per-page compliance status and validation metrics
+- JSON export data for consistency verification
+- Diagnostic logs for access control, data synchronization, and rendering issues
+- IC Panda API integration configuration and rate limiting data
+- AI-generated prompt suggestions and user modifications per page
+- Client-side AI suggestion cache for immediate display
+- Grok API configuration with secure API key storage
+- Generated image metadata and URLs from Grok API responses
+- Image generation request history and error logs
+- Application deployment information including public URL and deployment status
+
+## Backend Operations
+- Updated stable AccessControl module with enhanced Trie-based user and project ownership management
+- Stable users Trie using Trie.Trie for persistent user tracking across canister upgrades
+- Stable projectOwners Trie using Trie.Trie for reliable project ownership verification
+- isUserInternal helper function to check if a Principal exists in the users Trie
+- Enhanced ensureUser helper function to automatically register new users in the users Trie without throwing errors
+- Enhanced canCreateProject method that calls ensureUser to auto-register authenticated callers and always returns true
+- registerProjectOwner method to store project ownership in stable projectOwners Trie immediately after project creation
+- isOwnerOrAdmin method that checks project ownership from stable projectOwners Trie for access control
+- Removal of all "user is not registered" error traps, replaced with automatic ensureUser calls
+- Enhanced createProject method using Nat-based nextProjectId counter, calling AccessControl.canCreateProject(caller) before project creation, registering ownership with AccessControl.registerProjectOwner(id, caller), and returning the Nat id
+- Backward compatibility preservation for all existing ownership and admin logic
+- Clean backend deployment using `dfx deploy backend --mode reinstall` and `dfx generate` for stable storage initialization
+- Verified authentication recognition ensuring authenticated identities are properly recognized after deployment
+- Create book projects with streamlined access control using automatic user registration
+- Update projects with ownership verification using isOwnerOrAdmin method
+- List projects filtered by caller ownership and access permissions using isOwnerOrAdmin verification
+- Handle image uploads with non-blocking DPI validation using effective DPI calculations
+- Process story text with format-specific page splitting and per-page validation
+- Generate complete simulated print-ready export files with JSON data output
+- Perform comprehensive Amazon KDP print compliance validation per page
+- Calculate precise spine width based on page count and display calculations
+- Validate color space requirements and provide CMYK notices
+- Generate Amazon KDP compatible export packages with proper assembly
+- Execute full end-to-end integration test workflows covering complete application lifecycle
+- Perform automated issue detection and resolution for blocking problems
+- Generate mock projects with complete sample content for testing
+- Validate complete workflow including project creation, per-page editing, image upload with non-blocking DPI validation, spine calculation, format validation, and export generation
+- Log comprehensive test results with detailed validation reports and step-by-step transparency
+- Automatically correct detected issues in project creation, upload, or export processes
+- Provide detailed user feedback for all workflow stages
+- Validate data output consistency between internal state and JSON export format
+- Execute TestPage interface integration with visual status reporting
+- Maintain consistent JSON data shape alignment between backend and frontend DTOs
+- Enhanced diagnostic logging with Debug.print statements and meaningful error messages for precise backend method tracing
+- Detailed error diagnostics in createProject and updateProject functions with specific method identification and ownership validation logging
+- Fixed backend export responses to normalize all timestamp fields from BigInt to Int or Nat to prevent BigInt leaking into frontend JSON output
+- Backend timestamp normalization ensuring all numeric fields are returned as safe JSON-serializable types
+- Robust authentication validation ensuring only authenticated callers can access project creation and management operations
+- Proper caller identity verification in all project-related backend methods
+- IC Panda API integration for AI prompt generation with rate limiting and error handling
+- Store and retrieve AI-generated prompt suggestions per page with user modifications
+- Handle IC Panda API authentication and request formatting for text-based prompt generation using generateImagePrompt API
+- Process AI prompt responses and format them for frontend display
+- Manage rate limiting for IC Panda API calls with appropriate backoff strategies
+- Log AI prompt generation requests and responses for debugging and optimization
+- Secure HTTPS outcalls to xAI Grok API with authenticated API key from config variable
+- Grok API request encapsulation with comprehensive error handling and authentication management
+- Process Grok API responses for image generation and format data for frontend consumption
+- Store generated image metadata and URLs with proper validation and error recovery
+- Handle Grok API rate limiting and quota management with graceful degradation
+- Log Grok API interactions for monitoring and debugging purposes
+- Retrieve and return the current public deployment URL of the application
+- Store deployment configuration and status information
+- Validate deployment URL accessibility and provide status indicators
+- Handle deployment URL retrieval requests with proper authentication validation
+
+## Data Type Consistency and JSON Synchronization
+- Unified field naming conventions across backend and frontend using consistent camelCase (pageNumber, imageUrl, createdAt, updatedAt)
+- Backend Motoko types (Project, Page, ProjectInput, PageInput) precisely align with frontend TypeScript DTOs using camelCase consistently
+- Frontend toCamelCasePayload utility in useQueries.ts to clean legacy snake_case keys before mutation
+- normalizeOptionals function to convert empty strings to null before sending payloads to backend
+- Motoko backend retains ?Text types accepting nulls gracefully
+- cleanPages utility in useQueries.ts to filter empty entries before submitting pages arrays
+- Backend types expect [Page] (Motoko Vec<Page>) not nested objects
+- Standardized timestamps in nanoseconds (BigInt) across frontend and backend
+- toNs (ms→ns) and toMs (ns→ms) utilities in useQueries.ts for all time conversions
+- createdAt and updatedAt as Nat in Motoko with proper conversion handling
+- normalizeStatus utility in frontend to lowercase values ('draft' | 'ready' | 'exported')
+- Motoko status validation helper ensuring accepted lowercase strings only
+- Explicit conversion functions between backend Motoko types and frontend JSON with validation
+- Elimination of JSON mapping mismatches through structured data transformation and normalization
+- Proper timestamp handling and format consistency across all data operations
+- Validated mapping functions on both backend and frontend sides to prevent field mismatches
+- Consistent data structure synchronization between storage client and useQueries integration points
+- Enhanced error handling for data type conversion and field mapping operations
+- Frontend DTOs in useQueries.ts and related pages fully aligned with Motoko data types
+- Consistent property names and types for project and page objects across all interfaces
+- Debug.print statements in Motoko create/update/export methods logging structured error context
+- Frontend hooks displaying friendly error messages showing backend method names
+- Comprehensive BigInt serialization safeguards with mandatory fromBackendProject() mapper usage
+- Centralized buildExportPayload() function with strict BigInt-to-number/string conversion
+- safeStringify() helper implementation in bigIntJson.ts for all JSON.stringify operations with BigInt replacement
+- Internal diagnostic logging with filename and function tagging for BigInt leak detection
+- Audit trail for all data normalization points ensuring no direct backend object usage bypasses conversion
+- Fixed BigInt serialization in export payload with mandatory conversion of all timestamp and numeric fields to safe JSON types before safeStringify calls
+- Enhanced export payload preprocessing ensuring createdAt, updatedAt, and pageNumber fields are converted to numbers or ISO strings
+- normalizeExportResult function in export test harness converting timestamp and page number fields from BigInt to Number before serialization
+- Complete BigInt serialization error elimination through safeStringify and normalizeExportResult integration
+- AI prompt suggestion data types with consistent camelCase naming and proper JSON serialization
+- IC Panda API response mapping with validated data transformation and error handling
+- Grok API response data types with consistent camelCase naming and proper JSON serialization
+- Generated image metadata types aligned between backend Motoko and frontend TypeScript
+- Deployment URL data types with consistent camelCase naming and proper JSON serialization
+
+## User Experience
+- **Complete removal of all visual graphics, background images, decorative elements, and image references** from every page and component
+- **Elimination of all JSX img elements, CSS background-image properties, and image import statements** throughout the entire codebase
+- **Removal of AssetImage.tsx component and all image-rendering utilities** with no remaining references
+- **Complete cleanup of all placeholder icons, logos, and visual decorations** including gnome, owl, quill, parchment, border-twig, and other graphic references
+- **Plain, minimal visual design** with soft neutral backgrounds, centered content, large clear buttons, and clear text
+- **Ultra-clean, minimal UI** design with simple layouts and neutral solid colors, no textures or patterns
+- **Simple landing page** with clean solid neutral background and minimal styling, no images or decorative elements
+- **Large, centered "Create New Tale" button** with simple styling for enhanced user engagement, no graphics
+- **Simple text header** with "Bamm Book Builder" title and standard "Login/Logout" authentication buttons, no logos
+- **Clean footer** with minimal text content, no decorative elements
+- **Simple sidebar** with clean solid background and minimal border styling, no textures
+- **Simple text loading indicator** with clean styling, no animated graphics
+- **Simple welcome panel** with minimal styling, no mascot images
+- Amazon KDP compliance indicators throughout interface with clean styling, no decorative elements
+- **NewProjectDialog component with ultra-clean modal styling ensuring proper centering above all elements with plain backgrounds**
+- **Clean modal dialog positioning with solid overlay backgrounds and simple dialog styling, no decorative elements**
+- **Dialog wrapper with clean positioning to prevent interference from flex/grid parent containers**
+- **Global z-index management with proper modal layering using plain styling only**
+- Truly separate input fields for "Your Name" (authorName) and "Story Title" (storyTitle) with dedicated state variables and handlers styled with simple input styling
+- Enhanced input validation with proper form validation and safe create logic
+- **HomePage with clean .create-project-button and .project-list styling using solid backgrounds and margins, no decorative elements**
+- Form validation disabling create button when either authorName or storyTitle fields are incomplete
+- Enhanced error handling in project creation dialog with user feedback using safeCall patterns
+- SafeZoneOverlay component as purely non-blocking background element with pointer-events-none, absolute inset-0, and z-10 positioning in editors
+- PageCanvas component wrapping text/image content in relative container with interactive elements inside single absolute inset-0 z-20 flex column with gap-3 and p-6 to avoid layer overlap
+- SafeZoneOverlay rendered underneath PageCanvas at z-10 for proper visual layering in editors
+- Page and cover editors using PageCanvas pattern ensuring all editable content sits above overlay
+- Containers maintain aspect-[1/1], bg-slate-900, and overflow-hidden structure for visual consistency
+- SafeZoneOverlay visual styling uses simple border lines for bleed/trim/grid visualization, no decorative elements
+- Simple border styling for compliance visualization without decorative elements
+- Real-time validation feedback and compliance status
+- Streamlined workflow: create project → per-page editing → AI prompt suggestion → image generation → spine calculation → format validation → export generation
+- Simplified UI without size selection options (fixed 8.5 x 8.5 format)
+- Responsive design optimized for book creation workflow with ultra-clean aesthetic
+- Enhanced reliable project creation and editing flow with comprehensive error handling using safeCall wrapper
+- TestPage interface with visual completion status and detailed logging display
+- Integration test status indicators showing detailed pass/fail status for each validation component
+- Enhanced clear error messages and automatic correction notifications with global error categorization
+- Detailed logging display for transparency of each test stage
+- User feedback system providing real-time updates during workflow execution
+- Per-page validation status display with individual compliance indicators
+- Application content displayed in English language
+- Enhanced SafeZoneOverlay component with validated props and proper error handling
+- Verified parent container properties (relative layout, aspect ratio) supporting bleed/trim visual guides
+- Enhanced seamless first-time user onboarding with automatic user registration and project creation that always succeeds for authenticated callers
+- Enhanced comprehensive diagnostic feedback with backend method names displayed on failure and user-friendly recovery hints using safeCall error categorization
+- Enhanced frontend error logging clearly displays specific backend method names and provides actionable recovery guidance with global error handling
+- Fixed overlay and layout issues with proper z-index layering ensuring interactive elements remain fully accessible
+- Dynamic aspect ratio adjustment based on trim size changes with immediate visual feedback
+- Loading state protection preventing overlay rendering race conditions
+- Proper bleed toggle functionality with simple visual border indicators
+- Interactive text and image fields positioned above overlay with guaranteed clickability
+- Enhanced robust JSON serialization error prevention with user-friendly feedback for data conversion issues using safeCall patterns
+- Export diagnostics with browser console logging showing payload type analysis and BigInt detection results with clear labeling
+- Automatic BigInt diagnostics in ExportPage.tsx with clear browser console alerts during export operations showing detection status
+- Non-blocking DPI warning system with informative toast/banner messages allowing users to proceed with uploads while showing effective DPI calculations and Amazon recommendations
+- User-friendly DPI feedback displaying computed values based on pixel dimensions without preventing workflow continuation
+- Cover builder DPI warning display positioned near cover preview area for clear visual feedback with effective DPI computation from image pixel dimensions
+- Consistent non-blocking upload experience across both page images and cover images with unified warning messaging
+- Fixed cover image upload handler in CoverBuilderPage.tsx with effective DPI computation, non-blocking flow, storageClient.uploadCoverImage usage, and immediate setCoverImageUrl update
+- Enhanced cover upload with clear console logging, on-screen DPI warnings, upload error messages, and SafeZoneOverlay guidance beneath uploaded images
+- Complete BigInt serialization error elimination through safeStringify utility and normalizeExportResult function integration
+- Enhanced comprehensive authentication state management with improved login prompts for anonymous users using master fix useActor.ts implementation
+- Enhanced robust Internet Identity integration with reliable login/logout functionality in Header.tsx using secure AuthClient singleton pattern with redeploy support
+- Enhanced authenticated actor state validation before rendering any project functionality with proper timing and initialization checks using requireActor utility
+- Enhanced improved "not signed in" state handling with clear user feedback and login guidance without triggering errors using safeCall error categorization
+- Enhanced strengthened authentication-gated operations ensuring secure access control with comprehensive actor initialization validation using requireActor
+- Enhanced actor initialization loading states with clear visual indicators distinguishing between "not logged in" and "actor initializing" states
+- Enhanced comprehensive defensive actor checks preventing all backend operations until actor is fully initialized and ready with proper identity validation using requireActor
+- Enhanced improved visual prompts for users during actor initialization without triggering errors or blocking functionality
+- Enhanced project creation restoration once authentication and actor initialization are complete with proper state management using safeCall patterns
+- Enhanced strengthened login synchronization ensuring all backend operations wait for proper actor readiness and identity confirmation
+- Enhanced user-friendly messaging during authentication and initialization processes with clear status indicators using global error handling
+- Enhanced protected component interactions ensuring all backend calls validate authentication state before execution using requireActor and safeCall
+- Enhanced useQueries.ts safeguards with comprehensive authentication checks before any canister interactions using safeCall wrapper
+- Enhanced HomePage.tsx protection ensuring createProject and listProjects validate authentication before execution using requireActor
+- Enhanced ProjectEditorPage.tsx guards ensuring updateProject and page operations validate authentication before execution using safeCall
+- Enhanced comprehensive backend operation protection using requireActor utility throughout frontend with proper anonymous caller prevention
+- Enhanced anonymous identity prevention ensuring all backend operations reject anonymous callers with proper validation using safeCall error categorization
+- Enhanced latest canister ID binding verification ensuring all actor instances use current backend canister ID from declarations
+- Smooth createProject functionality after backend reinstall deployment ensuring authenticated identities are properly recognized
+- AI assistant section integrated seamlessly into ProjectEditorPage.tsx below each page's text area with clean CSS styling, no decorative elements
+- Simple AI assistant components with ultra-clean visual design matching application theme using simple CSS classes, no graphics
+- "Suggest Illustration Prompt" button with loading states and visual feedback styled with simple button styling, no decorative elements
+- AI-generated prompt display in editable text area with clean formatting using simple input styling, no decorative elements
+- "Use This Prompt" button connecting refined prompts to existing image upload workflow with simple button styling, no graphics
+- Rate limiting feedback with simple success and warning messages
+- Immediate AI suggestion display upon prompt generation completion with smooth transitions
+- Client-side caching of AI suggestions for improved performance and user experience
+- Enhanced error handling for IC Panda API failures with user-friendly simple error messages using safeCall patterns
+- Integration of AI-generated prompts into existing image management and preview system
+- Consistent styling and layout with existing ultra-clean design and non-blocking overlay compatibility using simple CSS classes, no decorative elements
+- "AI Illustrations" section in right tools panel with simple grid layout and proper z-index to avoid overlaps, no decorative elements
+- Custom image description text area with clean solid background and simple input styling for user input, no decorative elements
+- "Generate Illustration" button styled with simple button class maintaining ultra-clean theme consistency, no decorative elements
+- Preview carousel displaying AI-generated images with simple styling, no decorative elements
+- Drag-and-drop image insertion into page canvas with undo support and visual feedback
+- Enhanced simple toast notifications for Grok API errors and success states with clean styling using safeCall error handling, no decorative elements
+- Version control safeguards with safe reversion capabilities for all changes
+- Mobile-responsive AI Illustrations interface verified with ICP HTTPS outcall tests
+- Seamless integration with existing image upload workflow for publication after validation
+- Enhanced loading state management during Grok image generation with simple progress indicators, no animated graphics
+- Enhanced error handling for Grok API connectivity with user-friendly feedback messages using safeCall patterns
+- Dual AI system workflow where IC Panda provides text prompts and Grok generates actual images with drag-and-drop insertion
+- Simple CSS variables and classes applied for ultra-clean, non-overlapping UI presentation with proper modal and button styling, no decorative elements
+- Proper spacing and z-index layering maintaining functionality while enhancing visual appeal through simple CSS classes only
+- Consistent ultra-clean aesthetic implementation across all components and pages using simple modal overlays, button styling, and input styling, no decorative elements
+- Standard typography and color scheme following minimal design principles with simple CSS integration, no decorative fonts
+- Professional, uncluttered appearance with harmonious design integration through consistent simple styling, no visual graphics
+- Enhanced visual layout and CSS styling for App.tsx, LandingPage.tsx, and LandingPage.css with improved visual alignment, spacing, and typography while maintaining existing component logic
+- Simple hero section layout with center-aligned hero text, consistent "Create New Tale" button spacing, and clean solid background, no images
+- Improved responsive scaling for mobile and tablet viewports with proper breakpoint handling
+- Ultra-clean aesthetic with improved contrast, simple borders, standard typography, and consistent border radius across cards, no decorative elements
+- Enhanced App.tsx layout with consistent top spacing and header alignment without altering routes or functionality
+- All UI components updated to remove all asset dependencies and use only text and simple CSS styling
+- **Global CSS cleanup** removing all background-image, background-texture, and decorative CSS properties from all components
+- **Complete elimination of all image file references** in JSX and CSS across all components
+- **Removal of all unused or orphaned asset references** including icons, textures, logos, and background images to prevent loading residual graphics
+- **No external image files rendered or referenced** anywhere in the application
+- **Thorough verification that all /assets/ references, image tags, and AssetImage components are completely removed**
+- **Complete cleanup of leftover graphics ensuring proper app initialization without broken placeholders**
+- **Consistent neutral background colors (whites/creams) with clear typography and properly centered visible buttons**
+- **Complete removal of all unused CSS class names and style rules tied to images, mascots, or graphics**
+- **Verification that all components initialize cleanly with minimal CSS and no dependency on graphic assets**
+- Deployment URL display interface accessible from main dashboard or settings area with copy-to-clipboard functionality
+- Clear presentation of the current public deployment URL for user verification
+- Deployment status indicators showing live accessibility and verification status
+- User-friendly deployment information section with clean styling, no decorative elements
