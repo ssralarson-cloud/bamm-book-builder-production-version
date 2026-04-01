@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams, useNavigate } from '@tanstack/react-router';
 import { ArrowLeft, FileDown, CheckCircle2, AlertCircle, AlertTriangle, Info, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,110 +10,108 @@ import { KDPComplianceBadge } from '../components/KDPComplianceBadge';
 import { KDPProgressIndicator } from '../components/KDPProgressIndicator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
-import { exportProjectAsJSON, buildExportPayload } from '../lib/exportUtils';
-import { generateInteriorPDF, generateCoverPDF } from '../lib/pdfExport';
-import { loadConfig } from '../config';
-import { StorageClient } from '../utils/StorageClient';
-import { HttpAgent } from '@icp-sdk/core/agent';
+import { exportProjectAsJSON, safeStringify, buildExportPayload } from '../lib/exportUtils';
+import { debugHasBigInt } from './debug';
 
 export default function ExportPage() {
   const { projectId } = useParams({ from: '/project/$projectId/export' });
   const navigate = useNavigate();
   const { data: project, isLoading: isLoadingProject } = useProject(projectId);
   const { data: validation, isLoading: isLoadingValidation } = useKDPValidation(projectId);
-  const [isExporting, setIsExporting] = useState(false);
 
-  const handleExportInterior = async () => {
-    if (!project || !validation?.isValid || isExporting) return;
-
-    const filename = `${project.title.replace(/[^a-z0-9]/gi, '_')}_Interior_KDP.pdf`;
-    setIsExporting(true);
-    toast.info('Generating interior PDF...', { duration: Infinity, id: 'pdf-export' });
-
-    try {
-      const config = await loadConfig();
-      const agent = new HttpAgent({ host: config.backend_host });
-      if (config.backend_host?.includes('localhost')) {
-        await agent.fetchRootKey().catch(() => {});
-      }
-      const storageClient = new StorageClient(
-        config.bucket_name,
-        config.storage_gateway_url,
-        config.backend_canister_id,
-        config.project_id,
-        agent,
-      );
-      const resolveImageUrl = (path: string) => storageClient.getDirectURL(path);
-
-      const pdfBlob = await generateInteriorPDF(
-        project.pages as any[],
-        resolveImageUrl,
-        (pct) => toast.info(`Generating interior PDF... ${pct}%`, { id: 'pdf-export' }),
-      );
-
-      const url = URL.createObjectURL(pdfBlob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      toast.success(`Interior PDF exported: ${filename}`, { id: 'pdf-export' });
-    } catch (error: any) {
-      console.error('[ExportPage] Interior PDF export failed:', error);
-      toast.error(`PDF export failed: ${error.message}`, { id: 'pdf-export' });
-    } finally {
-      setIsExporting(false);
+  const handleExportInterior = () => {
+    if (!project || !validation?.isValid) {
+      toast.error('Please fix all validation errors before exporting');
+      return;
     }
+    
+    const filename = `${project.title.replace(/[^a-z0-9]/gi, '_')}_Interior_KDP.pdf`;
+    
+    // === DIAGNOSTIC INSTRUMENTATION START ===
+    const payload = buildExportPayload(project, validation || null);
+    
+    console.log('[Export Diagnostics] ========================================');
+    console.log('[Export Diagnostics] Interior PDF Export - Payload type analysis:');
+    console.log('[Export Diagnostics] typeof payload.project.createdAt:', typeof payload.project.createdAt);
+    console.log('[Export Diagnostics] payload.project.createdAt value:', payload.project.createdAt);
+    console.log('[Export Diagnostics] typeof payload.project.updatedAt:', typeof payload.project.updatedAt);
+    console.log('[Export Diagnostics] payload.project.updatedAt value:', payload.project.updatedAt);
+    
+    if (payload.project.pages.length > 0) {
+      console.log('[Export Diagnostics] typeof payload.project.pages[0].pageNumber:', typeof payload.project.pages[0].pageNumber);
+      console.log('[Export Diagnostics] payload.project.pages[0].pageNumber value:', payload.project.pages[0].pageNumber);
+    } else {
+      console.log('[Export Diagnostics] No pages in payload');
+    }
+    
+    // Check for BigInt values in the entire payload
+    const hasBigInt = debugHasBigInt(payload, 'Interior Export Payload');
+    console.log(`[Export Diagnostics] BigInt Detected: ${hasBigInt ? 'YES ❌' : 'NO ✓'}`);
+    console.log('[Export Diagnostics] ========================================');
+    // === DIAGNOSTIC INSTRUMENTATION END ===
+    
+    toast.success('Export specifications ready!', {
+      description: `Interior PDF would be generated as: ${filename}`,
+      duration: 5000,
+    });
+    
+    // In a real implementation, this would trigger PDF generation
+    // Using safeStringify for logging to prevent BigInt serialization errors
+    console.log('[ExportPage] Export Interior PDF:', safeStringify({
+      filename,
+      pages: project.pages.length,
+      trimSize: `${validation.trimSize.width}×${validation.trimSize.height} inches`,
+      bleed: `${validation.bleed.top} inches`,
+      format: 'Amazon KDP-compliant PDF',
+    }));
   };
 
-  const handleExportCover = async () => {
-    if (!project || !validation?.isValid || isExporting) return;
-
-    const filename = `${project.title.replace(/[^a-z0-9]/gi, '_')}_Cover_KDP.pdf`;
-    setIsExporting(true);
-    toast.info('Generating cover PDF...', { duration: Infinity, id: 'cover-export' });
-
-    try {
-      const config = await loadConfig();
-      const agent = new HttpAgent({ host: config.backend_host });
-      if (config.backend_host?.includes('localhost')) {
-        await agent.fetchRootKey().catch(() => {});
-      }
-      const storageClient = new StorageClient(
-        config.bucket_name,
-        config.storage_gateway_url,
-        config.backend_canister_id,
-        config.project_id,
-        agent,
-      );
-      const resolveImageUrl = (path: string) => storageClient.getDirectURL(path);
-
-      const pdfBlob = await generateCoverPDF(
-        project.cover as any,
-        validation.spineWidth,
-        resolveImageUrl,
-        (pct) => toast.info(`Generating cover PDF... ${pct}%`, { id: 'cover-export' }),
-      );
-
-      const url = URL.createObjectURL(pdfBlob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      toast.success(`Cover PDF exported: ${filename}`, { id: 'cover-export' });
-    } catch (error: any) {
-      console.error('[ExportPage] Cover PDF export failed:', error);
-      toast.error(`Cover export failed: ${error.message}`, { id: 'cover-export' });
-    } finally {
-      setIsExporting(false);
+  const handleExportCover = () => {
+    if (!project || !validation?.isValid) {
+      toast.error('Please fix all validation errors before exporting');
+      return;
     }
+    
+    const filename = `${project.title.replace(/[^a-z0-9]/gi, '_')}_Cover_KDP.pdf`;
+    const totalWidth = (project.cover.dimensions.width * 2) + validation.spineWidth + (0.125 * 2);
+    
+    // === DIAGNOSTIC INSTRUMENTATION START ===
+    const payload = buildExportPayload(project, validation || null);
+    
+    console.log('[Export Diagnostics] ========================================');
+    console.log('[Export Diagnostics] Cover PDF Export - Payload type analysis:');
+    console.log('[Export Diagnostics] typeof payload.project.createdAt:', typeof payload.project.createdAt);
+    console.log('[Export Diagnostics] payload.project.createdAt value:', payload.project.createdAt);
+    console.log('[Export Diagnostics] typeof payload.project.updatedAt:', typeof payload.project.updatedAt);
+    console.log('[Export Diagnostics] payload.project.updatedAt value:', payload.project.updatedAt);
+    
+    if (payload.project.pages.length > 0) {
+      console.log('[Export Diagnostics] typeof payload.project.pages[0].pageNumber:', typeof payload.project.pages[0].pageNumber);
+      console.log('[Export Diagnostics] payload.project.pages[0].pageNumber value:', payload.project.pages[0].pageNumber);
+    } else {
+      console.log('[Export Diagnostics] No pages in payload');
+    }
+    
+    // Check for BigInt values in the entire payload
+    const hasBigInt = debugHasBigInt(payload, 'Cover Export Payload');
+    console.log(`[Export Diagnostics] BigInt Detected: ${hasBigInt ? 'YES ❌' : 'NO ✓'}`);
+    console.log('[Export Diagnostics] ========================================');
+    // === DIAGNOSTIC INSTRUMENTATION END ===
+    
+    toast.success('Export specifications ready!', {
+      description: `Cover PDF would be generated as: ${filename}`,
+      duration: 5000,
+    });
+    
+    // In a real implementation, this would trigger PDF generation
+    // Using safeStringify for logging to prevent BigInt serialization errors
+    console.log('[ExportPage] Export Cover PDF:', safeStringify({
+      filename,
+      totalWidth: `${totalWidth.toFixed(3)} inches`,
+      height: `${project.cover.dimensions.height + 0.25} inches`,
+      spineWidth: `${validation.spineWidth.toFixed(3)} inches`,
+      format: 'Amazon KDP-compliant PDF',
+    }));
   };
 
   const handleExportJSON = () => {
@@ -374,10 +371,10 @@ export default function ExportPage() {
               <Button
                 className="w-full"
                 onClick={handleExportInterior}
-                disabled={!validation.isValid || isExporting}
+                disabled={!validation.isValid}
               >
                 <FileDown className="mr-2 h-4 w-4" />
-                {isExporting ? 'Generating PDF...' : 'Export Interior PDF'}
+                Export Interior PDF
               </Button>
               {!validation.isValid && (
                 <p className="text-center text-xs text-muted-foreground">
@@ -419,10 +416,10 @@ export default function ExportPage() {
               <Button
                 className="w-full"
                 onClick={handleExportCover}
-                disabled={!validation.isValid || isExporting}
+                disabled={!validation.isValid}
               >
                 <FileDown className="mr-2 h-4 w-4" />
-                {isExporting ? 'Generating PDF...' : 'Export Cover PDF'}
+                Export Cover PDF
               </Button>
               {!validation.isValid && (
                 <p className="text-center text-xs text-muted-foreground">
