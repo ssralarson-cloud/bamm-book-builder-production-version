@@ -9,6 +9,8 @@ import ProjectEditorPage from './pages/ProjectEditorPage';
 import CoverBuilderPage from './pages/CoverBuilderPage';
 import ExportPage from './pages/ExportPage';
 import TestPage from './pages/TestPage';
+import SubscribePage from './pages/SubscribePage';
+import SubscriptionSuccessPage from './pages/SubscriptionSuccessPage';
 import Layout from './components/Layout';
 
 const rootRoute = createRootRoute({
@@ -51,6 +53,18 @@ const testRoute = createRoute({
   component: TestPage,
 });
 
+const subscribeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/subscribe',
+  component: SubscribePage,
+});
+
+const subscriptionSuccessRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/subscription-success',
+  component: SubscriptionSuccessPage,
+});
+
 const routeTree = rootRoute.addChildren([
   landingRoute,
   homeRoute,
@@ -58,6 +72,8 @@ const routeTree = rootRoute.addChildren([
   coverBuilderRoute,
   exportRoute,
   testRoute,
+  subscribeRoute,
+  subscriptionSuccessRoute,
 ]);
 
 const router = createRouter({ routeTree });
