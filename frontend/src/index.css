@@ -1,43 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /* Global z-index reset */
   * {
     z-index: auto;
   }
   
   :root {
-    --background: #ffffff;
-    --foreground: #333333;
-    --card: #ffffff;
-    --card-foreground: #333333;
-    --popover: #ffffff;
-    --popover-foreground: #333333;
-    --primary: #4a90e2;
-    --primary-foreground: #ffffff;
-    --secondary: #6c757d;
-    --secondary-foreground: #ffffff;
-    --muted: #f5f5f5;
-    --muted-foreground: #666666;
-    --accent: #4a90e2;
-    --accent-foreground: #ffffff;
+    /* Black Forest Storybook palette - warm browns, parchment, forest tones */
+    --background: #f5ebe0;
+    --foreground: #3e2723;
+    --card: #f9f5f0;
+    --card-foreground: #3e2723;
+    --popover: #f9f5f0;
+    --popover-foreground: #3e2723;
+    --primary: #5d4e37;
+    --primary-foreground: #f9f5f0;
+    --secondary: #8b7355;
+    --secondary-foreground: #f9f5f0;
+    --muted: #d7ccc8;
+    --muted-foreground: #5d4e37;
+    --accent: #6d5d4b;
+    --accent-foreground: #f9f5f0;
     --destructive: oklch(50% 0.15 25);
-    --destructive-foreground: #ffffff;
-    --border: #e0e0e0;
-    --input: #e0e0e0;
-    --ring: #4a90e2;
+    --destructive-foreground: #f9f5f0;
+    --border: #5d4e37;
+    --input: #d7ccc8;
+    --ring: #5d4e37;
     --radius: 0.5rem;
     
+    /* Amazon KDP specific colors */
     --kdp-success: oklch(55% 0.12 145);
     --kdp-bleed: oklch(60% 0.15 25);
     --kdp-trim: oklch(50% 0.12 260);
     --kdp-safe: oklch(55% 0.12 145);
     
+    /* Safe zone overlay colors */
     --safe-bleed: oklch(60% 0.15 25);
     --safe-trim: oklch(50% 0.12 260);
     --safe-grid: oklch(55% 0.12 145);
     
+    /* Black Forest theme colors */
+    --forest-brown: #5d4e37;
+    --forest-dark: #3e2723;
+    --forest-light: #8b7355;
+    --parchment: #f9f5f0;
+    --parchment-dark: #f5ebe0;
+    
+    /* Boho brown and cream for AI components (legacy support) */
+    --boho-brown: #5d4e37;
+    --boho-cream: #f9f5f0;
+    
+    /* Boho ornamental colors (legacy support) */
+    --boho-ornament: #6d5d4b;
+    --boho-accent: #7d6d5b;
+    
+    /* Spacing scale for elegant layouts */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -45,6 +67,7 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
     
+    /* Z-index layers */
     --z-base: 1;
     --z-overlay: 10;
     --z-interactive: 20;
@@ -54,34 +77,51 @@
   }
 
   .dark {
-    --background: #1a1a1a;
-    --foreground: #f5f5f5;
-    --card: #2a2a2a;
-    --card-foreground: #f5f5f5;
-    --popover: #2a2a2a;
-    --popover-foreground: #f5f5f5;
-    --primary: #4a90e2;
-    --primary-foreground: #ffffff;
-    --secondary: #6c757d;
-    --secondary-foreground: #ffffff;
-    --muted: #3a3a3a;
-    --muted-foreground: #aaaaaa;
-    --accent: #4a90e2;
-    --accent-foreground: #ffffff;
+    --background: #2c2416;
+    --foreground: #f9f5f0;
+    --card: #3e2723;
+    --card-foreground: #f9f5f0;
+    --popover: #3e2723;
+    --popover-foreground: #f9f5f0;
+    --primary: #8b7355;
+    --primary-foreground: #2c2416;
+    --secondary: #5d4e37;
+    --secondary-foreground: #f9f5f0;
+    --muted: #4e3f2f;
+    --muted-foreground: #d7ccc8;
+    --accent: #6d5d4b;
+    --accent-foreground: #f9f5f0;
     --destructive: oklch(55% 0.15 25);
-    --destructive-foreground: #ffffff;
-    --border: #3a3a3a;
-    --input: #3a3a3a;
-    --ring: #4a90e2;
+    --destructive-foreground: #f9f5f0;
+    --border: #5d4e37;
+    --input: #4e3f2f;
+    --ring: #8b7355;
     
+    /* Amazon KDP specific colors for dark mode */
     --kdp-success: oklch(60% 0.12 145);
     --kdp-bleed: oklch(65% 0.15 25);
     --kdp-trim: oklch(60% 0.12 260);
     --kdp-safe: oklch(60% 0.12 145);
     
+    /* Safe zone overlay colors for dark mode */
     --safe-bleed: oklch(65% 0.15 25);
     --safe-trim: oklch(60% 0.12 260);
     --safe-grid: oklch(60% 0.12 145);
+    
+    /* Black Forest theme colors for dark mode */
+    --forest-brown: #8b7355;
+    --forest-dark: #f9f5f0;
+    --forest-light: #6d5d4b;
+    --parchment: #3e2723;
+    --parchment-dark: #2c2416;
+    
+    /* Boho brown and cream for AI components in dark mode (legacy support) */
+    --boho-brown: #8b7355;
+    --boho-cream: #3e2723;
+    
+    /* Boho ornamental colors for dark mode (legacy support) */
+    --boho-ornament: #6d5d4b;
+    --boho-accent: #7d6d5b;
   }
 }
 
@@ -90,17 +130,41 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
     line-height: 1.6;
   }
   
   h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
     line-height: 1.2;
   }
 }
 
 @layer utilities {
+  /* Forest ornamental decorations */
+  .forest-ornament::before {
+    content: "🌲";
+    @apply mr-2;
+  }
+  
+  .forest-ornament::after {
+    content: "🌲";
+    @apply ml-2;
+  }
+  
+  /* Boho ornamental decorations (legacy support) */
+  .boho-ornament::before {
+    content: "✦";
+    @apply mr-2 text-foreground/60;
+  }
+  
+  .boho-ornament::after {
+    content: "✦";
+    @apply ml-2 text-foreground/60;
+  }
+  
+  /* Elegant spacing utilities */
   .space-elegant > * + * {
     margin-top: var(--spacing-lg);
   }
@@ -109,6 +173,7 @@
     gap: var(--spacing-lg);
   }
   
+  /* Z-index utilities for proper layering */
   .z-base {
     z-index: var(--z-base);
   }
@@ -133,6 +198,7 @@
     z-index: var(--z-toast);
   }
   
+  /* Fade in animation */
   .fade-in {
     animation: fadeIn 0.5s ease-in;
   }
@@ -148,6 +214,7 @@
     }
   }
   
+  /* Pulse animation for loading states */
   .pulse-gentle {
     animation: pulseGentle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
@@ -161,10 +228,47 @@
     }
   }
   
-  .card-elevated {
-    @apply shadow-lg transition-shadow hover:shadow-xl;
+  /* Forest text styles */
+  .text-forest-brown {
+    color: var(--forest-brown);
   }
   
+  .text-forest-dark {
+    color: var(--forest-dark);
+  }
+  
+  .text-forest-light {
+    color: var(--forest-light);
+  }
+  
+  /* Boho text styles (legacy support) */
+  .text-boho-ornament {
+    color: var(--boho-ornament);
+  }
+  
+  .text-boho-accent {
+    color: var(--boho-accent);
+  }
+  
+  /* Background textures */
+  .bg-parchment-texture {
+    background-image: url('/assets/generated/parchment-texture.dim_512x512.png');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+  }
+  
+  .bg-linen-texture {
+    background-image: url('/assets/generated/linen-texture-background.dim_256x256.png');
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+  
+  /* Card elevation styles */
+  .card-elevated {
+    @apply shadow-forest-lg transition-shadow hover:shadow-xl;
+  }
+  
+  /* Non-overlapping panel styles */
   .panel-stacked {
     position: relative;
     isolation: isolate;
@@ -183,10 +287,11 @@
   }
 }
 
+/* Black Forest Themed Modal Overlay Styles */
 .modal-overlay {
   position: fixed !important;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(62, 39, 35, 0.7);
   backdrop-filter: blur(4px);
   z-index: 9998 !important;
   display: flex;
@@ -196,15 +301,19 @@
   animation: fadeIn 0.2s ease-out;
 }
 
+/* Black Forest Themed Modal Container */
 .modal {
   position: fixed !important;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  background-color: var(--parchment);
+  background-image: url('/assets/generated/parchment-texture.dim_512x512.png');
+  background-repeat: repeat;
+  background-size: 512px 512px;
+  border: 3px solid var(--forest-brown);
   border-radius: 0.75rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
   max-width: 32rem;
   width: 100%;
   max-height: 90vh;
@@ -225,45 +334,48 @@
   }
 }
 
+/* Modal Actions Container */
 .actions {
   display: flex;
   gap: 0.75rem;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 2px solid var(--border);
   justify-content: flex-end;
   flex-wrap: wrap;
 }
 
+/* Black Forest Themed Button */
 .bf-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
+  font-family: 'Crimson Text', serif;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.5;
   border-radius: 0.5rem;
-  border: 1px solid #4a90e2;
-  background-color: #4a90e2;
-  color: #ffffff;
+  border: 2px solid var(--forest-brown);
+  background-color: var(--forest-brown);
+  color: var(--parchment);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   white-space: nowrap;
 }
 
 .bf-button:hover:not(:disabled) {
-  background-color: #357abd;
-  border-color: #357abd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--boho-accent);
+  border-color: var(--boho-accent);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);
 }
 
 .bf-button:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .bf-button:disabled {
@@ -273,45 +385,51 @@
 
 .bf-button.bf-button-secondary {
   background-color: transparent;
-  color: #4a90e2;
-  border-color: #4a90e2;
+  color: var(--forest-brown);
+  border-color: var(--forest-brown);
 }
 
 .bf-button.bf-button-secondary:hover:not(:disabled) {
-  background-color: #f5f5f5;
-  border-color: #357abd;
-  color: #357abd;
+  background-color: var(--parchment);
+  border-color: var(--boho-accent);
+  color: var(--boho-accent);
 }
 
+/* Black Forest Themed Input */
 .bf-input {
   width: 100%;
   padding: 0.75rem 1rem;
+  font-family: 'Crimson Text', serif;
   font-size: 1rem;
   line-height: 1.5;
-  color: #333333;
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  color: var(--foreground);
+  background-color: var(--background);
+  background-image: url('/assets/generated/parchment-texture.dim_512x512.png');
+  background-repeat: repeat;
+  background-size: 512px 512px;
+  border: 2px solid var(--border);
   border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
   outline: none;
 }
 
 .bf-input:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  border-color: var(--forest-brown);
+  box-shadow: 0 0 0 3px rgba(93, 78, 55, 0.15);
 }
 
 .bf-input::placeholder {
-  color: #999999;
+  color: var(--muted-foreground);
   opacity: 0.7;
 }
 
 .bf-input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: #f5f5f5;
+  background-color: var(--muted);
 }
 
+/* Ensure proper spacing in forms */
 form .space-y-4 > * + * {
   margin-top: 1rem;
 }
@@ -320,6 +438,7 @@ form .space-y-6 > * + * {
   margin-top: 1.5rem;
 }
 
+/* Reinforced modal layering with !important */
 .dialog-overlay {
   position: fixed !important;
   z-index: 9998 !important;
@@ -333,17 +452,21 @@ form .space-y-6 > * + * {
   z-index: 9999 !important;
 }
 
+/* Ensure dialogs and modals have proper z-index and isolation */
 [data-radix-dialog-overlay] {
   position: fixed !important;
+  inset: 0 !important;
   z-index: 9998 !important;
+  isolation: isolate;
 }
 
 [data-radix-dialog-content] {
   position: fixed !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
   z-index: 9999 !important;
+  isolation: isolate;
 }
 
 [data-radix-alert-dialog-overlay] {
@@ -359,26 +482,23 @@ form .space-y-6 > * + * {
   z-index: 9999 !important;
 }
 
+/* Ensure dropdowns have proper z-index */
 [data-radix-dropdown-menu-content],
 [data-radix-select-content],
 [data-radix-popover-content] {
   z-index: var(--z-dropdown);
 }
 
+/* Ensure toasts have highest z-index */
 [data-sonner-toaster] {
   z-index: var(--z-toast) !important;
 }
 
-button {
-  position: relative;
-  z-index: 1;
-}
-
-button:focus,
-button:hover {
-  z-index: 2;
-}
-
+/*
+ * Button z-index: Only elevate buttons that are NOT inside a modal/dialog.
+ * Giving ALL buttons z-index creates stacking contexts that bleed through
+ * modal overlays. Buttons inside dialogs inherit the dialog's z-index.
+ */
 .create-project-button {
   position: relative;
   z-index: 10;

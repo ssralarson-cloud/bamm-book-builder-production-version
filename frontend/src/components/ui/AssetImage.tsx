@@ -6,13 +6,13 @@ interface AssetImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 }
 
 /**
- * AssetImage component for rendering /assets/{name}.png images
+ * AssetImage component for rendering /assets/generated/{name}.png images
  * with non-draggable and user-select-none properties for consistent asset display
  */
 export function AssetImage({ name, alt, className = '', ...props }: AssetImageProps) {
   return (
     <img
-      src={`/assets/${name}.png`}
+      src={`/assets/generated/${name}.png`}
       alt={alt}
       className={className}
       draggable={false}

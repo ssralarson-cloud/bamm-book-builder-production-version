@@ -1,36 +1,70 @@
-.simple-header {
+.forest-header {
   position: relative;
-  background: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  z-index: 30;
+  isolation: isolate;
+  background: linear-gradient(to bottom, #f5e6d3 0%, #e8d4b8 100%);
+  border-bottom: 2px solid #8b6f47;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.simple-title {
+.forest-header-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-image: url('/assets/generated/border-twig.dim_512x512.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  opacity: 0.6;
+}
+
+.forest-crest {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.forest-title {
+  font-family: 'Crimson Text', 'Georgia', serif;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #333333;
+  color: #4a3728;
   letter-spacing: 0.5px;
 }
 
-.simple-nav-button {
-  color: #555555;
+.forest-subtitle {
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 0.75rem;
+  color: #8b6f47;
+  font-style: italic;
+}
+
+.forest-nav-button {
+  font-family: 'Crimson Text', 'Georgia', serif;
+  color: #4a3728;
   transition: all 0.2s ease;
 }
 
-.simple-nav-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: #333333;
+.forest-nav-button:hover {
+  background-color: rgba(139, 111, 71, 0.1);
+  color: #2d1f15;
 }
 
-.simple-auth-button {
+.forest-auth-button {
+  font-family: 'Crimson Text', 'Georgia', serif;
   font-weight: 600;
-  background: #4a90e2;
-  color: #ffffff;
-  border: 1px solid #4a90e2;
+  background: linear-gradient(to bottom, #8b6f47 0%, #6b5537 100%);
+  color: #f5e6d3;
+  border: 1px solid #4a3728;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
 }
 
-.simple-auth-button:hover {
-  background: #357abd;
-  border-color: #357abd;
+.forest-auth-button:hover {
+  background: linear-gradient(to bottom, #6b5537 0%, #4a3728 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.forest-icon {
+  margin-right: 0.5rem;
 }
