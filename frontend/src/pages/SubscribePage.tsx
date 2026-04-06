@@ -95,27 +95,14 @@ export default function SubscribePage() {
         </p>
       </div>
 
-      {loginStatus === 'initializing' || isLoading ? (
+      {isAuthenticated && (loginStatus === 'initializing' || isLoading) ? (
         <Card className="border-2">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Loader2 className="h-12 w-12 animate-spin text-muted-foreground mb-4" />
             <p className="text-muted-foreground">Loading subscription information...</p>
           </CardContent>
         </Card>
-      ) : !isAuthenticated ? (
-        <Card className="border-2">
-          <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-            <CreditCard className="h-16 w-16 text-muted-foreground opacity-40 mb-4" />
-            <h3 className="font-display text-xl mb-2">Authentication Required</h3>
-            <p className="text-muted-foreground mb-6">
-              Please log in with Internet Identity to manage your subscription
-            </p>
-            <Button onClick={handleLoginPrompt} size="lg">
-              Log In with Internet Identity
-            </Button>
-          </CardContent>
-        </Card>
-      ) : subscriptionStatus?.isActive ? (
+      ) : isAuthenticated && subscriptionStatus?.isActive ? (
         <Card className="border-2 border-green-200 bg-green-50/50">
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -196,7 +183,7 @@ export default function SubscribePage() {
             </CardContent>
             <CardFooter>
               <Button
-                onClick={handleSubscribe}
+                onClick={isAuthenticated ? handleSubscribe : handleLoginPrompt}
                 disabled={isCreatingSession}
                 size="lg"
                 className="w-full"
@@ -209,7 +196,7 @@ export default function SubscribePage() {
                 ) : (
                   <>
                     <CreditCard className="mr-2 h-5 w-5" />
-                    Subscribe Now
+                    Subscribe Now — $9.99/month
                   </>
                 )}
               </Button>

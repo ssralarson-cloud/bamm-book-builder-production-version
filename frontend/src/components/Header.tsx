@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router';
-import { Home, FlaskConical, Loader2 } from 'lucide-react';
+import { Home, FlaskConical, CreditCard, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useActor } from '../hooks/useActorExtended';
@@ -71,6 +71,10 @@ export default function Header() {
           <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/' })} className="forest-nav-button">
             <Home className="mr-2 h-4 w-4" />
             Home
+          </Button>
+          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/subscribe' })} className="forest-nav-button">
+            <CreditCard className="mr-2 h-4 w-4" />
+            Subscribe
           </Button>
           <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/test' })} className="forest-nav-button">
             <FlaskConical className="mr-2 h-4 w-4" />
