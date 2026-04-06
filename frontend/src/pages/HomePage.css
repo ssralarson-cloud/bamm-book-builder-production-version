@@ -1,40 +1,102 @@
-/* HomePage Layout and Button Styling - Black Forest Theme */
+/* ── Home Page — Clean Boho ─────────────────────────── */
 
-/* Create Project Button - ensure proper positioning */
+.page-container {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+/* ── Welcome Section (non-authenticated) ───────────── */
+.welcome-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  gap: 1.5rem;
+}
+
+.welcome-icon {
+  width: 80px;
+  height: 80px;
+  opacity: 0.7;
+  border-radius: 50%;
+}
+
+.welcome-section h1 {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2d2418;
+  margin: 0;
+}
+
+.welcome-section p {
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 1.1rem;
+  color: #7a6c5d;
+  max-width: 420px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.welcome-signin {
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 0.8rem 2rem;
+  background: #5d4e37;
+  color: #faf8f5;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.welcome-signin:hover {
+  background: #4a3d2b;
+  box-shadow: 0 4px 16px rgba(93, 78, 55, 0.25);
+}
+
+/* ── Dashboard Header ──────────────────────────────── */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-header h1 {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #2d2418;
+  margin: 0;
+}
+
+/* ── Create Project Button ─────────────────────────── */
 .create-project-button {
   position: relative;
   z-index: 10;
-  margin-bottom: 2rem;
 }
 
-/* Project List Container - ensure proper stacking */
+/* ── Project List ──────────────────────────────────── */
 .project-list {
   position: relative;
   z-index: 1;
-  margin-top: 1.5rem;
 }
 
-/* Hero Section - ensure proper layering */
-.hero-section {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 3rem;
-}
-
-/* Ensure buttons don't float incorrectly */
-.hero-section button,
-.create-project-button button {
-  position: relative;
-  z-index: 10;
-}
-
-/* Project Cards Grid */
 .projects-grid {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: 1fr;
-  position: relative;
-  z-index: 1;
 }
 
 @media (min-width: 640px) {
@@ -49,52 +111,30 @@
   }
 }
 
-/* Project Card - ensure proper elevation */
+/* ── Project Card ──────────────────────────────────── */
 .project-card {
   position: relative;
   z-index: 2;
-  background-color: var(--card, #f9f5f0);
-  border: 2px solid var(--border, #5d4e37);
+  background: #ffffff;
+  border: 1px solid rgba(139, 111, 71, 0.1);
   border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease;
 }
 
 .project-card:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   transform: translateY(-2px);
 }
 
-/* Empty State Container */
+/* ── Empty State ───────────────────────────────────── */
 .empty-state {
   position: relative;
-  z-index: 1;
   text-align: center;
   padding: 3rem 1.5rem;
 }
 
-/* Loading State Container */
-.loading-state {
-  position: relative;
-  z-index: 1;
-}
-
-/* Ensure proper spacing between sections */
-.page-container {
-  position: relative;
-  z-index: 1;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
-
-/* Section Headers */
-.section-header {
-  position: relative;
-  z-index: 2;
-  margin-bottom: 1.5rem;
-}
-
-/* Prevent layout shifts during loading */
+/* ── Skeleton Grid ─────────────────────────────────── */
 .skeleton-grid {
   display: grid;
   gap: 1.5rem;
@@ -113,33 +153,27 @@
   }
 }
 
-/* Ensure dialogs don't interfere with page layout */
-.page-content {
-  position: relative;
-  z-index: 1;
-  isolation: isolate;
+/* ── Section Header ────────────────────────────────── */
+.section-header {
+  margin-bottom: 1.5rem;
 }
 
-/* Button group spacing */
-.button-group {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-/* Responsive adjustments */
+/* ── Responsive ────────────────────────────────────── */
 @media (max-width: 640px) {
   .page-container {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding: 1.5rem 1.25rem;
   }
-  
-  .hero-section {
-    margin-bottom: 2rem;
+
+  .welcome-section {
+    padding: 2.5rem 1rem;
   }
-  
-  .project-list {
-    margin-top: 1rem;
+
+  .welcome-section h1 {
+    font-size: 1.6rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

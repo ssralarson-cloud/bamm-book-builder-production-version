@@ -1,70 +1,54 @@
-.forest-header {
+.site-header {
   position: relative;
   z-index: 30;
   isolation: isolate;
-  background: linear-gradient(to bottom, #f5e6d3 0%, #e8d4b8 100%);
-  border-bottom: 2px solid #8b6f47;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #faf8f5;
+  border-bottom: 1px solid rgba(139, 111, 71, 0.1);
 }
 
-.forest-header-border {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 8px;
-  background-image: url('/assets/generated/border-twig.dim_512x512.png');
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  opacity: 0.6;
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
 }
 
-.forest-crest {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+.header-brand:hover {
+  opacity: 0.8;
 }
 
-.forest-title {
+.header-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.header-title {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d2418;
+  letter-spacing: -0.2px;
+}
+
+.header-nav-link {
   font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #4a3728;
-  letter-spacing: 0.5px;
+  color: #7a6c5d;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
 }
 
-.forest-subtitle {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 0.75rem;
-  color: #8b6f47;
-  font-style: italic;
+.header-nav-link:hover {
+  color: #2d2418;
+  background: rgba(139, 111, 71, 0.05);
 }
 
-.forest-nav-button {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  color: #4a3728;
-  transition: all 0.2s ease;
-}
-
-.forest-nav-button:hover {
-  background-color: rgba(139, 111, 71, 0.1);
-  color: #2d1f15;
-}
-
-.forest-auth-button {
+.header-auth-button {
   font-family: 'Crimson Text', 'Georgia', serif;
   font-weight: 600;
-  background: linear-gradient(to bottom, #8b6f47 0%, #6b5537 100%);
-  color: #f5e6d3;
-  border: 1px solid #4a3728;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
-}
-
-.forest-auth-button:hover {
-  background: linear-gradient(to bottom, #6b5537 0%, #4a3728 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.forest-icon {
-  margin-right: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 2rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }

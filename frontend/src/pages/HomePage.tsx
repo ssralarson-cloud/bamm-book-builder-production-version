@@ -10,7 +10,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useProjects, useCreateProject, useDeleteProject, useKDPValidation, useGetCallerUserProfile, useSaveCallerUserProfile } from '../hooks/useQueries';
 import { KDPComplianceBadge } from '../components/KDPComplianceBadge';
 import { NewProjectDialog } from '../components/NewProjectDialog';
-import { DeploymentInfo } from '../components/DeploymentInfo';
+
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
@@ -136,15 +136,39 @@ export default function HomePage() {
     });
   };
 
+  // Non-authenticated welcome view
+  if (!isAuthenticated && !isInitializing) {
+    return (
+      <div className="page-container">
+        <section className="welcome-section">
+          <img
+            src="/assets/generated/owl-icon.png"
+            alt="Bamm Book Builder"
+            className="welcome-icon"
+          />
+          <h1>Welcome to Your Dashboard</h1>
+          <p>
+            Sign in to start creating beautiful children's books
+            ready for Amazon KDP print.
+          </p>
+          <button className="welcome-signin" onClick={handleLoginPrompt}>
+            <LogIn size={18} />
+            Sign In to Get Started
+          </button>
+        </section>
+      </div>
+    );
+  }
+
   return (
-    <div className="container page-container py-10 space-elegant">
+    <div className="page-container">
       {/* Profile Setup Dialog */}
       <Dialog open={isProfileSetupOpen} onOpenChange={setIsProfileSetupOpen}>
         <DialogContent className="dialog-box border-2 border-border z-modal">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl">Welcome to Bamm Book Builder</DialogTitle>
             <DialogDescription className="text-base">
-              Let us begin your journey. What shall we call you?
+              Let's get you set up. What's your name?
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -152,7 +176,7 @@ export default function HomePage() {
               <Label htmlFor="userName" className="text-base">Your Name</Label>
               <Input
                 id="userName"
-                placeholder="e.g., Wilhelm Grimm"
+                placeholder="e.g., Sara Larson"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 onKeyDown={(e) => {
@@ -166,105 +190,47 @@ export default function HomePage() {
           </div>
           <DialogFooter className="dialog-buttons">
             <Button onClick={handleSaveProfile} disabled={isSavingProfile}>
-              {isSavingProfile ? 'Saving...' : 'Begin'}
+              {isSavingProfile ? 'Saving...' : 'Continue'}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Hero Section */}
-      <section className="hero-section relative mb-12 overflow-hidden rounded-lg border-2 border-border bg-secondary/20 shadow-boho-lg">
-        <div className="absolute inset-0 opacity-5 z-base">
-          <img
-            src="/assets/generated/amazon-kdp-hero-banner-boho.dim_800x400.jpg"
-            alt=""
-            className="h-full w-full object-cover"
-          />
-        </div>
-        <div className="relative z-interactive p-8 md:p-12">
-          <div className="flex flex-col items-center gap-6 text-center md:flex-row md:text-left">
-            <img
-              src="/assets/generated/fairy-tale-mascot-boho-transparent.png"
-              alt="Fairy Tale Mascot"
-              className="h-32 w-32 md:h-40 md:w-40"
+      {/* Dashboard Header */}
+      <div className="dashboard-header">
+        <h1>Your Books</h1>
+        <div className="create-project-button">
+          {isInitializing ? (
+            <Button size="sm" disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Loading...
+            </Button>
+          ) : (
+            <NewProjectDialog
+              onCreateProject={handleCreateProject}
+              isCreating={isCreating}
+              disabled={!isInitialized}
             />
-            <div className="flex-1">
-              <div className="mb-3 flex items-center justify-center gap-3 md:justify-start">
-                <h1 className="font-display text-4xl text-foreground md:text-5xl">
-                  Bamm Book Builder
-                </h1>
-                <img 
-                  src="/assets/generated/amazon-kdp-single-badge-boho-transparent.png" 
-                  alt="Amazon KDP Ready" 
-                  className="h-12 w-16"
-                />
-              </div>
-              <p className="mb-6 text-lg leading-relaxed text-muted-foreground">
-                Craft timeless children's tales in the universal 8.5×8.5" format. 
-                Optimized for Amazon KDP with elegant print compliance, 
-                refined formatting, and professional PDF export.
-              </p>
-              <div className="create-project-button">
-                {isInitializing ? (
-                  <Button size="lg" className="gap-2 shadow-boho" disabled>
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Initializing...
-                  </Button>
-                ) : isAuthenticated ? (
-                  <NewProjectDialog 
-                    onCreateProject={handleCreateProject}
-                    isCreating={isCreating}
-                    disabled={!isInitialized}
-                  />
-                ) : (
-                  <Button size="lg" className="gap-2 shadow-boho" onClick={handleLoginPrompt}>
-                    <LogIn className="h-5 w-5" />
-                    Log In to Begin
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
+          )}
         </div>
-      </section>
-
-      {/* Deployment Info Section - Only show when authenticated */}
-      {isAuthenticated && isInitialized && (
-        <section className="mb-12">
-          <DeploymentInfo />
-        </section>
-      )}
+      </div>
 
       {/* Projects Section */}
       <section className="project-list">
-        <div className="section-header mb-6 flex items-center justify-between">
-          <h2 className="font-display text-3xl">Your Book Projects</h2>
-        </div>
-
         {isInitializing ? (
-          <Card className="border-2 card-elevated">
-            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <Loader2 className="mb-4 h-16 w-16 animate-spin text-muted-foreground opacity-40" />
-              <h3 className="font-display mb-2 text-xl">Initializing Session</h3>
-              <p className="text-muted-foreground">
-                Please wait while we prepare your workspace...
-              </p>
-            </CardContent>
-          </Card>
-        ) : !isAuthenticated ? (
-          <Card className="border-2 border-dashed">
-            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <LogIn className="mb-4 h-16 w-16 text-muted-foreground opacity-40" />
-              <h3 className="font-display mb-2 text-xl">Please Log In</h3>
-              <p className="mb-4 text-muted-foreground">
-                Log in with Internet Identity to view and create your book projects.
-              </p>
-              <Button onClick={handleLoginPrompt}>
-                <LogIn className="mr-2 h-4 w-4" />
-                Log In with Internet Identity
-              </Button>
-            </CardContent>
-          </Card>
+          <div className="skeleton-grid">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="project-card">
+                <CardHeader>
+                  <Skeleton className="h-6 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-20 w-full" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         ) : projectsLoading ? (
           <div className="skeleton-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (
@@ -300,9 +266,9 @@ export default function HomePage() {
                 alt="No projects"
                 className="mb-4 h-24 w-24 opacity-40"
               />
-              <h3 className="font-display mb-2 text-xl">No tales yet written</h3>
+              <h3 className="font-display mb-2 text-xl">No books yet</h3>
               <p className="mb-4 text-muted-foreground">
-                Begin your first Amazon KDP children's book project to embark on this journey.
+                Create your first children's book project to get started.
               </p>
               <NewProjectDialog 
                 onCreateProject={handleCreateProject}
@@ -326,7 +292,7 @@ export default function HomePage() {
           <AlertDialogHeader>
             <AlertDialogTitle className="font-display text-xl">Delete Project?</AlertDialogTitle>
             <AlertDialogDescription className="text-base">
-              This action cannot be undone. This will permanently erase your book project and all associated content from the archives.
+              This action cannot be undone. Your book project and all its content will be permanently deleted.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="dialog-buttons">
@@ -357,7 +323,7 @@ function ProjectCard({
   const { data: validation, isLoading: isLoadingValidation } = useKDPValidation(project.id);
 
   return (
-    <Card className="project-card border-2 card-elevated">
+    <Card className="project-card">
       <CardHeader>
         <CardTitle className="flex items-start justify-between gap-2">
           <span className="line-clamp-2 font-display text-lg">{project.title}</span>

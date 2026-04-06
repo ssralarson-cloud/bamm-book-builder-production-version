@@ -2,28 +2,21 @@ import './Footer.css';
 
 export default function Footer() {
   return (
-    <footer className="forest-footer">
-      <div className="forest-footer-border"></div>
-      <div className="container flex flex-col items-center justify-center gap-3 py-8 text-center">
-        <div className="flex items-center gap-2 text-sm forest-footer-text">
-          <span>© 2025</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm forest-footer-text">
-          <span>Built with</span>
-          <span className="forest-heart">❤️</span>
-          <span>using</span>
+    <footer className="site-footer">
+      <div className="site-footer-inner">
+        <span className="site-footer-text">&copy; 2026 Bamm Book Builder</span>
+        <span className="site-footer-divider">&middot;</span>
+        <span className="site-footer-text">
+          Built with{' '}
           <a
             href="https://caffeine.ai"
             target="_blank"
             rel="noopener noreferrer"
-            className="forest-link"
+            className="site-footer-link"
           >
             caffeine.ai
           </a>
-        </div>
-        <p className="forest-tagline">
-          Crafted in the Black Forest 🌲📖
-        </p>
+        </span>
       </div>
     </footer>
   );

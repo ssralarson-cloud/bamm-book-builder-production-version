@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router';
-import { Home, FlaskConical, CreditCard, Loader2 } from 'lucide-react';
+import { CreditCard, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useActor } from '../hooks/useActorExtended';
@@ -17,27 +17,27 @@ export default function Header() {
   const isInitializing = loginStatus === 'initializing' || (isAuthenticated && !isInitialized);
   const isLoggingIn = loginStatus === 'logging-in';
   const disabled = isLoggingIn || isInitializing;
-  
-  const buttonText = isLoggingIn 
-    ? 'Entering...' 
+
+  const buttonText = isLoggingIn
+    ? 'Signing in...'
     : isInitializing
     ? 'Preparing...'
-    : isAuthenticated 
-    ? 'Leave the Forest' 
-    : 'Enter the Forest';
+    : isAuthenticated
+    ? 'Sign Out'
+    : 'Sign In';
 
   const handleAuth = async () => {
     if (isAuthenticated) {
       console.log('[Header] Logging out');
       await clear();
       queryClient.clear();
-      toast.success('You have left the forest');
+      toast.success('Signed out successfully');
       navigate({ to: '/' });
     } else {
       try {
         console.log('[Header] Initiating login');
         await login();
-        toast.success('Welcome to the Black Forest!');
+        toast.success('Welcome to Bamm Book Builder!');
       } catch (error: any) {
         console.error('[Header] Login error:', error);
         if (error.message === 'User is already authenticated') {
@@ -45,59 +45,40 @@ export default function Header() {
           await clear();
           setTimeout(() => login(), 300);
         } else {
-          toast.error('Could not enter the forest. Please try again.');
+          toast.error('Sign in failed. Please try again.');
         }
       }
     }
   };
 
   return (
-    <header className="forest-header">
-      <div className="forest-header-border"></div>
-      <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-          <img 
-            src="/assets/generated/gnome-logo.dim_200x200.png" 
-            alt="Gnome Logo" 
-            className="h-12 w-12 forest-crest" 
+    <header className="site-header">
+      <div className="container flex h-14 items-center justify-between">
+        <Link to="/" className="header-brand">
+          <img
+            src="/assets/generated/owl-icon.dim_64x64.png"
+            alt="Bamm Book Builder"
+            className="header-logo"
           />
-          <div className="flex flex-col">
-            <span className="forest-title">Bamm Book Builder</span>
-            <span className="forest-subtitle">Tales from the Black Forest</span>
-          </div>
+          <span className="header-title">Bamm Book Builder</span>
         </Link>
 
-        <nav className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/' })} className="forest-nav-button">
-            <Home className="mr-2 h-4 w-4" />
-            Home
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/subscribe' })} className="forest-nav-button">
-            <CreditCard className="mr-2 h-4 w-4" />
-            Subscribe
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/test' })} className="forest-nav-button">
-            <FlaskConical className="mr-2 h-4 w-4" />
-            Tests
+        <nav className="flex items-center gap-1">
+          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/subscribe' })} className="header-nav-link">
+            <CreditCard className="mr-1.5 h-4 w-4" />
+            Pricing
           </Button>
           <Button
             variant={isAuthenticated ? 'outline' : 'default'}
             size="sm"
             onClick={handleAuth}
             disabled={disabled}
-            className="forest-auth-button"
+            className="header-auth-button"
           >
-            {isLoggingIn || isInitializing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {buttonText}
-              </>
-            ) : (
-              <>
-                <span className="forest-icon">🌲</span>
-                {buttonText}
-              </>
+            {(isLoggingIn || isInitializing) && (
+              <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
             )}
+            {buttonText}
           </Button>
         </nav>
       </div>
