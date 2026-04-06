@@ -73,7 +73,7 @@ export default function HomePage() {
 
   const handleCreateProject = (storyTitle: string, authorName: string) => {
     if (!isAuthenticated) {
-      toast.error('Please log in to create a project');
+      toast.error('Please sign in to create a project');
       return;
     }
 
@@ -97,7 +97,7 @@ export default function HomePage() {
         const errorMessage = error.message || 'Failed to create project. Please try again.';
         
         // Check if it's an authentication error
-        if (errorMessage.includes('log in') || errorMessage.includes('Unauthorized')) {
+        if (errorMessage.includes('sign in') || errorMessage.includes('Unauthorized')) {
           toast.error('Please sign in to create projects');
         } else {
           toast.error(errorMessage);
