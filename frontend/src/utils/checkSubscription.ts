@@ -21,13 +21,12 @@ export interface SubscriptionStatus {
 export async function checkSubscription(userPrincipal: string): Promise<SubscriptionStatus> {
   try {
     const response = await fetch(
-      `${BILLING_SERVER_URL}/api/check-subscription`,
+      `${BILLING_SERVER_URL}/api/check-subscription?userPrincipal=${encodeURIComponent(userPrincipal)}`,
       {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userPrincipal }),
       }
     );
 

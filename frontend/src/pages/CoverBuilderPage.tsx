@@ -202,9 +202,9 @@ export default function CoverBuilderPage() {
       // Update local project state with imageUrl (path)
       const newCover = { ...localProject.cover };
       if (type === 'front') {
-        newCover.front = { ...newCover.front, imageUrl: imagePath };
+        newCover.front = { ...newCover.front, imageUrl: [imagePath] };
       } else {
-        newCover.back = { ...newCover.back, imageUrl: imagePath };
+        newCover.back = { ...newCover.back, imageUrl: [imagePath] };
       }
 
       setLocalProject({ ...localProject, cover: newCover, updatedAt: Date.now() });
@@ -341,7 +341,7 @@ export default function CoverBuilderPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <CoverImageUpload
-                    imageUrl={localProject.cover.front.imageUrl}
+                    imageUrl={localProject.cover.front.imageUrl[0]}
                     previewUrl={coverImageUrls.front}
                     onUpload={(file) => handleImageUpload(file, 'front')}
                     isUploading={isUploading}
@@ -375,7 +375,7 @@ export default function CoverBuilderPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <CoverImageUpload
-                    imageUrl={localProject.cover.back.imageUrl}
+                    imageUrl={localProject.cover.back.imageUrl[0]}
                     previewUrl={coverImageUrls.back}
                     onUpload={(file) => handleImageUpload(file, 'back')}
                     isUploading={isUploading}

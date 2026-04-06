@@ -142,7 +142,7 @@ export default function HomePage() {
       <Dialog open={isProfileSetupOpen} onOpenChange={setIsProfileSetupOpen}>
         <DialogContent className="dialog-box border-2 border-border z-modal">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">Welcome to Bamm Book Builder</DialogTitle>
+            <DialogTitle className="font-display text-2xl">Welcome to Bamm Book Builder</DialogTitle>
             <DialogDescription className="text-base">
               Let us begin your journey. What shall we call you?
             </DialogDescription>
@@ -172,15 +172,32 @@ export default function HomePage() {
         </DialogContent>
       </Dialog>
 
-      {/* Hero Section - Clean Text Only */}
-      <section className="hero-section relative mb-12 overflow-hidden rounded-lg border-2 border-border bg-secondary/20 shadow-lg">
+      {/* Hero Section */}
+      <section className="hero-section relative mb-12 overflow-hidden rounded-lg border-2 border-border bg-secondary/20 shadow-boho-lg">
+        <div className="absolute inset-0 opacity-5 z-base">
+          <img
+            src="/assets/generated/amazon-kdp-hero-banner-boho.dim_800x400.jpg"
+            alt=""
+            className="h-full w-full object-cover"
+          />
+        </div>
         <div className="relative z-interactive p-8 md:p-12">
-          <div className="flex flex-col items-center gap-6 text-center">
+          <div className="flex flex-col items-center gap-6 text-center md:flex-row md:text-left">
+            <img
+              src="/assets/generated/fairy-tale-mascot-boho-transparent.png"
+              alt="Fairy Tale Mascot"
+              className="h-32 w-32 md:h-40 md:w-40"
+            />
             <div className="flex-1">
-              <div className="mb-3 flex items-center justify-center gap-3">
-                <h1 className="text-4xl font-bold text-foreground md:text-5xl">
+              <div className="mb-3 flex items-center justify-center gap-3 md:justify-start">
+                <h1 className="font-display text-4xl text-foreground md:text-5xl">
                   Bamm Book Builder
                 </h1>
+                <img 
+                  src="/assets/generated/amazon-kdp-single-badge-boho-transparent.png" 
+                  alt="Amazon KDP Ready" 
+                  className="h-12 w-16"
+                />
               </div>
               <p className="mb-6 text-lg leading-relaxed text-muted-foreground">
                 Craft timeless children's tales in the universal 8.5×8.5" format. 
@@ -189,7 +206,7 @@ export default function HomePage() {
               </p>
               <div className="create-project-button">
                 {isInitializing ? (
-                  <Button size="lg" className="gap-2 shadow-lg" disabled>
+                  <Button size="lg" className="gap-2 shadow-boho" disabled>
                     <Loader2 className="h-5 w-5 animate-spin" />
                     Initializing...
                   </Button>
@@ -200,7 +217,7 @@ export default function HomePage() {
                     disabled={!isInitialized}
                   />
                 ) : (
-                  <Button size="lg" className="gap-2 shadow-lg" onClick={handleLoginPrompt}>
+                  <Button size="lg" className="gap-2 shadow-boho" onClick={handleLoginPrompt}>
                     <LogIn className="h-5 w-5" />
                     Log In to Begin
                   </Button>
@@ -221,14 +238,14 @@ export default function HomePage() {
       {/* Projects Section */}
       <section className="project-list">
         <div className="section-header mb-6 flex items-center justify-between">
-          <h2 className="text-3xl font-bold">Your Book Projects</h2>
+          <h2 className="font-display text-3xl">Your Book Projects</h2>
         </div>
 
         {isInitializing ? (
           <Card className="border-2 card-elevated">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
               <Loader2 className="mb-4 h-16 w-16 animate-spin text-muted-foreground opacity-40" />
-              <h3 className="mb-2 text-xl font-bold">Initializing Session</h3>
+              <h3 className="font-display mb-2 text-xl">Initializing Session</h3>
               <p className="text-muted-foreground">
                 Please wait while we prepare your workspace...
               </p>
@@ -238,7 +255,7 @@ export default function HomePage() {
           <Card className="border-2 border-dashed">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
               <LogIn className="mb-4 h-16 w-16 text-muted-foreground opacity-40" />
-              <h3 className="mb-2 text-xl font-bold">Please Log In</h3>
+              <h3 className="font-display mb-2 text-xl">Please Log In</h3>
               <p className="mb-4 text-muted-foreground">
                 Log in with Internet Identity to view and create your book projects.
               </p>
@@ -278,8 +295,12 @@ export default function HomePage() {
         ) : (
           <Card className="border-2 border-dashed">
             <CardContent className="empty-state flex flex-col items-center justify-center py-12 text-center">
-              <BookOpen className="mb-4 h-24 w-24 text-muted-foreground opacity-40" />
-              <h3 className="mb-2 text-xl font-bold">No tales yet written</h3>
+              <img
+                src="/assets/generated/new-project-boho-icon-transparent.png"
+                alt="No projects"
+                className="mb-4 h-24 w-24 opacity-40"
+              />
+              <h3 className="font-display mb-2 text-xl">No tales yet written</h3>
               <p className="mb-4 text-muted-foreground">
                 Begin your first Amazon KDP children's book project to embark on this journey.
               </p>
@@ -303,7 +324,7 @@ export default function HomePage() {
       <AlertDialog open={!!deleteProjectId} onOpenChange={() => setDeleteProjectId(null)}>
         <AlertDialogContent className="dialog-box border-2 border-border z-modal">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-xl font-bold">Delete Project?</AlertDialogTitle>
+            <AlertDialogTitle className="font-display text-xl">Delete Project?</AlertDialogTitle>
             <AlertDialogDescription className="text-base">
               This action cannot be undone. This will permanently erase your book project and all associated content from the archives.
             </AlertDialogDescription>
@@ -339,7 +360,7 @@ function ProjectCard({
     <Card className="project-card border-2 card-elevated">
       <CardHeader>
         <CardTitle className="flex items-start justify-between gap-2">
-          <span className="line-clamp-2 text-lg font-bold">{project.title}</span>
+          <span className="line-clamp-2 font-display text-lg">{project.title}</span>
           <BookOpen className="h-5 w-5 flex-shrink-0 text-foreground" />
         </CardTitle>
         <CardDescription className="flex items-center justify-between gap-2">

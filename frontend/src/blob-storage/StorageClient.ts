@@ -1,6 +1,17 @@
 import { backendInterface, FileReference } from '../backend';
-import { HttpAgent, isV3ResponseBody } from '@dfinity/agent';
-import { IDL } from '@dfinity/candid';
+import { HttpAgent } from '@icp-sdk/core/agent';
+import { IDL } from '@icp-sdk/core/candid';
+
+// isV3ResponseBody was removed from the ICP agent SDK.
+// Inline type guard: ICP v3 responses carry a `certificate` field as Uint8Array.
+function isV3ResponseBody(body: unknown): body is { certificate: Uint8Array } {
+  return (
+    body !== null &&
+    typeof body === 'object' &&
+    'certificate' in (body as object) &&
+    (body as { certificate: unknown }).certificate instanceof Uint8Array
+  );
+}
 
 type Headers = Record<string, string>;
 

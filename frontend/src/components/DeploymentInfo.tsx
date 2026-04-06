@@ -31,9 +31,9 @@ export function DeploymentInfo() {
 
   if (isLoading) {
     return (
-      <Card className="border card-elevated">
+      <Card className="border-2 card-elevated">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
+          <CardTitle className="flex items-center gap-2 font-display text-lg">
             <Globe className="h-5 w-5" />
             Deployment Information
           </CardTitle>
@@ -51,10 +51,10 @@ export function DeploymentInfo() {
   }
 
   return (
-    <Card className="border card-elevated">
+    <Card className="border-2 card-elevated">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Globe className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 font-display text-lg">
+          <Globe className="h-5 w-5 text-forest-brown" />
           Deployment Information
         </CardTitle>
         <CardDescription>
@@ -62,7 +62,7 @@ export function DeploymentInfo() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="flex items-center gap-2 rounded-md border bg-secondary/20 p-3">
+        <div className="flex items-center gap-2 rounded-md border-2 border-border bg-secondary/20 p-3">
           <code className="flex-1 text-sm font-mono text-foreground break-all">
             {deploymentUrl}
           </code>

@@ -19,25 +19,25 @@ export default function Header() {
   const disabled = isLoggingIn || isInitializing;
   
   const buttonText = isLoggingIn 
-    ? 'Logging in...' 
+    ? 'Entering...' 
     : isInitializing
     ? 'Preparing...'
     : isAuthenticated 
-    ? 'Logout' 
-    : 'Login';
+    ? 'Leave the Forest' 
+    : 'Enter the Forest';
 
   const handleAuth = async () => {
     if (isAuthenticated) {
       console.log('[Header] Logging out');
       await clear();
       queryClient.clear();
-      toast.success('Logged out successfully');
+      toast.success('You have left the forest');
       navigate({ to: '/' });
     } else {
       try {
         console.log('[Header] Initiating login');
         await login();
-        toast.success('Welcome!');
+        toast.success('Welcome to the Black Forest!');
       } catch (error: any) {
         console.error('[Header] Login error:', error);
         if (error.message === 'User is already authenticated') {
@@ -45,25 +45,34 @@ export default function Header() {
           await clear();
           setTimeout(() => login(), 300);
         } else {
-          toast.error('Could not log in. Please try again.');
+          toast.error('Could not enter the forest. Please try again.');
         }
       }
     }
   };
 
   return (
-    <header className="simple-header">
+    <header className="forest-header">
+      <div className="forest-header-border"></div>
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-          <span className="simple-title">Bamm Book Builder</span>
+          <img 
+            src="/assets/generated/gnome-logo.dim_200x200.png" 
+            alt="Gnome Logo" 
+            className="h-12 w-12 forest-crest" 
+          />
+          <div className="flex flex-col">
+            <span className="forest-title">Bamm Book Builder</span>
+            <span className="forest-subtitle">Tales from the Black Forest</span>
+          </div>
         </Link>
 
         <nav className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/' })} className="simple-nav-button">
+          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/' })} className="forest-nav-button">
             <Home className="mr-2 h-4 w-4" />
             Home
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/test' })} className="simple-nav-button">
+          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/test' })} className="forest-nav-button">
             <FlaskConical className="mr-2 h-4 w-4" />
             Tests
           </Button>
@@ -72,7 +81,7 @@ export default function Header() {
             size="sm"
             onClick={handleAuth}
             disabled={disabled}
-            className="simple-auth-button"
+            className="forest-auth-button"
           >
             {isLoggingIn || isInitializing ? (
               <>
@@ -80,7 +89,10 @@ export default function Header() {
                 {buttonText}
               </>
             ) : (
-              buttonText
+              <>
+                <span className="forest-icon">🌲</span>
+                {buttonText}
+              </>
             )}
           </Button>
         </nav>
