@@ -4,7 +4,7 @@ interface LoginMascotProps {
   message?: string;
 }
 
-export default function LoginMascot({ message = 'Welcome to the Black Forest!' }: LoginMascotProps) {
+export default function LoginMascot({ message = 'Welcome to Bamm Book Builder!' }: LoginMascotProps) {
   return (
     <div className="forest-mascot">
       <div className="forest-mascot-container">
@@ -14,7 +14,7 @@ export default function LoginMascot({ message = 'Welcome to the Black Forest!' }
           className="forest-mascot-image"
         />
         <div className="forest-mascot-content">
-          <h3 className="forest-mascot-title">Greetings, Storyteller!</h3>
+          <h3 className="forest-mascot-title">Welcome!</h3>
           <p className="forest-mascot-message">{message}</p>
           <div className="forest-mascot-decoration">
             <img 
