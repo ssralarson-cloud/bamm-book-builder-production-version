@@ -160,11 +160,6 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        // Ensure user is registered before creating project
-        addLog('info', '  Registering user with access control...');
-        await actor.initializeAccessControl();
-        addLog('success', '  ✓ User registered successfully');
-
         const projectIdNat = await actor.createProject('Amazon KDP Test Book - E2E Validation');
         projectId = projectIdNat.toString();
         addLog('success', `✓ Project created successfully`);
@@ -194,9 +189,8 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        const projectResult = await actor.getProject(projectId);
-        if (!projectResult || projectResult.length === 0) throw new Error('Project not found');
-        const project = projectResult[0];
+        const project = await actor.getProject(projectId);
+        if (!project) throw new Error('Project not found');
 
         const formatChecks: string[] = [];
         let formatValid = true;
@@ -218,7 +212,7 @@ export function useTestFlow() {
           project.cover.bleed.bottom === 0.125 &&
           project.cover.bleed.left === 0.125 &&
           project.cover.bleed.right === 0.125;
-
+        
         if (bleedValid) {
           formatChecks.push('✓ Bleed: 0.125 inches (all sides)');
           addLog('success', '✓ Bleed validation passed (0.125" all sides)');
@@ -261,17 +255,15 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        const projectResult = await actor.getProject(projectId);
-        if (!projectResult || projectResult.length === 0) throw new Error('Project not found');
-        const project = projectResult[0];
+        const project = await actor.getProject(projectId);
+        if (!project) throw new Error('Project not found');
 
         // Create test pages with proper layouts using correct field names
-        // imageUrl uses Candid opt encoding: [] = None, [string] = Some
         const testPages = [
           {
             pageNumber: BigInt(1),
             text: 'Once upon a time in a magical forest, there lived a brave little bear.',
-            imageUrl: [] as [],
+            imageUrl: undefined,
             layout: {
               textPosition: { x: 0.1, y: 0.6, width: 0.8, height: 0.3 },
               imagePosition: { x: 0.1, y: 0.1, width: 0.8, height: 0.4 },
@@ -280,7 +272,7 @@ export function useTestFlow() {
           {
             pageNumber: BigInt(2),
             text: 'The bear loved to explore and discover new adventures every day.',
-            imageUrl: [] as [],
+            imageUrl: undefined,
             layout: {
               textPosition: { x: 0.1, y: 0.6, width: 0.8, height: 0.3 },
               imagePosition: { x: 0.1, y: 0.1, width: 0.8, height: 0.4 },
@@ -289,7 +281,7 @@ export function useTestFlow() {
           {
             pageNumber: BigInt(3),
             text: 'One sunny morning, the bear found a mysterious path through the trees.',
-            imageUrl: [] as [],
+            imageUrl: undefined,
             layout: {
               textPosition: { x: 0.1, y: 0.6, width: 0.8, height: 0.3 },
               imagePosition: { x: 0.1, y: 0.1, width: 0.8, height: 0.4 },
@@ -298,7 +290,7 @@ export function useTestFlow() {
           {
             pageNumber: BigInt(4),
             text: 'At the end of the path was a beautiful meadow filled with flowers.',
-            imageUrl: [] as [],
+            imageUrl: undefined,
             layout: {
               textPosition: { x: 0.1, y: 0.6, width: 0.8, height: 0.3 },
               imagePosition: { x: 0.1, y: 0.1, width: 0.8, height: 0.4 },
@@ -306,7 +298,7 @@ export function useTestFlow() {
           },
         ];
 
-        const updatedProject: Project = {
+        const updatedProject = {
           ...project,
           story: 'Once upon a time in a magical forest, there lived a brave little bear who loved adventures. The bear explored every day, discovering new wonders and making friends along the way.',
           pages: testPages,
@@ -391,9 +383,8 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        const projectResult = await actor.getProject(projectId);
-        if (!projectResult || projectResult.length === 0) throw new Error('Project not found');
-        const project = projectResult[0];
+        const project = await actor.getProject(projectId);
+        if (!project) throw new Error('Project not found');
 
         const layoutChecks: string[] = [];
         let allLayoutsValid = true;
@@ -451,9 +442,8 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        const projectResult = await actor.getProject(projectId);
-        if (!projectResult || projectResult.length === 0) throw new Error('Project not found');
-        const project = projectResult[0];
+        const project = await actor.getProject(projectId);
+        if (!project) throw new Error('Project not found');
 
         const pageCount = project.pages.length;
         const spineWidthPerPage = 0.002252; // Amazon KDP standard
@@ -494,9 +484,8 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        const validationResult = await actor.validateKDP(projectId);
-        if (!validationResult || validationResult.length === 0) throw new Error('Validation not available');
-        const validation = validationResult[0];
+        const validation = await actor.validateKDP(projectId);
+        if (!validation) throw new Error('Validation not available');
 
         const complianceChecks: string[] = [];
         let isCompliant = true;
@@ -559,14 +548,13 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        const validationResult = await actor.validateKDP(projectId);
-        if (!validationResult || validationResult.length === 0) throw new Error('Validation failed to return results');
-        const validation = validationResult[0];
+        const validation = await actor.validateKDP(projectId);
+        if (!validation) throw new Error('Validation failed to return results');
 
         const complianceChecks: string[] = [];
 
         addLog('info', `  Running comprehensive validation...`);
-
+        
         if (validation.isValid) {
           complianceChecks.push('✓ ALL AMAZON KDP REQUIREMENTS MET');
           addLog('success', '✓ Project passes all Amazon KDP requirements');
@@ -623,13 +611,11 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        const projectResult = await actor.getProject(projectId);
-        if (!projectResult || projectResult.length === 0) throw new Error('Project not found');
-        const project = projectResult[0];
+        const project = await actor.getProject(projectId);
+        if (!project) throw new Error('Project not found');
 
-        const validationResult = await actor.validateKDP(projectId);
-        if (!validationResult || validationResult.length === 0) throw new Error('Validation not available');
-        const validation = validationResult[0];
+        const validation = await actor.validateKDP(projectId);
+        if (!validation) throw new Error('Validation not available');
 
         // Normalize the export result to convert all BigInt values to numbers
         const normalizedProject = normalizeExportResult({
@@ -708,13 +694,11 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
-        const validationResult = await actor.validateKDP(projectId);
-        if (!validationResult || validationResult.length === 0) throw new Error('Validation not available');
-        const validation = validationResult[0];
+        const validation = await actor.validateKDP(projectId);
+        if (!validation) throw new Error('Validation not available');
 
-        const projectResult = await actor.getProject(projectId);
-        if (!projectResult || projectResult.length === 0) throw new Error('Project not found');
-        const project = projectResult[0];
+        const project = await actor.getProject(projectId);
+        if (!project) throw new Error('Project not found');
 
         const exportChecks: string[] = [];
 

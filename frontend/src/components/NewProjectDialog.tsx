@@ -61,7 +61,7 @@ export function NewProjectDialog({ onCreateProject, isCreating, disabled = false
         {trigger || (
           <Button size="lg" className="gap-2 shadow-boho" disabled={disabled}>
             <Plus className="h-5 w-5" />
-            New Book
+            Begin a New Tale
           </Button>
         )}
       </DialogTrigger>
@@ -69,7 +69,8 @@ export function NewProjectDialog({ onCreateProject, isCreating, disabled = false
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">Create New Book Project</DialogTitle>
           <DialogDescription className="text-base">
-            Enter your book title and author name. Your book will be created in the standard 8.5 x 8.5" square format for Amazon KDP.
+            Bestow your tale with a title and author. It shall be crafted in the standard 8.5×8.5" square format, 
+            perfect for Amazon KDP print-on-demand publishing.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 py-4">
@@ -79,7 +80,7 @@ export function NewProjectDialog({ onCreateProject, isCreating, disabled = false
             </Label>
             <Input
               id="authorName"
-              placeholder="e.g., Jane Smith"
+              placeholder="e.g., Wilhelm Grimm"
               value={authorName}
               onChange={(e) => setAuthorName(e.target.value)}
               onKeyDown={(e) => {
@@ -99,7 +100,7 @@ export function NewProjectDialog({ onCreateProject, isCreating, disabled = false
             </Label>
             <Input
               id="storyTitle"
-              placeholder="e.g., The Little Star"
+              placeholder="e.g., The Enchanted Forest"
               value={storyTitle}
               onChange={(e) => setStoryTitle(e.target.value)}
               onKeyDown={(e) => {

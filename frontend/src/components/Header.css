@@ -1,54 +1,36 @@
-.site-header {
+.simple-header {
   position: relative;
-  z-index: 30;
-  isolation: isolate;
-  background: #faf8f5;
-  border-bottom: 1px solid rgba(139, 111, 71, 0.1);
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
+.simple-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333333;
+  letter-spacing: 0.5px;
 }
 
-.header-brand:hover {
-  opacity: 0.8;
+.simple-nav-button {
+  color: #555555;
+  transition: all 0.2s ease;
 }
 
-.header-logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+.simple-nav-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333333;
 }
 
-.header-title {
-  font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: 1.1rem;
+.simple-auth-button {
   font-weight: 600;
-  color: #2d2418;
-  letter-spacing: -0.2px;
+  background: #4a90e2;
+  color: #ffffff;
+  border: 1px solid #4a90e2;
+  transition: all 0.2s ease;
 }
 
-.header-nav-link {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  color: #7a6c5d;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
-
-.header-nav-link:hover {
-  color: #2d2418;
-  background: rgba(139, 111, 71, 0.05);
-}
-
-.header-auth-button {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  border-radius: 2rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+.simple-auth-button:hover {
+  background: #357abd;
+  border-color: #357abd;
 }

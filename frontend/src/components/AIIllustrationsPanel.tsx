@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, ChevronLeft, ChevronRight, Undo2 } from 'lucide-react';
+import { Sparkles, Undo2 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -24,7 +24,6 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
   
   const { generateImage, isGenerating } = useGenerateGrokImage();
 
-  // Listen to carousel selection changes
   useEffect(() => {
     if (!carouselApi) {
       return;
@@ -81,10 +80,7 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
       return;
     }
 
-    const lastImage = undoStack[undoStack.length - 1];
     setUndoStack(prev => prev.slice(0, -1));
-    
-    // Remove the last inserted image from the page
     onInsertImage('');
     toast.success('Image insertion undone');
   };
@@ -95,14 +91,10 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
   };
 
   return (
-    <Card className="relative z-[1001] overflow-visible" style={{ zIndex: 1001 }}>
-      <CardHeader className="bg-[url('/assets/generated/linen-texture-background.dim_256x256.png')] bg-repeat">
+    <Card className="relative z-[1001] overflow-visible bg-white" style={{ zIndex: 1001 }}>
+      <CardHeader className="bg-gray-50">
         <div className="flex items-center gap-2">
-          <img
-            src="/assets/generated/ai-illustration-icon-boho-transparent.dim_64x64.png"
-            alt="AI Illustrations"
-            className="h-8 w-8"
-          />
+          <Sparkles className="h-6 w-6 text-primary" />
           <div>
             <CardTitle className="text-lg">AI Illustrations</CardTitle>
             <CardDescription>Generate custom images with Grok AI</CardDescription>
@@ -110,7 +102,6 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
         </div>
       </CardHeader>
       <CardContent className="space-y-4 pt-6">
-        {/* Custom Description Input */}
         <div className="space-y-2">
           <Label htmlFor="custom-prompt" className="text-sm font-semibold">
             Image Description
@@ -120,15 +111,14 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
             placeholder="Describe the illustration you want to generate... (or leave blank to use current page text)"
             value={customPrompt}
             onChange={(e) => setCustomPrompt(e.target.value)}
-            className="min-h-[100px] resize-none bg-[url('/assets/generated/linen-texture-background.dim_256x256.png')] bg-repeat font-serif"
+            className="min-h-[100px] resize-none bg-white"
           />
         </div>
 
-        {/* Generate Button */}
         <Button
           onClick={handleGenerateIllustration}
           disabled={isGenerating}
-          className="w-full gap-2 rounded-lg bg-[#4A2E1A] text-[#F5F1E8] shadow-boho transition-all hover:bg-[#3A1E0A] hover:shadow-boho-lg active:scale-95 disabled:opacity-50"
+          className="w-full gap-2"
           style={{
             animation: isGenerating ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none',
           }}
@@ -137,7 +127,6 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
           {isGenerating ? 'Generating...' : 'Generate Illustration'}
         </Button>
 
-        {/* Preview Carousel */}
         {generatedImages.length > 0 && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -147,7 +136,7 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
               </span>
             </div>
             
-            <div className="relative rounded-lg border-2 border-border bg-muted/20 p-2">
+            <div className="relative rounded-lg border bg-muted/20 p-2">
               <Carousel
                 opts={{
                   align: 'start',
@@ -160,7 +149,7 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
                   {generatedImages.map((imageUrl, index) => (
                     <CarouselItem key={index}>
                       <div
-                        className="group relative aspect-square cursor-move overflow-hidden rounded-md border-2 border-border bg-background"
+                        className="group relative aspect-square cursor-move overflow-hidden rounded-md border bg-background"
                         draggable
                         onDragStart={(e) => handleDragStart(e, imageUrl)}
                       >
@@ -170,11 +159,7 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
                           className="h-full w-full object-cover transition-transform group-hover:scale-105"
                         />
                         <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
-                          <img
-                            src="/assets/generated/drag-drop-cursor-boho-transparent.dim_32x32.png"
-                            alt="Drag to insert"
-                            className="h-8 w-8"
-                          />
+                          <span className="text-white text-sm font-semibold">Drag to insert</span>
                         </div>
                       </div>
                     </CarouselItem>
@@ -185,7 +170,6 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
               </Carousel>
             </div>
 
-            {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-2">
               <Button
                 onClick={handleInsertImage}
@@ -201,19 +185,14 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
                 disabled={undoStack.length === 0}
                 className="gap-2"
               >
-                <img
-                  src="/assets/generated/undo-icon-boho-transparent.dim_32x32.png"
-                  alt=""
-                  className="h-4 w-4"
-                />
+                <Undo2 className="h-4 w-4" />
                 Undo
               </Button>
             </div>
           </div>
         )}
 
-        {/* Instructions */}
-        <div className="rounded-md border border-border bg-muted/30 p-3">
+        <div className="rounded-md border bg-muted/30 p-3">
           <p className="text-xs text-muted-foreground">
             <strong>Tip:</strong> Drag generated images directly onto the page canvas, or use the "Insert into Page" button. 
             Images are optimized for 8.5×8.5" print format.

@@ -14,6 +14,6 @@ export function requireActor(actorState: UseActorReturn, operation: string): voi
     }
 
     if (!actorState.isAuthenticated) {
-        throw new Error(`${operation}: Please sign in to continue.`);
+        throw new Error(`${operation}: Authentication required. Please log in with Internet Identity.`);
     }
 }

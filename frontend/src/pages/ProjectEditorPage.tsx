@@ -68,7 +68,7 @@ export default function ProjectEditorPage() {
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
       console.log('[ProjectEditorPage] User not authenticated, redirecting to home');
-      toast.error('Please sign in to edit projects');
+      toast.error('Please log in to edit projects');
       navigate({ to: '/' });
     }
   }, [isInitialized, isAuthenticated, navigate]);

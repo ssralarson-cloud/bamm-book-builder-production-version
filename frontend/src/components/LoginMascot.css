@@ -1,14 +1,14 @@
-.forest-mascot {
+.simple-mascot {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  background: linear-gradient(to bottom, #f5e6d3 0%, #e8d4b8 100%);
+  background: #f9f9f9;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.forest-mascot-container {
+.simple-mascot-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,47 +16,23 @@
   max-width: 500px;
 }
 
-.forest-mascot-image {
-  width: 120px;
-  height: 120px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-}
-
-.forest-mascot-content {
+.simple-mascot-content {
   text-align: center;
-  background-image: url('/assets/generated/paper.dim_512x512.png');
-  background-repeat: repeat;
-  background-size: 256px 256px;
+  background-color: #ffffff;
   padding: 1.5rem;
   border-radius: 8px;
-  border: 2px solid #8b6f47;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
 }
 
-.forest-mascot-title {
-  font-family: 'Crimson Text', 'Georgia', serif;
+.simple-mascot-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #4a3728;
+  color: #333333;
   margin-bottom: 0.75rem;
 }
 
-.forest-mascot-message {
-  font-family: 'Crimson Text', 'Georgia', serif;
+.simple-mascot-message {
   font-size: 1rem;
-  color: #6b5537;
+  color: #666666;
   line-height: 1.6;
-}
-
-.forest-mascot-decoration {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-}
-
-.forest-owl {
-  width: 48px;
-  height: 48px;
-  opacity: 0.8;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }

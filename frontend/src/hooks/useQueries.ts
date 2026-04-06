@@ -175,16 +175,14 @@ export function useProject(projectId: string) {
         requireActor(actorState, 'getProject');
         
         console.log('[useProject/getProject] Fetching project:', projectId);
-        const projectOpt = await actorState.actor!.getProject(projectId);
-        // Candid Opt: [] = None, [value] = Some
-        if (!projectOpt || projectOpt.length === 0) {
+        const project = await actorState.actor!.getProject(projectId);
+        if (!project) {
           console.log('[useProject/getProject] Project not found');
           return null;
         }
-        const project = projectOpt[0]!;
-
+        
         console.log('[useProject/getProject] Successfully fetched project:', project.title);
-
+        
         // Convert to DTO (strips BigInt)
         const projectDTO = fromBackendProject(project);
         
@@ -340,9 +338,7 @@ export function useKDPValidation(projectId: string) {
         console.log('[useKDPValidation/validateKDP] Validating KDP compliance for project:', projectId);
         console.log('[useKDPValidation/validateKDP] Backend method: validateKDP');
         
-        const validationOpt = await actorState.actor!.validateKDP(projectId);
-        // Candid Opt: [] = None, [value] = Some
-        const validation: KDPValidation | null = (validationOpt && validationOpt.length > 0) ? validationOpt[0]! : null;
+        const validation = await actorState.actor!.validateKDP(projectId);
         console.log('[useKDPValidation/validateKDP] ✓ Validation result:', validation?.isValid ? 'VALID' : 'INVALID');
         if (validation && !validation.isValid) {
           console.log('[useKDPValidation/validateKDP] Errors:', validation.errors);
@@ -422,9 +418,7 @@ export function useGetCallerUserProfile() {
         console.log('[useGetCallerUserProfile/getCallerUserProfile] Backend method: getCallerUserProfile');
         console.log('[useGetCallerUserProfile/getCallerUserProfile] Timestamp:', new Date().toISOString());
         
-        const profileOpt = await actorState.actor!.getCallerUserProfile();
-        // Candid Opt: [] = None, [value] = Some
-        const profile: UserProfile | null = (profileOpt && profileOpt.length > 0) ? profileOpt[0]! : null;
+        const profile = await actorState.actor!.getCallerUserProfile();
         console.log('[useGetCallerUserProfile/getCallerUserProfile] ✓ Profile result:', profile ? `exists (${profile.name})` : 'null (new user)');
         console.log('[useGetCallerUserProfile/getCallerUserProfile]   Timestamp:', new Date().toISOString());
         return profile;

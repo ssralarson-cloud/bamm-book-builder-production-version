@@ -1,6 +1,5 @@
-import { backendInterface, FileReference } from '../backend';
-import { HttpAgent, isV3ResponseBody } from '@dfinity/agent';
-import { IDL } from '@dfinity/candid';
+import { HttpAgent, isV3ResponseBody } from '@icp-sdk/core/agent';
+import { IDL } from '@icp-sdk/core/candid';
 
 type Headers = Record<string, string>;
 
@@ -246,7 +245,7 @@ class BlobHashTree {
         if (chunkHashes.length === 0) {
             // To match rust, we have the hash of nothing
             const hex = '8b8e620f084e48da0be2287fd12c5aaa4dbe14b468fd2e360f48d741fe7628a0';
-            const bytes = new Uint8Array(Buffer.from(hex, 'hex'));
+            const bytes = new TextEncoder().encode(hex);
             chunkHashes.push(new YHash(bytes));
         }
 
@@ -426,7 +425,6 @@ export class StorageClient {
     private readonly storageGatewayClient: StorageGatewayClient;
 
     public constructor(
-        private readonly actor: backendInterface,
         private readonly bucket: string,
         storageGatewayUrl: string,
         private readonly backendCanisterId: string,
@@ -450,27 +448,16 @@ export class StorageClient {
         throw new Error('Expected v3 response body');
     }
 
-    public async putFile(
-        path: string,
-        file: File,
-        onProgress?: (percentage: number) => void
-    ): Promise<{
-        path: string;
-        hash: string;
-        url: string;
-    }> {
-        if (!path) {
-            throw new Error('Path is required');
-        }
+    public async putFile(blobBytes: Uint8Array, onProgress?: (percentage: number) => void): Promise<{ hash: string }> {
         // HTTP headers for fetch requests (used for the PUT request to gateway)
         const httpHeaders: Headers = {
             'Content-Type': 'application/json'
         };
-
+        // Create a Blob from the bytes
+        const file = new Blob([new Uint8Array(blobBytes)], { type: 'application/octet-stream' });
         // File metadata headers that will be stored with the blob tree
         const fileHeaders: Headers = {
-            'Content-Type': file.type || 'application/octet-stream',
-            'Content-Disposition': `attachment; filename="${file.name.replace(/"/g, '\\"')}"`,
+            'Content-Type': 'application/octet-stream',
             'Content-Length': file.size.toString()
         };
 
@@ -489,32 +476,19 @@ export class StorageClient {
             certificateBytes
         );
         await this.parallelUpload(chunks, chunkHashes, blobRootHash, httpHeaders, onProgress);
-        // Validate hash format before storing in backend
-        validateHashFormat(hashString, `putFile '${hashString}' hash storage`);
-
-        await this.actor.registerFileReference(path, hashString);
-        const url = await this.getDirectURL(path);
-        return { path, hash: hashString, url };
+        return { hash: hashString };
     }
 
-    public async listObjects(): Promise<FileReference[]> {
-        return await this.actor.listFileReferences();
-    }
-
-    public async getDirectURL(path: string): Promise<string> {
-        if (!path) {
-            throw new Error('Path must not be empty');
+    public async getDirectURL(hash: string): Promise<string> {
+        if (!hash) {
+            throw new Error('Hash must not be empty');
         }
-        const fileReference = await this.actor.getFileReference(path);
-
-        // Validate hash format received from backend
-        validateHashFormat(fileReference.hash, `getDirectURL for path '${path}'`);
-
-        return `${this.storageGatewayClient.getStorageGatewayUrl()}/${GATEWAY_VERSION}/blob/?blob_hash=${encodeURIComponent(fileReference.hash)}&owner_id=${encodeURIComponent(this.backendCanisterId)}&project_id=${encodeURIComponent(this.projectId)}`;
+        validateHashFormat(hash, `getDirectURL for path '${hash}'`);
+        return `${this.storageGatewayClient.getStorageGatewayUrl()}/${GATEWAY_VERSION}/blob/?blob_hash=${encodeURIComponent(hash)}&owner_id=${encodeURIComponent(this.backendCanisterId)}&project_id=${encodeURIComponent(this.projectId)}`;
     }
 
     private async processFileForUpload(
-        file: File,
+        file: Blob,
         headers: Headers
     ): Promise<{
         chunks: Blob[];
@@ -569,7 +543,7 @@ export class StorageClient {
         );
     }
 
-    private createFileChunks(file: File, chunkSize = 1024 * 1024): Blob[] {
+    private createFileChunks(file: Blob, chunkSize = 1024 * 1024): Blob[] {
         const chunks: Blob[] = [];
         const totalChunks = Math.ceil(file.size / chunkSize);
         for (let index = 0; index < totalChunks; index++) {

@@ -112,15 +112,10 @@ export function fromBackendProject(project: Project): ProjectDTO {
  * Convert backend Page to normalized PageDTO
  */
 export function fromBackendPage(page: Page): PageDTO {
-  // page.imageUrl is Candid Opt: [] for None, [string] for Some
-  const imageUrl = Array.isArray(page.imageUrl) && page.imageUrl.length > 0
-    ? page.imageUrl[0]
-    : undefined;
-
   return {
     pageNumber: bigIntToNumber(page.pageNumber),
     text: page.text,
-    imageUrl,
+    imageUrl: page.imageUrl,
     layout: page.layout,
   };
 }
@@ -150,7 +145,7 @@ export function toBackendPage(pageDTO: PageDTO): Page {
   return {
     pageNumber: BigInt(pageDTO.pageNumber),
     text: pageDTO.text,
-    imageUrl: pageDTO.imageUrl !== undefined ? [pageDTO.imageUrl] : [],
+    imageUrl: pageDTO.imageUrl,
     layout: pageDTO.layout,
   };
 }
