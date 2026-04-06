@@ -91,22 +91,44 @@
   flex-shrink: 0;
 }
 
-.subscribe-auth-section {
+.subscribe-checkout-section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.subscribe-auth-info {
+.subscribe-email-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.subscribe-label {
   font-family: 'Crimson Text', 'Georgia', serif;
   font-size: 0.95rem;
-  color: #7a6c5d;
-  line-height: 1.6;
-  text-align: center;
-  margin: 0;
-  padding: 1rem;
-  background: #f5f0ea;
+  color: #5d4e37;
+  font-weight: 600;
+}
+
+.subscribe-input {
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(139, 111, 71, 0.2);
   border-radius: 0.75rem;
+  background: #faf8f5;
+  color: #2d2418;
+  transition: border-color 0.2s ease;
+}
+
+.subscribe-input:focus {
+  border-color: #8b6f47;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
+}
+
+.subscribe-input::placeholder {
+  color: #b5a899;
 }
 
 .subscribe-cta {

@@ -1,25 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { CreditCard, CheckCircle, XCircle, Loader2, ArrowLeft, Fingerprint } from 'lucide-react';
+import { CreditCard, CheckCircle, XCircle, Loader2, ArrowLeft, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import { checkSubscription, createCheckoutSession, type SubscriptionStatus } from '../utils/checkSubscription';
+import {
+  checkSubscription,
+  createCheckoutSession,
+  createEmailCheckoutSession,
+  type SubscriptionStatus,
+} from '../utils/checkSubscription';
 import { toast } from 'sonner';
 import './SubscribePage.css';
 
 export default function SubscribePage() {
   const navigate = useNavigate();
-  const { identity, login, loginStatus } = useInternetIdentity();
+  const { identity, loginStatus } = useInternetIdentity();
   const [subscriptionStatus, setSubscriptionStatus] = useState<SubscriptionStatus | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreatingSession, setIsCreatingSession] = useState(false);
+  const [email, setEmail] = useState('');
 
   const isAuthenticated = !!identity;
   const userPrincipal = identity?.getPrincipal().toString();
-  const isLoggingIn = loginStatus === 'logging-in';
 
+  // Check subscription for authenticated users
   useEffect(() => {
     async function fetchSubscriptionStatus() {
       if (!isAuthenticated || !userPrincipal) {
@@ -42,26 +50,56 @@ export default function SubscribePage() {
     fetchSubscriptionStatus();
   }, [isAuthenticated, userPrincipal]);
 
-  // Auto-proceed to checkout after successful login on subscribe page
+  // Auto-proceed to Stripe for authenticated non-subscribed users
   useEffect(() => {
     if (isAuthenticated && userPrincipal && !subscriptionStatus?.isActive && !isLoading) {
-      handleSubscribe();
+      handlePrincipalCheckout();
     }
   }, [isAuthenticated, userPrincipal, isLoading]);
 
-  const handleSubscribe = async () => {
+  const handlePrincipalCheckout = async () => {
     if (!userPrincipal) return;
 
     setIsCreatingSession(true);
     try {
       const baseUrl = window.location.origin;
-      const successUrl = `${baseUrl}/subscription-success`;
-      const cancelUrl = `${baseUrl}/subscribe`;
-
-      const session = await createCheckoutSession(userPrincipal, successUrl, cancelUrl);
+      const session = await createCheckoutSession(
+        userPrincipal,
+        `${baseUrl}/subscription-success`,
+        `${baseUrl}/subscribe`
+      );
       window.location.href = session.url;
     } catch (error) {
       console.error('Error creating checkout session:', error);
+      toast.error('Failed to start checkout. Please try again.');
+      setIsCreatingSession(false);
+    }
+  };
+
+  const handleEmailCheckout = async () => {
+    const trimmed = email.trim();
+    if (!trimmed) {
+      toast.error('Please enter your email address');
+      return;
+    }
+
+    // Basic email validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    setIsCreatingSession(true);
+    try {
+      const baseUrl = window.location.origin;
+      const session = await createEmailCheckoutSession(
+        trimmed,
+        `${baseUrl}/subscription-success`,
+        `${baseUrl}/subscribe`
+      );
+      window.location.href = session.url;
+    } catch (error) {
+      console.error('Error creating email checkout session:', error);
       toast.error('Failed to start checkout. Please try again.');
       setIsCreatingSession(false);
     }
@@ -127,7 +165,7 @@ export default function SubscribePage() {
     );
   }
 
-  // Loading state
+  // Loading state for authenticated users
   if (isAuthenticated && (loginStatus === 'initializing' || isLoading || isCreatingSession)) {
     return (
       <div className="subscribe-page">
@@ -139,7 +177,7 @@ export default function SubscribePage() {
     );
   }
 
-  // Main subscribe view (not authenticated or has lapsed subscription)
+  // Main subscribe view — works for everyone (no account required)
   return (
     <div className="subscribe-page">
       <Button
@@ -186,34 +224,29 @@ export default function SubscribePage() {
           ))}
         </ul>
 
-        {!isAuthenticated ? (
-          <div className="subscribe-auth-section">
-            <p className="subscribe-auth-info">
-              Create a free account to get started. Quick and secure — just use your fingerprint, face, or security key. No passwords needed.
-            </p>
-            <button
-              className="subscribe-cta"
-              onClick={() => login()}
-              disabled={isLoggingIn}
-            >
-              {isLoggingIn ? (
-                <>
-                  <Loader2 size={18} className="animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                <>
-                  <Fingerprint size={18} />
-                  Create Account & Subscribe
-                </>
-              )}
-            </button>
+        <div className="subscribe-checkout-section">
+          <div className="subscribe-email-field">
+            <Label htmlFor="checkout-email" className="subscribe-label">
+              Your email address
+            </Label>
+            <Input
+              id="checkout-email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleEmailCheckout();
+              }}
+              className="subscribe-input"
+              disabled={isCreatingSession}
+            />
           </div>
-        ) : (
+
           <button
             className="subscribe-cta"
-            onClick={handleSubscribe}
-            disabled={isCreatingSession}
+            onClick={handleEmailCheckout}
+            disabled={isCreatingSession || !email.trim()}
           >
             {isCreatingSession ? (
               <>
@@ -227,7 +260,7 @@ export default function SubscribePage() {
               </>
             )}
           </button>
-        )}
+        </div>
 
         <p className="subscribe-note">Secure checkout powered by Stripe</p>
       </div>
