@@ -160,6 +160,11 @@ export function useTestFlow() {
       addLog('info', '─────────────────────────────────────────────────────');
 
       try {
+        // Ensure user is registered before creating project
+        addLog('info', '  Registering user with access control...');
+        await actor.initializeAccessControl();
+        addLog('success', '  ✓ User registered successfully');
+
         const projectIdNat = await actor.createProject('Amazon KDP Test Book - E2E Validation');
         projectId = projectIdNat.toString();
         addLog('success', `✓ Project created successfully`);
