@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { CreditCard, CheckCircle, XCircle, Loader2, ArrowLeft } from 'lucide-react';
+import { CreditCard, CheckCircle, XCircle, Loader2, ArrowLeft, Fingerprint } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { checkSubscription, createCheckoutSession, type SubscriptionStatus } from '../utils/checkSubscription';
 import { toast } from 'sonner';
+import './SubscribePage.css';
 
 export default function SubscribePage() {
   const navigate = useNavigate();
@@ -17,8 +18,8 @@ export default function SubscribePage() {
 
   const isAuthenticated = !!identity;
   const userPrincipal = identity?.getPrincipal().toString();
+  const isLoggingIn = loginStatus === 'logging-in';
 
-  // Check subscription status on mount and when authentication changes
   useEffect(() => {
     async function fetchSubscriptionStatus() {
       if (!isAuthenticated || !userPrincipal) {
@@ -41,11 +42,15 @@ export default function SubscribePage() {
     fetchSubscriptionStatus();
   }, [isAuthenticated, userPrincipal]);
 
-  const handleSubscribe = async () => {
-    if (!userPrincipal) {
-      toast.error('Please log in to subscribe');
-      return;
+  // Auto-proceed to checkout after successful login on subscribe page
+  useEffect(() => {
+    if (isAuthenticated && userPrincipal && !subscriptionStatus?.isActive && !isLoading) {
+      handleSubscribe();
     }
+  }, [isAuthenticated, userPrincipal, isLoading]);
+
+  const handleSubscribe = async () => {
+    if (!userPrincipal) return;
 
     setIsCreatingSession(true);
     try {
@@ -54,19 +59,12 @@ export default function SubscribePage() {
       const cancelUrl = `${baseUrl}/subscribe`;
 
       const session = await createCheckoutSession(userPrincipal, successUrl, cancelUrl);
-      
-      // Redirect to Stripe Checkout
       window.location.href = session.url;
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      toast.error('Failed to start checkout process. Please try again.');
+      toast.error('Failed to start checkout. Please try again.');
       setIsCreatingSession(false);
     }
-  };
-
-  const handleLoginPrompt = () => {
-    toast.info('Please log in with Internet Identity to subscribe');
-    login();
   };
 
   const formatDate = (timestamp: number) => {
@@ -77,39 +75,25 @@ export default function SubscribePage() {
     });
   };
 
-  return (
-    <div className="container py-10 max-w-4xl mx-auto">
-      <Button
-        variant="ghost"
-        onClick={() => navigate({ to: '/home' })}
-        className="mb-6"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Dashboard
-      </Button>
-
-      <div className="text-center mb-8">
-        <h1 className="font-display text-4xl mb-3">Subscription</h1>
-        <p className="text-lg text-muted-foreground">
-          Unlock premium features for your book creation journey
-        </p>
-      </div>
-
-      {isAuthenticated && (loginStatus === 'initializing' || isLoading) ? (
-        <Card className="border-2">
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <Loader2 className="h-12 w-12 animate-spin text-muted-foreground mb-4" />
-            <p className="text-muted-foreground">Loading subscription information...</p>
-          </CardContent>
-        </Card>
-      ) : isAuthenticated && subscriptionStatus?.isActive ? (
-        <Card className="border-2 border-green-200 bg-green-50/50">
+  // Active subscription view
+  if (isAuthenticated && subscriptionStatus?.isActive) {
+    return (
+      <div className="subscribe-page">
+        <Button
+          variant="ghost"
+          onClick={() => navigate({ to: '/home' })}
+          className="subscribe-back"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+        <Card className="subscribe-card subscribe-card-active">
           <CardHeader>
             <div className="flex items-center gap-3">
               <CheckCircle className="h-8 w-8 text-green-600" />
               <div>
                 <CardTitle className="font-display text-2xl">Active Subscription</CardTitle>
-                <CardDescription>You have full access to all premium features</CardDescription>
+                <CardDescription>You have full access to all features</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -135,79 +119,118 @@ export default function SubscribePage() {
           </CardContent>
           <CardFooter>
             <Button variant="outline" onClick={() => navigate({ to: '/home' })} className="w-full">
-              Return to Dashboard
+              Go to Dashboard
             </Button>
           </CardFooter>
         </Card>
-      ) : (
-        <div className="space-y-6">
-          {subscriptionStatus?.hasSubscription && !subscriptionStatus.isActive && (
-            <Alert>
-              <XCircle className="h-4 w-4" />
-              <AlertDescription>
-                Your subscription is currently {subscriptionStatus.status}. Subscribe again to regain access to premium features.
-              </AlertDescription>
-            </Alert>
-          )}
+      </div>
+    );
+  }
 
-          <Card className="border-2">
-            <CardHeader className="text-center">
-              <CardTitle className="font-display text-3xl mb-2">Premium Subscription</CardTitle>
-              <CardDescription className="text-lg">
-                Unlock the full potential of Bamm Book Builder
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-center py-6">
-                <div className="text-5xl font-bold mb-2">$9.99</div>
-                <div className="text-muted-foreground">per month</div>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="font-semibold text-lg mb-3">Premium Features:</h4>
-                <div className="space-y-2">
-                  {[
-                    'Unlimited book projects',
-                    'AI-powered illustration prompts',
-                    'Advanced export options',
-                    'Priority support',
-                    'Early access to new features',
-                  ].map((feature, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button
-                onClick={isAuthenticated ? handleSubscribe : handleLoginPrompt}
-                disabled={isCreatingSession}
-                size="lg"
-                className="w-full"
-              >
-                {isCreatingSession ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Starting checkout...
-                  </>
-                ) : (
-                  <>
-                    <CreditCard className="mr-2 h-5 w-5" />
-                    Subscribe Now — $9.99/month
-                  </>
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-
-          <p className="text-center text-sm text-muted-foreground">
-            Secure payment processing powered by Stripe. Cancel anytime.
-          </p>
+  // Loading state
+  if (isAuthenticated && (loginStatus === 'initializing' || isLoading || isCreatingSession)) {
+    return (
+      <div className="subscribe-page">
+        <div className="subscribe-loading">
+          <Loader2 className="h-10 w-10 animate-spin" style={{ color: '#7a6c5d' }} />
+          <p>{isCreatingSession ? 'Starting Stripe checkout...' : 'Loading...'}</p>
         </div>
+      </div>
+    );
+  }
+
+  // Main subscribe view (not authenticated or has lapsed subscription)
+  return (
+    <div className="subscribe-page">
+      <Button
+        variant="ghost"
+        onClick={() => navigate({ to: '/' })}
+        className="subscribe-back"
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
+
+      <div className="subscribe-header">
+        <h1>Start Publishing Today</h1>
+        <p>One simple plan. No hidden fees. Cancel anytime.</p>
+      </div>
+
+      {subscriptionStatus?.hasSubscription && !subscriptionStatus.isActive && (
+        <Alert className="subscribe-alert">
+          <XCircle className="h-4 w-4" />
+          <AlertDescription>
+            Your subscription is currently {subscriptionStatus.status}. Subscribe again to regain access.
+          </AlertDescription>
+        </Alert>
       )}
+
+      <div className="subscribe-card">
+        <div className="subscribe-price-section">
+          <span className="subscribe-price">$9.99</span>
+          <span className="subscribe-price-period">/month</span>
+        </div>
+
+        <ul className="subscribe-features">
+          {[
+            'Unlimited book projects',
+            'AI-powered illustration prompts',
+            'KDP-ready PDF export',
+            'Priority support',
+            'Cancel anytime',
+          ].map((feature, i) => (
+            <li key={i}>
+              <CheckCircle size={18} />
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        {!isAuthenticated ? (
+          <div className="subscribe-auth-section">
+            <p className="subscribe-auth-info">
+              Create a free account to get started. Quick and secure — just use your fingerprint, face, or security key. No passwords needed.
+            </p>
+            <button
+              className="subscribe-cta"
+              onClick={() => login()}
+              disabled={isLoggingIn}
+            >
+              {isLoggingIn ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Creating account...
+                </>
+              ) : (
+                <>
+                  <Fingerprint size={18} />
+                  Create Account & Subscribe
+                </>
+              )}
+            </button>
+          </div>
+        ) : (
+          <button
+            className="subscribe-cta"
+            onClick={handleSubscribe}
+            disabled={isCreatingSession}
+          >
+            {isCreatingSession ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Starting checkout...
+              </>
+            ) : (
+              <>
+                <CreditCard size={18} />
+                Subscribe Now — $9.99/month
+              </>
+            )}
+          </button>
+        )}
+
+        <p className="subscribe-note">Secure checkout powered by Stripe</p>
+      </div>
     </div>
   );
 }

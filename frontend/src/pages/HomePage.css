@@ -63,6 +63,14 @@
   box-shadow: 0 4px 16px rgba(93, 78, 55, 0.25);
 }
 
+.welcome-hint {
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 0.85rem;
+  color: #a0927f;
+  max-width: 320px;
+  line-height: 1.5;
+}
+
 /* ── Dashboard Header ──────────────────────────────── */
 .dashboard-header {
   display: flex;

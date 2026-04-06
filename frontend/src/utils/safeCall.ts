@@ -21,7 +21,7 @@ export function safeCall<T>(
         // Categorize errors
         if (errorMsg.includes('Anonymous') || errorMsg.includes('anonymous')) {
             console.error(`[safeCall:${operation}] ❌ ANONYMOUS CALL DETECTED`);
-            throw new Error(`${operation}: Please log in with Internet Identity to perform this action.`);
+            throw new Error(`${operation}: Please sign in to perform this action.`);
         }
 
         if (errorMsg.includes('reject code 5') || errorMsg.includes('code: 5')) {

@@ -98,7 +98,7 @@ export default function HomePage() {
         
         // Check if it's an authentication error
         if (errorMessage.includes('log in') || errorMessage.includes('Unauthorized')) {
-          toast.error('Please log in with Internet Identity to create projects');
+          toast.error('Please sign in to create projects');
         } else {
           toast.error(errorMessage);
         }
@@ -124,7 +124,7 @@ export default function HomePage() {
   };
 
   const handleLoginPrompt = () => {
-    toast.info('Please log in with Internet Identity to create projects');
+    toast.info('Please sign in to get started');
     login();
   };
 
@@ -155,6 +155,9 @@ export default function HomePage() {
             <LogIn size={18} />
             Sign In to Get Started
           </button>
+          <span className="welcome-hint">
+            Quick &amp; secure — use your fingerprint, face, or security key. No passwords.
+          </span>
         </section>
       </div>
     );
