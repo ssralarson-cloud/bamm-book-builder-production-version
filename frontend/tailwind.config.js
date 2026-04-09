@@ -18,6 +18,7 @@ export default {
         sans: ['Nunito', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         display: ['Playfair Display', 'Georgia', 'serif'],
         body: ['Nunito', 'sans-serif'],
+        whimsy: ['Amatic SC', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",

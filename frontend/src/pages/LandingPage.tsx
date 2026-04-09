@@ -31,7 +31,10 @@ export default function LandingPage() {
             </span>
           </h1>
 
-          <p className="fade-in mx-auto mt-6 max-w-xl text-lg leading-relaxed text-cream-700">
+          <p className="fade-in mx-auto mt-4 max-w-md font-whimsy text-2xl text-terracotta-400 md:text-3xl">
+            Make your child the hero of their own story
+          </p>
+          <p className="fade-in mx-auto mt-4 max-w-xl text-lg leading-relaxed text-cream-700">
             Write your story, add beautiful AI illustrations, and publish a real book on Amazon KDP — all from your browser. It's that simple.
           </p>
 
