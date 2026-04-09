@@ -1,6 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import { BookOpen, Sparkles, FileDown, CheckCircle, ArrowRight, Star, Heart, Palette, Shield, Zap, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { OwlLogo } from '@/components/OwlLogo';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -15,13 +16,12 @@ export default function LandingPage() {
         <div className="pointer-events-none absolute bottom-0 left-1/3 h-40 w-40 rounded-full bg-blush-100/40 blur-3xl" />
 
         <div className="container relative mx-auto px-4 text-center">
-          {/* Cute emoji accent */}
-          <div className="mb-6 flex items-center justify-center gap-2 fade-in">
-            <span className="text-2xl">&#x1F33F;</span>
+          {/* Owl logo accent */}
+          <div className="mb-6 flex flex-col items-center gap-3 fade-in">
+            <OwlLogo size={72} className="drop-shadow-lg" />
             <span className="rounded-full bg-sage-100 px-4 py-1.5 text-sm font-semibold tracking-wide text-sage-700">
               Children's Book Creator
             </span>
-            <span className="text-2xl">&#x1F33F;</span>
           </div>
 
           <h1 className="fade-in mx-auto max-w-3xl font-display text-5xl font-bold leading-tight text-cream-900 md:text-7xl">

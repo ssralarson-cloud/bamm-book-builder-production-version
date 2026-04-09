@@ -5,6 +5,7 @@ import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useActor } from '../hooks/useActorExtended';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { OwlLogo } from './OwlLogo';
 import './Header.css';
 
 export default function Header() {
@@ -50,8 +51,8 @@ export default function Header() {
   return (
     <header className="simple-header">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
-          <span className="text-xl">&#x1F4DA;</span>
+        <Link to="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
+          <OwlLogo size={34} />
           <span className="simple-title">BAM Book Builder</span>
         </Link>
 
