@@ -1,14 +1,14 @@
 import { Heart } from 'lucide-react';
+import { OwlLogo } from './OwlLogo';
 import './Footer.css';
 
 export default function Footer() {
   return (
     <footer className="simple-footer">
-      <div className="container flex flex-col items-center justify-center gap-2 py-8 text-center">
+      <div className="container flex flex-col items-center justify-center gap-3 py-8 text-center">
+        <OwlLogo size={28} className="opacity-50" />
         <div className="flex items-center gap-2 simple-footer-text">
-          <span>&#x1F33F;</span>
           <span>2025 BAM Book Builder</span>
-          <span>&#x1F33F;</span>
         </div>
         <div className="flex items-center gap-1.5 text-sm simple-footer-text">
           <span>Made with</span>

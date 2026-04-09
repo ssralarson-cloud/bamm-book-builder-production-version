@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { BookOpen, Trash2, Calendar, Edit, LogIn, Loader2 } from 'lucide-react';
+import { BookOpen, Trash2, Calendar, Edit, LogIn, Loader2, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useActor } from '../hooks/useActorExtended';
+import { OwlLogo } from '../components/OwlLogo';
 import type { ProjectDTO } from '../lib/exportUtils';
 import './HomePage.css';
 
@@ -172,40 +173,40 @@ export default function HomePage() {
         </DialogContent>
       </Dialog>
 
-      {/* Hero Section - Clean Text Only */}
-      <section className="hero-section relative mb-12 overflow-hidden rounded-lg border-2 border-border bg-secondary/20 shadow-lg">
+      {/* Hero Section — Boho style */}
+      <section className="hero-section relative mb-12 overflow-hidden rounded-3xl border-2 border-cream-200 bg-gradient-to-br from-cream-50 via-white to-sage-50/30 shadow-boho">
+        <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-terracotta-100/30 blur-3xl" />
+        <div className="pointer-events-none absolute -left-8 bottom-0 h-32 w-32 rounded-full bg-sage-100/40 blur-3xl" />
+
         <div className="relative p-8 md:p-12">
-          <div className="flex flex-col items-center gap-6 text-center">
-            <div className="flex-1">
-              <div className="mb-3 flex items-center justify-center gap-3">
-                <h1 className="text-4xl font-bold text-foreground md:text-5xl">
-                  Bamm Book Builder
-                </h1>
-              </div>
-              <p className="mb-6 text-lg leading-relaxed text-muted-foreground">
-                Craft timeless children's tales in the universal 8.5×8.5" format. 
-                Optimized for Amazon KDP with elegant print compliance, 
-                refined formatting, and professional PDF export.
+          <div className="flex flex-col items-center gap-5 text-center">
+            <OwlLogo size={56} className="drop-shadow-md" />
+            <div>
+              <h1 className="font-display text-3xl font-bold text-cream-900 md:text-4xl">
+                Your Book Studio
+              </h1>
+              <p className="mx-auto mt-3 max-w-lg text-cream-600">
+                Create beautiful children's books with AI illustrations and export print-ready files for Amazon KDP.
               </p>
-              <div className="create-project-button">
-                {isInitializing ? (
-                  <Button size="lg" className="gap-2 shadow-lg" disabled>
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Initializing...
-                  </Button>
-                ) : isAuthenticated ? (
-                  <NewProjectDialog 
-                    onCreateProject={handleCreateProject}
-                    isCreating={isCreating}
-                    disabled={!isInitialized}
-                  />
-                ) : (
-                  <Button size="lg" className="gap-2 shadow-lg" onClick={handleLoginPrompt}>
-                    <LogIn className="h-5 w-5" />
-                    Log In to Begin
-                  </Button>
-                )}
-              </div>
+            </div>
+            <div className="create-project-button">
+              {isInitializing ? (
+                <Button size="lg" className="gap-2 rounded-full bg-terracotta-500 px-8 shadow-boho hover:bg-terracotta-600" disabled>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Initializing...
+                </Button>
+              ) : isAuthenticated ? (
+                <NewProjectDialog
+                  onCreateProject={handleCreateProject}
+                  isCreating={isCreating}
+                  disabled={!isInitialized}
+                />
+              ) : (
+                <Button size="lg" className="gap-2 rounded-full bg-terracotta-500 px-8 text-white shadow-boho hover:bg-terracotta-600" onClick={handleLoginPrompt}>
+                  <LogIn className="h-5 w-5" />
+                  Sign In to Start Creating
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -221,7 +222,14 @@ export default function HomePage() {
       {/* Projects Section */}
       <section className="project-list">
         <div className="section-header mb-6 flex items-center justify-between">
-          <h2 className="text-3xl font-bold">Your Book Projects</h2>
+          <h2 className="font-display text-2xl font-bold text-cream-900">Your Books</h2>
+          {isAuthenticated && isInitialized && projects && projects.length > 0 && (
+            <NewProjectDialog
+              onCreateProject={handleCreateProject}
+              isCreating={isCreating}
+              disabled={!isInitialized}
+            />
+          )}
         </div>
 
         {isInitializing ? (
@@ -276,20 +284,20 @@ export default function HomePage() {
             ))}
           </div>
         ) : (
-          <Card className="border-2 border-dashed">
-            <CardContent className="empty-state flex flex-col items-center justify-center py-12 text-center">
-              <BookOpen className="mb-4 h-24 w-24 text-muted-foreground opacity-40" />
-              <h3 className="mb-2 text-xl font-bold">No tales yet written</h3>
-              <p className="mb-4 text-muted-foreground">
-                Begin your first Amazon KDP children's book project to embark on this journey.
+          <Card className="border-2 border-dashed border-cream-300 bg-cream-50/50">
+            <CardContent className="empty-state flex flex-col items-center justify-center py-16 text-center">
+              <OwlLogo size={72} className="mb-4 opacity-50" />
+              <h3 className="mb-2 font-display text-xl font-bold text-cream-800">Your bookshelf is empty</h3>
+              <p className="mb-6 max-w-sm text-cream-600">
+                Start your first children's book project — our owl friend will help you every step of the way!
               </p>
-              <NewProjectDialog 
+              <NewProjectDialog
                 onCreateProject={handleCreateProject}
                 isCreating={isCreating}
                 disabled={!isInitialized}
                 trigger={
-                  <Button disabled={!isInitialized}>
-                    <BookOpen className="mr-2 h-4 w-4" />
+                  <Button disabled={!isInitialized} className="gap-2 rounded-full bg-terracotta-500 px-6 text-white shadow-boho hover:bg-terracotta-600">
+                    <Plus className="h-4 w-4" />
                     Create Your First Book
                   </Button>
                 }
@@ -336,18 +344,18 @@ function ProjectCard({
   const { data: validation, isLoading: isLoadingValidation } = useKDPValidation(project.id);
 
   return (
-    <Card className="project-card border-2 card-elevated">
-      <CardHeader>
+    <Card className="project-card overflow-hidden rounded-2xl border-2 border-cream-200 bg-white shadow-sm transition-all hover:shadow-boho hover:border-terracotta-200">
+      <CardHeader className="bg-gradient-to-r from-cream-50 to-sage-50/30 pb-3">
         <CardTitle className="flex items-start justify-between gap-2">
-          <span className="line-clamp-2 text-lg font-bold">{project.title}</span>
-          <BookOpen className="h-5 w-5 flex-shrink-0 text-foreground" />
+          <span className="line-clamp-2 font-display text-lg font-bold text-cream-900">{project.title}</span>
+          <BookOpen className="h-5 w-5 flex-shrink-0 text-terracotta-400" />
         </CardTitle>
         <CardDescription className="flex items-center justify-between gap-2">
-          <span className="flex items-center gap-2 text-xs">
+          <span className="flex items-center gap-1.5 text-xs text-cream-500">
             <Calendar className="h-3 w-3" />
             {formatDate(project.createdAt)}
           </span>
-          <KDPComplianceBadge 
+          <KDPComplianceBadge
             isValid={validation?.isValid ?? null}
             isLoading={isLoadingValidation}
             errors={validation?.errors}
@@ -356,22 +364,23 @@ function ProjectCard({
           />
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-2 text-sm text-muted-foreground">
-          <p>Pages: {project.pages.length}</p>
-          <p className="line-clamp-2 italic">
-            {project.story ? `"${project.story.substring(0, 100)}..."` : 'No story yet written'}
+      <CardContent className="pt-3">
+        <div className="space-y-1.5 text-sm">
+          <p className="text-xs font-semibold text-cream-700">{project.pages.length} pages</p>
+          <p className="line-clamp-2 font-serif text-xs italic leading-relaxed text-cream-600">
+            {project.story ? `"${project.story.substring(0, 100)}..."` : 'No story yet'}
           </p>
         </div>
       </CardContent>
-      <CardFooter className="flex gap-2">
-        <Button className="flex-1" onClick={onEdit}>
-          <Edit className="mr-2 h-4 w-4" />
-          Edit
+      <CardFooter className="flex gap-2 border-t border-cream-100 bg-cream-50/30 pt-3">
+        <Button className="flex-1 gap-2 rounded-full bg-terracotta-500 text-white hover:bg-terracotta-600" onClick={onEdit}>
+          <Edit className="h-4 w-4" />
+          Edit Book
         </Button>
         <Button
-          variant="destructive"
+          variant="ghost"
           size="icon"
+          className="rounded-full text-cream-500 hover:bg-red-50 hover:text-red-500"
           onClick={onDelete}
           disabled={isDeleting}
         >
