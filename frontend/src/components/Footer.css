@@ -1,20 +1,25 @@
+/* ── Boho Footer ───────────────────────────────────── */
 .simple-footer {
   position: relative;
-  background: #f9f9f9;
-  border-top: 1px solid #e0e0e0;
+  background: linear-gradient(180deg, hsl(33 20% 93%) 0%, hsl(33 25% 91%) 100%);
+  border-top: 1px solid rgba(227, 219, 210, 0.6);
   margin-top: auto;
 }
 
 .simple-footer-text {
-  color: #555555;
+  font-family: 'Nunito', sans-serif;
+  color: #7a6e62;
+  font-size: 0.875rem;
 }
 
 .simple-link {
-  color: #4a90e2;
-  text-decoration: underline;
+  color: #bf6a3a;
+  text-decoration: none;
+  font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .simple-link:hover {
-  color: #357abd;
+  color: #a85a30;
+  text-decoration: underline;
 }

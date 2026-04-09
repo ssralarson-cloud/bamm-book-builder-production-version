@@ -1,4 +1,4 @@
-/* ── Subscribe Page — Clean Boho ────────────────────── */
+/* ── Subscribe Page — Cute Boho ─────────────────────── */
 
 .subscribe-page {
   max-width: 480px;
@@ -8,8 +8,15 @@
 
 .subscribe-back {
   margin-bottom: 2rem;
-  font-family: 'Crimson Text', 'Georgia', serif;
-  color: #7a6c5d;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  color: #7a6e62;
+  border-radius: 9999px;
+}
+
+.subscribe-back:hover {
+  color: #bf6a3a;
+  background: rgba(191, 106, 58, 0.06);
 }
 
 .subscribe-header {
@@ -18,56 +25,58 @@
 }
 
 .subscribe-header h1 {
-  font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #2d2418;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #3d2e1f;
   margin: 0 0 0.5rem;
 }
 
 .subscribe-header p {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 1.1rem;
-  color: #7a6c5d;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  color: #7a6e62;
   margin: 0;
 }
 
 .subscribe-alert {
   margin-bottom: 1.5rem;
+  border-radius: 1rem;
 }
 
 .subscribe-card {
   background: #ffffff;
-  border: 1px solid rgba(139, 111, 71, 0.1);
-  border-radius: 1.25rem;
+  border: 2px solid rgba(191, 106, 58, 0.12);
+  border-radius: 1.5rem;
   padding: 2.5rem 2rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 24px rgba(139, 109, 71, 0.06);
 }
 
 .subscribe-card-active {
-  border-color: rgba(34, 197, 94, 0.2);
-  background: rgba(240, 253, 244, 0.5);
+  border-color: rgba(90, 154, 96, 0.25);
+  background: rgba(243, 248, 242, 0.6);
 }
 
 .subscribe-price-section {
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(139, 111, 71, 0.08);
+  border-bottom: 1px solid rgba(191, 106, 58, 0.1);
 }
 
 .subscribe-price {
-  font-family: 'Playfair Display', 'Georgia', serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 3.5rem;
   font-weight: 700;
-  color: #2d2418;
+  color: #3d2e1f;
   line-height: 1;
 }
 
 .subscribe-price-period {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 1.1rem;
-  color: #7a6c5d;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  color: #7a6e62;
+  font-weight: 600;
 }
 
 .subscribe-features {
@@ -77,9 +86,10 @@
 }
 
 .subscribe-features li {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 1.05rem;
-  color: #2d2418;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #3d2e1f;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -87,7 +97,7 @@
 }
 
 .subscribe-features li svg {
-  color: #8fa87e;
+  color: #5a9a60;
   flex-shrink: 0;
 }
 
@@ -104,68 +114,71 @@
 }
 
 .subscribe-label {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 0.95rem;
-  color: #5d4e37;
-  font-weight: 600;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  color: #5c5348;
+  font-weight: 700;
 }
 
 .subscribe-input {
-  font-family: 'Crimson Text', 'Georgia', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   padding: 0.75rem 1rem;
-  border: 2px solid rgba(139, 111, 71, 0.2);
+  border: 2px solid rgba(191, 106, 58, 0.15);
   border-radius: 0.75rem;
-  background: #faf8f5;
-  color: #2d2418;
-  transition: border-color 0.2s ease;
+  background: #fdfbf8;
+  color: #3d2e1f;
+  transition: all 0.2s ease;
 }
 
 .subscribe-input:focus {
-  border-color: #8b6f47;
+  border-color: #bf6a3a;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
+  box-shadow: 0 0 0 3px rgba(191, 106, 58, 0.1);
 }
 
 .subscribe-input::placeholder {
-  color: #b5a899;
+  color: #bfa88c;
 }
 
 .subscribe-cta {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
   padding: 0.9rem 2rem;
-  background: #5d4e37;
-  color: #faf8f5;
+  background: #bf6a3a;
+  color: #fff;
   border: none;
-  border-radius: 2rem;
+  border-radius: 9999px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 12px rgba(191, 106, 58, 0.2);
 }
 
 .subscribe-cta:hover:not(:disabled) {
-  background: #4a3d2b;
-  box-shadow: 0 4px 16px rgba(93, 78, 55, 0.25);
+  background: #a85a30;
+  box-shadow: 0 4px 20px rgba(191, 106, 58, 0.3);
+  transform: translateY(-1px);
 }
 
 .subscribe-cta:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .subscribe-note {
-  font-family: 'Crimson Text', 'Georgia', serif;
-  font-size: 0.85rem;
-  color: #a0927f;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  color: #bfa88c;
   text-align: center;
   margin: 1.25rem 0 0;
+  font-weight: 600;
 }
 
 .subscribe-loading {
@@ -178,9 +191,10 @@
 }
 
 .subscribe-loading p {
-  font-family: 'Crimson Text', 'Georgia', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1rem;
-  color: #7a6c5d;
+  color: #7a6e62;
+  font-weight: 600;
 }
 
 @media (max-width: 480px) {

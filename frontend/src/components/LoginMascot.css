@@ -1,11 +1,13 @@
+/* ── Login Welcome — Boho ──────────────────────────── */
+
 .simple-mascot {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  background: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: hsl(33 40% 97%);
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 12px rgba(139, 109, 71, 0.06);
 }
 
 .simple-mascot-container {
@@ -18,21 +20,23 @@
 
 .simple-mascot-content {
   text-align: center;
-  background-color: #ffffff;
+  background-color: #fdfbf8;
   padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border-radius: 1rem;
+  border: 1.5px solid hsl(30 20% 88%);
 }
 
 .simple-mascot-title {
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333333;
+  color: #3d2e1f;
   margin-bottom: 0.75rem;
 }
 
 .simple-mascot-message {
+  font-family: 'Nunito', sans-serif;
   font-size: 1rem;
-  color: #666666;
-  line-height: 1.6;
+  color: #7a6e62;
+  line-height: 1.7;
 }

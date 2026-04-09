@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router';
-import { Home, FlaskConical, Loader2 } from 'lucide-react';
+import { Home, CreditCard, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useActor } from '../hooks/useActorExtended';
@@ -17,35 +17,31 @@ export default function Header() {
   const isInitializing = loginStatus === 'initializing' || (isAuthenticated && !isInitialized);
   const isLoggingIn = loginStatus === 'logging-in';
   const disabled = isLoggingIn || isInitializing;
-  
-  const buttonText = isLoggingIn 
-    ? 'Logging in...' 
+
+  const buttonText = isLoggingIn
+    ? 'Signing in...'
     : isInitializing
     ? 'Preparing...'
-    : isAuthenticated 
-    ? 'Logout' 
-    : 'Login';
+    : isAuthenticated
+    ? 'Sign Out'
+    : 'Sign In';
 
   const handleAuth = async () => {
     if (isAuthenticated) {
-      console.log('[Header] Logging out');
       await clear();
       queryClient.clear();
-      toast.success('Logged out successfully');
+      toast.success('Signed out successfully');
       navigate({ to: '/' });
     } else {
       try {
-        console.log('[Header] Initiating login');
         await login();
-        toast.success('Welcome!');
+        toast.success('Welcome back!');
       } catch (error: any) {
-        console.error('[Header] Login error:', error);
         if (error.message === 'User is already authenticated') {
-          console.log('[Header] User already authenticated, clearing and retrying');
           await clear();
           setTimeout(() => login(), 300);
         } else {
-          toast.error('Could not log in. Please try again.');
+          toast.error('Could not sign in. Please try again.');
         }
       }
     }
@@ -54,18 +50,19 @@ export default function Header() {
   return (
     <header className="simple-header">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-          <span className="simple-title">Bamm Book Builder</span>
+        <Link to="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
+          <span className="text-xl">&#x1F4DA;</span>
+          <span className="simple-title">BAM Book Builder</span>
         </Link>
 
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-1.5">
           <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/' })} className="simple-nav-button">
-            <Home className="mr-2 h-4 w-4" />
+            <Home className="mr-1.5 h-4 w-4" />
             Home
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/test' })} className="simple-nav-button">
-            <FlaskConical className="mr-2 h-4 w-4" />
-            Tests
+          <Button variant="ghost" size="sm" onClick={() => navigate({ to: '/subscribe' })} className="simple-nav-button">
+            <CreditCard className="mr-1.5 h-4 w-4" />
+            Pricing
           </Button>
           <Button
             variant={isAuthenticated ? 'outline' : 'default'}
@@ -76,7 +73,7 @@ export default function Header() {
           >
             {isLoggingIn || isInitializing ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
                 {buttonText}
               </>
             ) : (

@@ -1,6 +1,5 @@
-/* NewProjectDialog Modal Styling - Ultra Clean Minimal Theme */
+/* ── New Project Dialog — Boho ──────────────────────── */
 
-/* Dialog wrapper - ensure fixed positioning */
 .dialog-wrapper {
   position: fixed !important;
   inset: 0;
@@ -10,26 +9,24 @@
   justify-content: center;
 }
 
-/* Dialog overlay - backdrop */
 .dialog-overlay {
   position: fixed !important;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(61, 46, 31, 0.4);
   backdrop-filter: blur(4px);
   z-index: 9998 !important;
   animation: fadeIn 0.2s ease-out;
 }
 
-/* Dialog box - main container */
 .dialog-box {
   position: fixed !important;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 0.75rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.05);
+  background-color: #faf6f1;
+  border: 1.5px solid hsl(30 20% 88%);
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 40px rgba(61, 46, 31, 0.15);
   max-width: 32rem;
   width: calc(100% - 2rem);
   max-height: 90vh;
@@ -40,64 +37,48 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -45%) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+  from { opacity: 0; transform: translate(-50%, -45%) scale(0.95); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
-/* Dialog buttons container */
 .dialog-buttons {
   display: flex;
   gap: 0.75rem;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid hsl(30 20% 88%);
   justify-content: flex-end;
   flex-wrap: wrap;
   z-index: 10000;
 }
 
-/* Button styling within dialog */
 .dialog-buttons button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
   line-height: 1.5;
-  border-radius: 0.5rem;
-  border: 1px solid #4a90e2;
+  border-radius: 9999px;
+  border: 1.5px solid #bf6a3a;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(191, 106, 58, 0.15);
   white-space: nowrap;
   z-index: 10001;
 }
 
 .dialog-buttons button:hover:not(:disabled) {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(191, 106, 58, 0.25);
   transform: translateY(-1px);
-}
-
-.dialog-buttons button:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .dialog-buttons button:disabled {
@@ -105,24 +86,20 @@
   cursor: not-allowed;
 }
 
-/* Ensure dialog content is scrollable if needed */
 .dialog-box > div {
   position: relative;
   z-index: 1;
 }
 
-/* Responsive adjustments */
 @media (max-width: 640px) {
   .dialog-box {
     width: calc(100% - 1rem);
     padding: 1.5rem;
     max-height: 95vh;
   }
-  
   .dialog-buttons {
     flex-direction: column;
   }
-  
   .dialog-buttons button {
     width: 100%;
   }

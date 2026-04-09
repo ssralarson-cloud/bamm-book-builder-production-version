@@ -1,36 +1,49 @@
+/* ── Boho Header ───────────────────────────────────── */
 .simple-header {
-  position: relative;
-  background: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(250, 246, 241, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(227, 219, 210, 0.6);
 }
 
 .simple-title {
-  font-size: 1.25rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
   font-weight: 700;
-  color: #333333;
-  letter-spacing: 0.5px;
+  color: #3d2e1f;
+  letter-spacing: 0.02em;
 }
 
 .simple-nav-button {
-  color: #555555;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  color: #7a6e62;
+  border-radius: 9999px;
   transition: all 0.2s ease;
 }
 
 .simple-nav-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: #333333;
+  background-color: rgba(191, 106, 58, 0.06);
+  color: #bf6a3a;
 }
 
 .simple-auth-button {
-  font-weight: 600;
-  background: #4a90e2;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  background: #bf6a3a;
   color: #ffffff;
-  border: 1px solid #4a90e2;
-  transition: all 0.2s ease;
+  border: 1px solid #bf6a3a;
+  border-radius: 9999px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(191, 106, 58, 0.2);
 }
 
 .simple-auth-button:hover {
-  background: #357abd;
-  border-color: #357abd;
+  background: #a85a30;
+  border-color: #a85a30;
+  box-shadow: 0 4px 12px rgba(191, 106, 58, 0.3);
+  transform: translateY(-1px);
 }

@@ -1,10 +1,12 @@
+/* ── Loading Animation — Boho ──────────────────────── */
+
 .simple-loading {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 400px;
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: hsl(33 40% 97%);
+  border-radius: 1.25rem;
   padding: 2rem;
 }
 
@@ -18,24 +20,21 @@
 .simple-spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid #e0e0e0;
-  border-top-color: #4a90e2;
+  border: 4px solid hsl(30 20% 88%);
+  border-top-color: #bf6a3a;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .simple-loading-text {
+  font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   font-weight: 600;
-  color: #555555;
+  color: #7a6e62;
   text-align: center;
 }
