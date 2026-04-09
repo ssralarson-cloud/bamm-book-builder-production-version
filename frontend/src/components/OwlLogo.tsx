@@ -1,8 +1,8 @@
 /**
- * OwlLogo — A cute boho owl reading a book, rendered as inline SVG.
- * Uses the app's terracotta / sage / cream palette.
+ * OwlLogo — A classic, simple black-and-white owl reading a book.
+ * Clean line-art style, slightly larger default size.
  */
-export function OwlLogo({ size = 36, className = '' }: { size?: number; className?: string }) {
+export function OwlLogo({ size = 40, className = '' }: { size?: number; className?: string }) {
   return (
     <svg
       width={size}
@@ -13,85 +13,57 @@ export function OwlLogo({ size = 36, className = '' }: { size?: number; classNam
       className={className}
       aria-label="BAM Book Builder owl logo"
     >
-      {/* Body — rounded warm shape */}
-      <ellipse cx="32" cy="38" rx="18" ry="20" fill="#e8d5c4" />
-
-      {/* Belly patch */}
-      <ellipse cx="32" cy="42" rx="11" ry="12" fill="#faf6f1" />
-
-      {/* Left wing */}
-      <path
-        d="M14 34c-3 4-4 12-1 16 2-3 5-8 7-10z"
-        fill="#bf6a3a"
-        opacity="0.7"
-      />
-      {/* Right wing */}
-      <path
-        d="M50 34c3 4 4 12 1 16-2-3-5-8-7-10z"
-        fill="#bf6a3a"
-        opacity="0.7"
-      />
-
       {/* Ear tufts */}
-      <path d="M20 20l-4-8c2 1 6 4 7 7z" fill="#bf6a3a" opacity="0.8" />
-      <path d="M44 20l4-8c-2 1-6 4-7 7z" fill="#bf6a3a" opacity="0.8" />
+      <path d="M18 18l-5-10c3 2 7 5 8 9z" fill="#222" />
+      <path d="M46 18l5-10c-3 2-7 5-8 9z" fill="#222" />
 
       {/* Head */}
-      <circle cx="32" cy="24" r="14" fill="#d4b896" />
+      <circle cx="32" cy="22" r="16" fill="#222" />
 
-      {/* Face disc — lighter area around eyes */}
-      <ellipse cx="25" cy="24" rx="7" ry="7.5" fill="#faf6f1" />
-      <ellipse cx="39" cy="24" rx="7" ry="7.5" fill="#faf6f1" />
+      {/* Face discs — classic owl look */}
+      <circle cx="24" cy="22" r="9" fill="white" />
+      <circle cx="40" cy="22" r="9" fill="white" />
 
-      {/* Eyes — big cute circles */}
-      <circle cx="25" cy="24" r="5" fill="#3d2e1f" />
-      <circle cx="39" cy="24" r="5" fill="#3d2e1f" />
+      {/* Eyes — large, simple, classic */}
+      <circle cx="24" cy="22" r="6" fill="#222" />
+      <circle cx="40" cy="22" r="6" fill="#222" />
 
-      {/* Eye shine */}
-      <circle cx="27" cy="22.5" r="1.8" fill="white" />
-      <circle cx="41" cy="22.5" r="1.8" fill="white" />
-      <circle cx="24" cy="25.5" r="0.8" fill="white" />
-      <circle cx="38" cy="25.5" r="0.8" fill="white" />
+      {/* Eye shine — single clean dot */}
+      <circle cx="26.5" cy="20" r="2.2" fill="white" />
+      <circle cx="42.5" cy="20" r="2.2" fill="white" />
 
-      {/* Beak */}
-      <path d="M30 28l2 3.5 2-3.5z" fill="#bf6a3a" />
+      {/* Beak — small triangle */}
+      <path d="M30 28l2 3 2-3z" fill="#555" />
 
-      {/* Blush cheeks */}
-      <circle cx="20" cy="28" r="2.5" fill="#c97a63" opacity="0.35" />
-      <circle cx="44" cy="28" r="2.5" fill="#c97a63" opacity="0.35" />
+      {/* Body */}
+      <ellipse cx="32" cy="44" rx="16" ry="16" fill="#222" />
+
+      {/* Belly — white chest patch */}
+      <ellipse cx="32" cy="46" rx="10" ry="11" fill="white" />
+
+      {/* Belly chevron lines — classic owl feather pattern */}
+      <path d="M27 41l5 3 5-3" stroke="#ccc" strokeWidth="0.8" fill="none" />
+      <path d="M26 44.5l6 3 6-3" stroke="#ccc" strokeWidth="0.8" fill="none" />
+      <path d="M27 48l5 3 5-3" stroke="#ccc" strokeWidth="0.8" fill="none" />
+
+      {/* Wings — tucked at sides */}
+      <path d="M16 36c-2 5-2 14 1 17 1-4 3-10 4-12z" fill="#333" />
+      <path d="M48 36c2 5 2 14-1 17-1-4-3-10-4-12z" fill="#333" />
 
       {/* Feet */}
-      <ellipse cx="27" cy="57" rx="4" ry="1.5" fill="#bf6a3a" opacity="0.7" />
-      <ellipse cx="37" cy="57" rx="4" ry="1.5" fill="#bf6a3a" opacity="0.7" />
+      <ellipse cx="27" cy="59" rx="4" ry="1.5" fill="#555" />
+      <ellipse cx="37" cy="59" rx="4" ry="1.5" fill="#555" />
 
-      {/* ── Book the owl is reading ── */}
-      {/* Left page */}
-      <path
-        d="M20 46c0-1 1-2 3-2h9v10h-9c-2 0-3-1-3-2z"
-        fill="#a8c5a0"
-        opacity="0.85"
-      />
-      {/* Right page */}
-      <path
-        d="M44 46c0-1-1-2-3-2h-9v10h9c2 0 3-1 3-2z"
-        fill="#5a9a60"
-        opacity="0.75"
-      />
-      {/* Book spine */}
-      <line x1="32" y1="44" x2="32" y2="54" stroke="#3d2e1f" strokeWidth="0.8" />
+      {/* ── Open book ── */}
+      <path d="M19 50c0-1 1-2 3-2h10v9H22c-2 0-3-.8-3-2z" fill="white" stroke="#222" strokeWidth="0.8" />
+      <path d="M45 50c0-1-1-2-3-2H32v9h10c2 0 3-.8 3-2z" fill="white" stroke="#222" strokeWidth="0.8" />
+      <line x1="32" y1="48" x2="32" y2="57" stroke="#222" strokeWidth="1" />
 
-      {/* Book page lines */}
-      <line x1="24" y1="48" x2="30" y2="48" stroke="#3d2e1f" strokeWidth="0.4" opacity="0.3" />
-      <line x1="24" y1="50" x2="29" y2="50" stroke="#3d2e1f" strokeWidth="0.4" opacity="0.3" />
-      <line x1="34" y1="48" x2="40" y2="48" stroke="#3d2e1f" strokeWidth="0.4" opacity="0.3" />
-      <line x1="34" y1="50" x2="39" y2="50" stroke="#3d2e1f" strokeWidth="0.4" opacity="0.3" />
-
-      {/* Tiny heart above the book */}
-      <path
-        d="M32 42c-.6-1.2-2.2-1.5-3-.5-.8 1 0 2.2 3 3.8 3-1.6 3.8-2.8 3-3.8-.8-1-2.4-.7-3 .5z"
-        fill="#c97a63"
-        opacity="0.6"
-      />
+      {/* Page lines */}
+      <line x1="23" y1="52" x2="30" y2="52" stroke="#bbb" strokeWidth="0.5" />
+      <line x1="23" y1="54" x2="28" y2="54" stroke="#bbb" strokeWidth="0.5" />
+      <line x1="34" y1="52" x2="41" y2="52" stroke="#bbb" strokeWidth="0.5" />
+      <line x1="34" y1="54" x2="39" y2="54" stroke="#bbb" strokeWidth="0.5" />
     </svg>
   );
 }
