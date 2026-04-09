@@ -174,7 +174,7 @@ export default function HomePage() {
 
       {/* Hero Section - Clean Text Only */}
       <section className="hero-section relative mb-12 overflow-hidden rounded-lg border-2 border-border bg-secondary/20 shadow-lg">
-        <div className="relative z-interactive p-8 md:p-12">
+        <div className="relative p-8 md:p-12">
           <div className="flex flex-col items-center gap-6 text-center">
             <div className="flex-1">
               <div className="mb-3 flex items-center justify-center gap-3">
