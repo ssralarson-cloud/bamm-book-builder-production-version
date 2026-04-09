@@ -91,7 +91,7 @@ export function AIIllustrationsPanel({ projectId, currentPageText, onInsertImage
   };
 
   return (
-    <Card className="relative z-[1001] overflow-visible bg-white" style={{ zIndex: 1001 }}>
+    <Card className="relative overflow-visible bg-white">
       <CardHeader className="bg-gray-50">
         <div className="flex items-center gap-2">
           <Sparkles className="h-6 w-6 text-primary" />

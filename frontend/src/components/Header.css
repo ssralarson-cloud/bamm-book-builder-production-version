@@ -1,12 +1,10 @@
 /* ── Boho Header ───────────────────────────────────── */
 .simple-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 30;
-  background: rgba(250, 246, 241, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #faf6f1;
   border-bottom: 1px solid rgba(227, 219, 210, 0.6);
+  box-shadow: 0 1px 4px rgba(139, 109, 71, 0.04);
 }
 
 .simple-title {

@@ -140,7 +140,7 @@ export default function HomePage() {
     <div className="container page-container py-10 space-elegant">
       {/* Profile Setup Dialog */}
       <Dialog open={isProfileSetupOpen} onOpenChange={setIsProfileSetupOpen}>
-        <DialogContent className="dialog-box border-2 border-border z-modal">
+        <DialogContent className="border-2 border-border rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Welcome to Bamm Book Builder</DialogTitle>
             <DialogDescription className="text-base">
@@ -301,7 +301,7 @@ export default function HomePage() {
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={!!deleteProjectId} onOpenChange={() => setDeleteProjectId(null)}>
-        <AlertDialogContent className="dialog-box border-2 border-border z-modal">
+        <AlertDialogContent className="border-2 border-border rounded-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-xl font-bold">Delete Project?</AlertDialogTitle>
             <AlertDialogDescription className="text-base">

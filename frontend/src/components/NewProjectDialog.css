@@ -1,50 +1,5 @@
 /* ── New Project Dialog — Boho ──────────────────────── */
-
-.dialog-wrapper {
-  position: fixed !important;
-  inset: 0;
-  z-index: 9998;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dialog-overlay {
-  position: fixed !important;
-  inset: 0;
-  background-color: rgba(61, 46, 31, 0.4);
-  backdrop-filter: blur(4px);
-  z-index: 9998 !important;
-  animation: fadeIn 0.2s ease-out;
-}
-
-.dialog-box {
-  position: fixed !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #faf6f1;
-  border: 1.5px solid hsl(30 20% 88%);
-  border-radius: 1.25rem;
-  box-shadow: 0 20px 40px rgba(61, 46, 31, 0.15);
-  max-width: 32rem;
-  width: calc(100% - 2rem);
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 2rem;
-  z-index: 9999 !important;
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translate(-50%, -45%) scale(0.95); }
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
+/* Z-index managed by Radix + index.css. No overrides needed here. */
 
 .dialog-buttons {
   display: flex;
@@ -54,7 +9,6 @@
   border-top: 1px solid hsl(30 20% 88%);
   justify-content: flex-end;
   flex-wrap: wrap;
-  z-index: 10000;
 }
 
 .dialog-buttons button {
@@ -73,7 +27,6 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px rgba(191, 106, 58, 0.15);
   white-space: nowrap;
-  z-index: 10001;
 }
 
 .dialog-buttons button:hover:not(:disabled) {
@@ -86,17 +39,7 @@
   cursor: not-allowed;
 }
 
-.dialog-box > div {
-  position: relative;
-  z-index: 1;
-}
-
 @media (max-width: 640px) {
-  .dialog-box {
-    width: calc(100% - 1rem);
-    padding: 1.5rem;
-    max-height: 95vh;
-  }
   .dialog-buttons {
     flex-direction: column;
   }

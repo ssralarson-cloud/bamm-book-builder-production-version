@@ -1,28 +1,20 @@
 /* ── Boho Dashboard ─────────────────────────────────── */
 
 .page-container {
-  position: relative;
-  z-index: 1;
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
 }
 
 .hero-section {
-  position: relative;
-  z-index: 1;
   margin-bottom: 2.5rem;
   text-align: center;
 }
 
 .create-project-button {
-  position: relative;
-  z-index: 10;
   margin-bottom: 2rem;
 }
 
 .section-header {
-  position: relative;
-  z-index: 2;
   margin-bottom: 1.5rem;
 }
 
@@ -31,8 +23,6 @@
   display: grid;
   gap: 1.5rem;
   grid-template-columns: 1fr;
-  position: relative;
-  z-index: 1;
 }
 
 @media (min-width: 640px) {
@@ -49,8 +39,6 @@
 
 /* ── Project Card ──────────────────────────────────── */
 .project-card {
-  position: relative;
-  z-index: 2;
   background: hsl(33 40% 97%);
   border: 1.5px solid hsl(30 20% 88%);
   border-radius: 1rem;
@@ -61,10 +49,7 @@
 
 .project-card::before {
   content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  display: block;
   height: 4px;
   background: linear-gradient(90deg, #bf6a3a, #e8b4a2, #a8c5a0);
   border-radius: 1rem 1rem 0 0;
@@ -78,8 +63,6 @@
 
 /* ── Empty State ───────────────────────────────────── */
 .empty-state {
-  position: relative;
-  z-index: 1;
   text-align: center;
   padding: 4rem 1.5rem;
   background: hsl(33 40% 97%);
@@ -88,11 +71,6 @@
 }
 
 /* ── Loading & Skeleton ────────────────────────────── */
-.loading-state {
-  position: relative;
-  z-index: 1;
-}
-
 .skeleton-grid {
   display: grid;
   gap: 1.5rem;
@@ -113,14 +91,10 @@
 
 /* ── Misc ──────────────────────────────────────────── */
 .project-list {
-  position: relative;
-  z-index: 1;
   margin-top: 1.5rem;
 }
 
 .page-content {
-  position: relative;
-  z-index: 1;
   isolation: isolate;
 }
 

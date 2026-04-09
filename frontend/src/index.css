@@ -49,13 +49,8 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
 
-    /* ── Z-index ─────────────────────────────────────── */
-    --z-base: 1;
-    --z-overlay: 10;
-    --z-interactive: 20;
-    --z-dropdown: 30;
-    --z-modal: 40;
-    --z-toast: 50;
+    /* ── Z-index scale ──────────────────────────────── */
+    /* Header: 30  |  Dropdowns: 40  |  Overlays: 50  |  Modals: 60  |  Toasts: 70 */
 
     /* ── Boho Extras ─────────────────────────────────── */
     --boho-blush: #e8b4a2;
@@ -208,12 +203,7 @@
     gap: var(--spacing-lg);
   }
 
-  .z-base { z-index: var(--z-base); }
-  .z-overlay { z-index: var(--z-overlay); }
-  .z-interactive { z-index: var(--z-interactive); }
-  .z-dropdown { z-index: var(--z-dropdown); }
-  .z-modal { z-index: var(--z-modal); }
-  .z-toast { z-index: var(--z-toast); }
+  /* Use Tailwind z-* utilities instead of custom classes */
 
   .font-display {
     font-family: 'Playfair Display', Georgia, serif;
@@ -263,11 +253,6 @@
     @apply shadow-lg transition-shadow hover:shadow-xl;
   }
 
-  .panel-stacked { position: relative; isolation: isolate; }
-  .panel-layer-1 { z-index: 1; }
-  .panel-layer-2 { z-index: 2; }
-  .panel-layer-3 { z-index: 3; }
-
   /* Warm gradient backgrounds */
   .bg-boho-warm {
     background: linear-gradient(135deg, #faf6f1 0%, #f3ece3 50%, #faf8f5 100%);
@@ -282,42 +267,13 @@
   }
 }
 
-/* ── Modal System ──────────────────────────────────── */
-.modal-overlay {
-  position: fixed !important;
-  inset: 0;
-  background-color: rgba(61, 46, 31, 0.4);
-  backdrop-filter: blur(4px);
-  z-index: 9998 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  animation: fadeIn 0.2s ease-out;
-}
-
-.modal {
-  position: fixed !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--boho-cream);
-  border: 1px solid hsl(var(--border));
-  border-radius: 1rem;
-  box-shadow: 0 20px 40px rgba(61, 46, 31, 0.15);
-  max-width: 32rem;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 2rem;
-  z-index: 9999 !important;
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translate(-50%, -50%) translateY(20px) scale(0.95); }
-  to { opacity: 1; transform: translate(-50%, -50%) translateY(0) scale(1); }
-}
+/* ── Z-Index Scale ─────────────────────────────────
+   Header:     30
+   Dropdowns:  40
+   Overlays:   50
+   Modals:     60
+   Toasts:     70
+   ──────────────────────────────────────────────── */
 
 .actions {
   display: flex;
@@ -393,30 +349,23 @@
 form .space-y-4 > * + * { margin-top: 1rem; }
 form .space-y-6 > * + * { margin-top: 1.5rem; }
 
-/* ── Radix dialog z-index ──────────────────────────── */
-.dialog-overlay, [data-radix-dialog-overlay], [data-radix-alert-dialog-overlay] {
-  position: fixed !important;
-  z-index: 9998 !important;
+/* ── Radix component z-index (single source of truth) ── */
+[data-radix-dialog-overlay],
+[data-radix-alert-dialog-overlay] {
+  z-index: 50 !important;
 }
 
-.dialog-box, [data-radix-dialog-content], [data-radix-alert-dialog-content] {
-  position: fixed !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999 !important;
+[data-radix-dialog-content],
+[data-radix-alert-dialog-content] {
+  z-index: 60 !important;
 }
 
 [data-radix-dropdown-menu-content],
 [data-radix-select-content],
 [data-radix-popover-content] {
-  z-index: var(--z-dropdown);
+  z-index: 40;
 }
 
 [data-sonner-toaster] {
-  z-index: var(--z-toast) !important;
+  z-index: 70 !important;
 }
-
-button { position: relative; z-index: 1; }
-button:focus, button:hover { z-index: 2; }
-.create-project-button { position: relative; z-index: 10; }

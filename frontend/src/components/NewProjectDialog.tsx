@@ -65,7 +65,7 @@ export function NewProjectDialog({ onCreateProject, isCreating, disabled = false
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="dialog-box border-2 border-border bg-background z-modal">
+      <DialogContent className="border-2 border-border bg-background rounded-2xl">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">Create New Book Project</DialogTitle>
           <DialogDescription className="text-base">
