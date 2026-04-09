@@ -12,7 +12,7 @@ import BlobStorage "blob-storage/Mixin";
 import OutCall "http-outcalls/outcall";
 import Nat "mo:base/Nat";
 
-actor {
+persistent actor {
   // Initialize the access control system
   let accessControlState = AccessControl.initState();
 
@@ -24,6 +24,7 @@ actor {
   var userProfiles = principalMap.empty<UserProfile>();
   var fileOwnership = textMap.empty<Principal>();
   var projectOwners = textMap.empty<Principal>();
+  var subscriptions = principalMap.empty<Subscription>();
   var nextProjectId = 0;
 
   let registry = Registry.new();
@@ -150,6 +151,12 @@ actor {
 
   public type UserProfile = {
     name : Text;
+  };
+
+  // Subscription record — stored per principal
+  public type Subscription = {
+    isActive : Bool;
+    updatedAt : Int;
   };
 
   // Helper: Auto-register user if not already registered
@@ -302,6 +309,45 @@ actor {
     // Ensure user is registered
     ensureUser(caller);
     userProfiles := principalMap.put(userProfiles, caller, profile);
+  };
+
+  // ── Subscription Functions ──────────────────────────────
+
+  // Query: check if the caller has an active subscription
+  // Returns false for anonymous callers or missing records
+  public query ({ caller }) func isSubscribed() : async Bool {
+    if (Principal.isAnonymous(caller)) {
+      return false;
+    };
+    switch (principalMap.get(subscriptions, caller)) {
+      case (?sub) { sub.isActive };
+      case (null) { false };
+    };
+  };
+
+  // Admin-only: set subscription state for any principal
+  // Creates the record if it does not exist, updates if it does
+  public shared ({ caller }) func setSubscription(user : Principal, isActive : Bool) : async () {
+    if (not AccessControl.isAdmin(accessControlState, caller)) {
+      Debug.trap("Unauthorized: Only admins can set subscription status");
+    };
+    if (Principal.isAnonymous(user)) {
+      Debug.trap("Cannot set subscription for anonymous principal");
+    };
+    let sub : Subscription = {
+      isActive;
+      updatedAt = Time.now();
+    };
+    subscriptions := principalMap.put(subscriptions, user, sub);
+    Debug.print("Subscription updated: " # Principal.toText(user) # " active=" # (if isActive "true" else "false"));
+  };
+
+  // Admin-only: check subscription status for any principal (for billing server)
+  public query ({ caller }) func getSubscription(user : Principal) : async ?Subscription {
+    if (not AccessControl.isAdmin(accessControlState, caller)) {
+      Debug.trap("Unauthorized: Only admins can query other users' subscriptions");
+    };
+    principalMap.get(subscriptions, user);
   };
 
   // Check if caller can create projects (auto-registers if authenticated)
