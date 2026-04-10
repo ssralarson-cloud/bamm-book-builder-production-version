@@ -267,6 +267,92 @@
   }
 }
 
+/* ══════════════════════════════════════════════════════
+   CSS Fallback Utilities — Boho Color Palette
+   These ensure colors render even if Tailwind JIT
+   doesn't compile the custom color tokens.
+   ══════════════════════════════════════════════════════ */
+
+/* ── Terracotta ── */
+.bg-terracotta-50  { background-color: #fdf4ef; }
+.bg-terracotta-100 { background-color: #fbe6d6; }
+.bg-terracotta-200 { background-color: #f6c9ac; }
+.bg-terracotta-400 { background-color: #e87d45; }
+.bg-terracotta-500 { background-color: #bf6a3a; }
+.bg-terracotta-600 { background-color: #a85a30; }
+.text-terracotta-400 { color: #e87d45; }
+.text-terracotta-500 { color: #bf6a3a; }
+.text-terracotta-600 { color: #a85a30; }
+.border-terracotta-100 { border-color: #fbe6d6; }
+.border-terracotta-200 { border-color: #f6c9ac; }
+.border-terracotta-300 { border-color: #f0a577; }
+.ring-terracotta-200 { --tw-ring-color: #f6c9ac; }
+.ring-terracotta-300 { --tw-ring-color: #f0a577; }
+.from-terracotta-500 { --tw-gradient-from: #bf6a3a; --tw-gradient-to: rgba(191,106,58,0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+.to-terracotta-600   { --tw-gradient-to: #a85a30; }
+.hover\:bg-terracotta-400:hover { background-color: #e87d45; }
+.hover\:bg-terracotta-600:hover { background-color: #a85a30; }
+.hover\:border-terracotta-200:hover { border-color: #f6c9ac; }
+.focus\:border-terracotta-300:focus { border-color: #f0a577; }
+.focus\:ring-terracotta-200:focus { --tw-ring-color: #f6c9ac; }
+
+/* ── Sage ── */
+.bg-sage-50  { background-color: #f3f8f2; }
+.bg-sage-100 { background-color: #e3efe1; }
+.bg-sage-200 { background-color: #c7dfc3; }
+.bg-sage-500 { background-color: #5a9a60; }
+.bg-sage-600 { background-color: #4a7d4e; }
+.text-sage-400 { color: #7db88e; }
+.text-sage-500 { color: #5a9a60; }
+.text-sage-600 { color: #4a7d4e; }
+.text-sage-700 { color: #3d6540; }
+.border-sage-100 { border-color: #e3efe1; }
+.hover\:bg-sage-50:hover  { background-color: #f3f8f2; }
+.hover\:bg-sage-600:hover { background-color: #4a7d4e; }
+.to-sage-50 { --tw-gradient-to: #f3f8f2; }
+
+/* ── Cream ── */
+.bg-cream-50  { background-color: #fdfbf8; }
+.bg-cream-100 { background-color: #faf6f1; }
+.bg-cream-200 { background-color: #f3ece3; }
+.bg-cream-300 { background-color: #e8ddd0; }
+.bg-cream-900 { background-color: #3d2e1f; }
+.text-cream-100 { color: #faf6f1; }
+.text-cream-300 { color: #e8ddd0; }
+.text-cream-400 { color: #d4c4ae; }
+.text-cream-500 { color: #bfa88c; }
+.text-cream-600 { color: #a08a6e; }
+.text-cream-700 { color: #7a6e62; }
+.text-cream-800 { color: #5c5348; }
+.text-cream-900 { color: #3d2e1f; }
+.border-cream-100 { border-color: #faf6f1; }
+.border-cream-200 { border-color: #f3ece3; }
+.border-cream-300 { border-color: #e8ddd0; }
+.border-cream-400 { border-color: #d4c4ae; }
+.from-cream-50 { --tw-gradient-from: #fdfbf8; --tw-gradient-to: rgba(253,251,248,0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+.via-cream-300 { --tw-gradient-to: rgba(232,221,208,0); --tw-gradient-stops: var(--tw-gradient-from), #e8ddd0, var(--tw-gradient-to); }
+.hover\:bg-cream-100:hover { background-color: #faf6f1; }
+.hover\:text-cream-800:hover { color: #5c5348; }
+
+/* ── Blush ── */
+.bg-blush-50  { background-color: #fef5f2; }
+.bg-blush-100 { background-color: #fce8e2; }
+.bg-blush-200 { background-color: #f5cdc0; }
+.text-blush-400 { color: #d99580; }
+.text-blush-500 { color: #c97a63; }
+.border-blush-100 { border-color: #fce8e2; }
+.via-blush-400 { --tw-gradient-to: rgba(217,149,128,0); --tw-gradient-stops: var(--tw-gradient-from), #d99580, var(--tw-gradient-to); }
+
+/* ── Shadow utilities ── */
+.shadow-boho    { box-shadow: 0 2px 12px rgba(191, 106, 58, 0.08); }
+.shadow-boho-lg { box-shadow: 0 8px 24px rgba(191, 106, 58, 0.12); }
+.hover\:shadow-boho:hover    { box-shadow: 0 2px 12px rgba(191, 106, 58, 0.08); }
+.hover\:shadow-boho-lg:hover { box-shadow: 0 8px 24px rgba(191, 106, 58, 0.12); }
+
+/* ── Font utilities ── */
+.font-display { font-family: 'Playfair Display', Georgia, serif; }
+.font-whimsy  { font-family: 'Amatic SC', cursive; }
+
 /* ── Z-Index Scale ─────────────────────────────────
    Header:     30
    Dropdowns:  40
