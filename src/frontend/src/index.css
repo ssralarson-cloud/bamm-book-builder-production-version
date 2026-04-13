@@ -1,0 +1,796 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #333333;
+    --card: #ffffff;
+    --card-foreground: #333333;
+    --popover: #ffffff;
+    --popover-foreground: #333333;
+    --primary: #4a90e2;
+    --primary-foreground: #ffffff;
+    --secondary: #6c757d;
+    --secondary-foreground: #ffffff;
+    --muted: #f5f5f5;
+    --muted-foreground: #666666;
+    --accent: #4a90e2;
+    --accent-foreground: #ffffff;
+    --destructive: oklch(50% 0.15 25);
+    --destructive-foreground: #ffffff;
+    --border: #e0e0e0;
+    --input: #e0e0e0;
+    --ring: #4a90e2;
+    --radius: 0.5rem;
+
+    --kdp-success: oklch(55% 0.12 145);
+    --kdp-bleed: oklch(60% 0.15 25);
+    --kdp-trim: oklch(50% 0.12 260);
+    --kdp-safe: oklch(55% 0.12 145);
+
+    --safe-bleed: oklch(60% 0.15 25);
+    --safe-trim: oklch(50% 0.12 260);
+    --safe-grid: oklch(55% 0.12 145);
+
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+
+    /* Clean z-index hierarchy — no gaps, no conflicts */
+    --z-header: 30;
+    --z-dropdown: 40;
+    --z-overlay: 50;
+    --z-modal: 60;
+    --z-toast: 70;
+  }
+
+  .dark {
+    --background: #1a1a1a;
+    --foreground: #f5f5f5;
+    --card: #2a2a2a;
+    --card-foreground: #f5f5f5;
+    --popover: #2a2a2a;
+    --popover-foreground: #f5f5f5;
+    --primary: #4a90e2;
+    --primary-foreground: #ffffff;
+    --secondary: #6c757d;
+    --secondary-foreground: #ffffff;
+    --muted: #3a3a3a;
+    --muted-foreground: #aaaaaa;
+    --accent: #4a90e2;
+    --accent-foreground: #ffffff;
+    --destructive: oklch(55% 0.15 25);
+    --destructive-foreground: #ffffff;
+    --border: #3a3a3a;
+    --input: #3a3a3a;
+    --ring: #4a90e2;
+
+    --kdp-success: oklch(60% 0.12 145);
+    --kdp-bleed: oklch(65% 0.15 25);
+    --kdp-trim: oklch(60% 0.12 260);
+    --kdp-safe: oklch(60% 0.12 145);
+
+    --safe-bleed: oklch(65% 0.15 25);
+    --safe-trim: oklch(60% 0.12 260);
+    --safe-grid: oklch(60% 0.12 145);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.2;
+  }
+}
+
+@layer utilities {
+  .space-elegant > * + * {
+    margin-top: var(--spacing-lg);
+  }
+
+  .gap-elegant {
+    gap: var(--spacing-lg);
+  }
+
+  .z-header {
+    z-index: var(--z-header);
+  }
+
+  .z-dropdown {
+    z-index: var(--z-dropdown);
+  }
+
+  .z-overlay {
+    z-index: var(--z-overlay);
+  }
+
+  .z-modal {
+    z-index: var(--z-modal);
+  }
+
+  .z-toast {
+    z-index: var(--z-toast);
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pulse-gentle {
+    animation: pulseGentle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulseGentle {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  .card-elevated {
+    @apply shadow-lg transition-shadow hover:shadow-xl;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.bf-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  border-radius: 0.5rem;
+  border: 1px solid #4a90e2;
+  background-color: #4a90e2;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+}
+
+.bf-button:hover:not(:disabled) {
+  background-color: #357abd;
+  border-color: #357abd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.bf-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bf-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bf-button.bf-button-secondary {
+  background-color: transparent;
+  color: #4a90e2;
+  border-color: #4a90e2;
+}
+
+.bf-button.bf-button-secondary:hover:not(:disabled) {
+  background-color: #f5f5f5;
+  border-color: #357abd;
+  color: #357abd;
+}
+
+.bf-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333333;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.bf-input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.bf-input::placeholder {
+  color: #999999;
+  opacity: 0.7;
+}
+
+.bf-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+}
+
+form .space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+form .space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+/* Radix UI dropdown/popover z-index — uses clean hierarchy */
+[data-radix-dropdown-menu-content],
+[data-radix-select-content],
+[data-radix-popover-content] {
+  z-index: var(--z-dropdown);
+}
+
+/* Radix dialog/alert-dialog z-index — uses clean hierarchy */
+[data-radix-dialog-overlay],
+[data-radix-alert-dialog-overlay] {
+  z-index: var(--z-overlay);
+}
+
+[data-radix-dialog-content],
+[data-radix-alert-dialog-content] {
+  z-index: var(--z-modal);
+}
+
+/* Toast stack above everything */
+[data-sonner-toaster] {
+  z-index: var(--z-toast) !important;
+}
+
+/* ============================================================
+   BOHO / MONTESSORI COLOR FALLBACKS
+   Plain CSS utilities for terracotta, sage, cream, blush
+   palettes — generated because Tailwind JIT does not pick up
+   these custom color names from the source files.
+   ============================================================ */
+@layer utilities {
+  /* --- Terracotta --- */
+  .text-terracotta-50 {
+    color: #fdf5f0;
+  }
+  .text-terracotta-100 {
+    color: #fae5d8;
+  }
+  .text-terracotta-200 {
+    color: #f5c9ae;
+  }
+  .text-terracotta-300 {
+    color: #eda882;
+  }
+  .text-terracotta-400 {
+    color: #e08558;
+  }
+  .text-terracotta-500 {
+    color: #c4674a;
+  }
+  .text-terracotta-600 {
+    color: #a8533a;
+  }
+  .text-terracotta-700 {
+    color: #8a3f2b;
+  }
+  .text-terracotta-800 {
+    color: #6e2d1e;
+  }
+  .text-terracotta-900 {
+    color: #4a1e12;
+  }
+
+  .bg-terracotta-50 {
+    background-color: #fdf5f0;
+  }
+  .bg-terracotta-100 {
+    background-color: #fae5d8;
+  }
+  .bg-terracotta-200 {
+    background-color: #f5c9ae;
+  }
+  .bg-terracotta-300 {
+    background-color: #eda882;
+  }
+  .bg-terracotta-400 {
+    background-color: #e08558;
+  }
+  .bg-terracotta-500 {
+    background-color: #c4674a;
+  }
+  .bg-terracotta-600 {
+    background-color: #a8533a;
+  }
+  .bg-terracotta-700 {
+    background-color: #8a3f2b;
+  }
+  .bg-terracotta-800 {
+    background-color: #6e2d1e;
+  }
+  .bg-terracotta-900 {
+    background-color: #4a1e12;
+  }
+
+  .border-terracotta-50 {
+    border-color: #fdf5f0;
+  }
+  .border-terracotta-100 {
+    border-color: #fae5d8;
+  }
+  .border-terracotta-200 {
+    border-color: #f5c9ae;
+  }
+  .border-terracotta-300 {
+    border-color: #eda882;
+  }
+  .border-terracotta-400 {
+    border-color: #e08558;
+  }
+  .border-terracotta-500 {
+    border-color: #c4674a;
+  }
+  .border-terracotta-600 {
+    border-color: #a8533a;
+  }
+  .border-terracotta-700 {
+    border-color: #8a3f2b;
+  }
+  .border-terracotta-800 {
+    border-color: #6e2d1e;
+  }
+  .border-terracotta-900 {
+    border-color: #4a1e12;
+  }
+
+  /* --- Sage --- */
+  .text-sage-50 {
+    color: #f4f7f4;
+  }
+  .text-sage-100 {
+    color: #e3ede3;
+  }
+  .text-sage-200 {
+    color: #c6dbc6;
+  }
+  .text-sage-300 {
+    color: #a5c5a5;
+  }
+  .text-sage-400 {
+    color: #83ae83;
+  }
+  .text-sage-500 {
+    color: #6a9a6a;
+  }
+  .text-sage-600 {
+    color: #557c55;
+  }
+  .text-sage-700 {
+    color: #426042;
+  }
+  .text-sage-800 {
+    color: #304530;
+  }
+  .text-sage-900 {
+    color: #1f2d1f;
+  }
+
+  .bg-sage-50 {
+    background-color: #f4f7f4;
+  }
+  .bg-sage-100 {
+    background-color: #e3ede3;
+  }
+  .bg-sage-200 {
+    background-color: #c6dbc6;
+  }
+  .bg-sage-300 {
+    background-color: #a5c5a5;
+  }
+  .bg-sage-400 {
+    background-color: #83ae83;
+  }
+  .bg-sage-500 {
+    background-color: #6a9a6a;
+  }
+  .bg-sage-600 {
+    background-color: #557c55;
+  }
+  .bg-sage-700 {
+    background-color: #426042;
+  }
+  .bg-sage-800 {
+    background-color: #304530;
+  }
+  .bg-sage-900 {
+    background-color: #1f2d1f;
+  }
+
+  .border-sage-50 {
+    border-color: #f4f7f4;
+  }
+  .border-sage-100 {
+    border-color: #e3ede3;
+  }
+  .border-sage-200 {
+    border-color: #c6dbc6;
+  }
+  .border-sage-300 {
+    border-color: #a5c5a5;
+  }
+  .border-sage-400 {
+    border-color: #83ae83;
+  }
+  .border-sage-500 {
+    border-color: #6a9a6a;
+  }
+  .border-sage-600 {
+    border-color: #557c55;
+  }
+  .border-sage-700 {
+    border-color: #426042;
+  }
+  .border-sage-800 {
+    border-color: #304530;
+  }
+  .border-sage-900 {
+    border-color: #1f2d1f;
+  }
+
+  /* --- Cream --- */
+  .text-cream-50 {
+    color: #fefdfb;
+  }
+  .text-cream-100 {
+    color: #faf6f1;
+  }
+  .text-cream-200 {
+    color: #f3ece0;
+  }
+  .text-cream-300 {
+    color: #e8dcc9;
+  }
+  .text-cream-400 {
+    color: #d8c7ae;
+  }
+  .text-cream-500 {
+    color: #c4ae8e;
+  }
+  .text-cream-600 {
+    color: #a8926f;
+  }
+  .text-cream-700 {
+    color: #8a7455;
+  }
+  .text-cream-800 {
+    color: #6e573e;
+  }
+  .text-cream-900 {
+    color: #4a3728;
+  }
+
+  .bg-cream-50 {
+    background-color: #fefdfb;
+  }
+  .bg-cream-100 {
+    background-color: #faf6f1;
+  }
+  .bg-cream-200 {
+    background-color: #f3ece0;
+  }
+  .bg-cream-300 {
+    background-color: #e8dcc9;
+  }
+  .bg-cream-400 {
+    background-color: #d8c7ae;
+  }
+  .bg-cream-500 {
+    background-color: #c4ae8e;
+  }
+  .bg-cream-600 {
+    background-color: #a8926f;
+  }
+  .bg-cream-700 {
+    background-color: #8a7455;
+  }
+  .bg-cream-800 {
+    background-color: #6e573e;
+  }
+  .bg-cream-900 {
+    background-color: #4a3728;
+  }
+
+  .border-cream-50 {
+    border-color: #fefdfb;
+  }
+  .border-cream-100 {
+    border-color: #faf6f1;
+  }
+  .border-cream-200 {
+    border-color: #f3ece0;
+  }
+  .border-cream-300 {
+    border-color: #e8dcc9;
+  }
+  .border-cream-400 {
+    border-color: #d8c7ae;
+  }
+  .border-cream-500 {
+    border-color: #c4ae8e;
+  }
+  .border-cream-600 {
+    border-color: #a8926f;
+  }
+  .border-cream-700 {
+    border-color: #8a7455;
+  }
+  .border-cream-800 {
+    border-color: #6e573e;
+  }
+  .border-cream-900 {
+    border-color: #4a3728;
+  }
+
+  /* --- Blush --- */
+  .text-blush-50 {
+    color: #fdf4f4;
+  }
+  .text-blush-100 {
+    color: #fae3e3;
+  }
+  .text-blush-200 {
+    color: #f5c6c6;
+  }
+  .text-blush-300 {
+    color: #eda5a5;
+  }
+  .text-blush-400 {
+    color: #e08282;
+  }
+  .text-blush-500 {
+    color: #d06060;
+  }
+  .text-blush-600 {
+    color: #b04848;
+  }
+  .text-blush-700 {
+    color: #8e3434;
+  }
+  .text-blush-800 {
+    color: #6e2222;
+  }
+  .text-blush-900 {
+    color: #4a1414;
+  }
+
+  .bg-blush-50 {
+    background-color: #fdf4f4;
+  }
+  .bg-blush-100 {
+    background-color: #fae3e3;
+  }
+  .bg-blush-200 {
+    background-color: #f5c6c6;
+  }
+  .bg-blush-300 {
+    background-color: #eda5a5;
+  }
+  .bg-blush-400 {
+    background-color: #e08282;
+  }
+  .bg-blush-500 {
+    background-color: #d06060;
+  }
+  .bg-blush-600 {
+    background-color: #b04848;
+  }
+  .bg-blush-700 {
+    background-color: #8e3434;
+  }
+  .bg-blush-800 {
+    background-color: #6e2222;
+  }
+  .bg-blush-900 {
+    background-color: #4a1414;
+  }
+
+  .border-blush-50 {
+    border-color: #fdf4f4;
+  }
+  .border-blush-100 {
+    border-color: #fae3e3;
+  }
+  .border-blush-200 {
+    border-color: #f5c6c6;
+  }
+  .border-blush-300 {
+    border-color: #eda5a5;
+  }
+  .border-blush-400 {
+    border-color: #e08282;
+  }
+  .border-blush-500 {
+    border-color: #d06060;
+  }
+  .border-blush-600 {
+    border-color: #b04848;
+  }
+  .border-blush-700 {
+    border-color: #8e3434;
+  }
+  .border-blush-800 {
+    border-color: #6e2222;
+  }
+  .border-blush-900 {
+    border-color: #4a1414;
+  }
+
+  /* --- Short aliases --- */
+  .text-terracotta {
+    color: #c4674a;
+  }
+  .text-sage {
+    color: #6a9a6a;
+  }
+  .text-cream {
+    color: #faf6f1;
+  }
+  .text-blush {
+    color: #d06060;
+  }
+
+  /* --- Opacity variants (slash notation) --- */
+  .bg-terracotta-100\/40 {
+    background-color: rgba(250, 229, 216, 0.4);
+  }
+  .bg-sage-100\/40 {
+    background-color: rgba(227, 237, 227, 0.4);
+  }
+  .bg-blush-100\/40 {
+    background-color: rgba(250, 227, 227, 0.4);
+  }
+  .bg-cream-100\/40 {
+    background-color: rgba(250, 246, 241, 0.4);
+  }
+
+  /* --- Gradient helpers --- */
+  .from-terracotta-500 {
+    --tw-gradient-from: #c4674a;
+  }
+  .from-terracotta-600 {
+    --tw-gradient-from: #a8533a;
+  }
+  .to-sage-600 {
+    --tw-gradient-to: #557c55;
+  }
+  .to-terracotta-700 {
+    --tw-gradient-to: #8a3f2b;
+  }
+
+  /* --- Boho shadows --- */
+  .shadow-boho {
+    box-shadow: 0 2px 8px rgba(74, 55, 40, 0.12), 0 1px 3px
+      rgba(74, 55, 40, 0.08);
+  }
+  .shadow-boho-lg {
+    box-shadow: 0 8px 24px rgba(74, 55, 40, 0.16), 0 4px 8px
+      rgba(74, 55, 40, 0.1);
+  }
+
+  /* --- Boho background gradients --- */
+  .bg-boho-hero {
+    background: linear-gradient(135deg, #faf6f1 0%, #f3ece0 50%, #e8dcc9 100%);
+  }
+  .bg-boho-warm {
+    background: linear-gradient(135deg, #fdf5f0 0%, #fae5d8 100%);
+  }
+  .bg-boho-section {
+    background: linear-gradient(135deg, #f4f7f4 0%, #e3ede3 50%, #faf6f1 100%);
+  }
+
+  /* --- Boho card component --- */
+  .boho-card {
+    background-color: #ffffff;
+    border: 1px solid #e8dcc9;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(74, 55, 40, 0.08);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .boho-card:hover {
+    box-shadow: 0 8px 24px rgba(74, 55, 40, 0.14);
+    transform: translateY(-2px);
+  }
+
+  /* --- Boho divider --- */
+  .boho-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 0;
+    gap: 1rem;
+  }
+  .boho-divider::before,
+  .boho-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #d8c7ae);
+  }
+  .boho-divider::after {
+    background: linear-gradient(to left, transparent, #d8c7ae);
+  }
+  .boho-divider-icon {
+    color: #c4674a;
+    font-size: 1.25rem;
+    opacity: 0.7;
+  }
+
+  /* --- Extra animation utilities --- */
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

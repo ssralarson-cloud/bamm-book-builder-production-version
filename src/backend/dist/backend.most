@@ -1,0 +1,121 @@
+// Version: 1.0.0
+type BleedSpec__183316547 =
+  {bottom : Float; left : Float; right : Float; top : Float};
+type CoverElement__1043211167 =
+  {imageUrl : ?Text; layout : Layout__362390048; text : Text};
+type CoverSpec__1047835111 =
+  {
+    back : CoverElement__1043211167;
+    bleed : BleedSpec__183316547;
+    dimensions : Dimensions__740955976;
+    front : CoverElement__1043211167;
+    spine : SpineSpec__587292091
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Dimensions__740955976 = {height : Float; width : Float};
+type ImagePosition__18173555 =
+  {height : Float; width : Float; x : Float; y : Float};
+type Image__1042730026 =
+  {
+    dpi : Float;
+    id : Text;
+    owner : Principal;
+    pageId : ?Text;
+    path : Text;
+    projectId : Text;
+    uploaded : Int
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type KDPValidation__854914843 =
+  {
+    bleed : BleedSpec__183316547;
+    errors : [Text];
+    isValid : Bool;
+    margin : MarginSpec__540043323;
+    spineWidth : Float;
+    trimSize : Dimensions__740955976;
+    warnings : [Text]
+  };
+type Layout__362390048 =
+  {position : Position__128887991; size : Size__428150171};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type MarginSpec__540043323 =
+  {bottom : Float; left : Float; right : Float; top : Float};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type PageLayout__381377753 =
+  {
+    imagePosition : ImagePosition__18173555;
+    textPosition : TextPosition__275043184
+  };
+type Page__810863137 =
+  {
+    imageUrl : ?Text;
+    layout : PageLayout__381377753;
+    pageNumber : Nat;
+    text : Text
+  };
+type Position__128887991 = {x : Float; y : Float};
+type ProjectSettings__66214 =
+  {font : Text; fontSize : Float; lineSpacing : Float; margin : Float};
+type Project__762223144 =
+  {
+    cover : CoverSpec__1047835111;
+    createdAt : Int;
+    id : Text;
+    kdpValidation : KDPValidation__854914843;
+    owner : Principal;
+    pages : [Page__810863137];
+    settings : ProjectSettings__66214;
+    story : Text;
+    title : Text;
+    updatedAt : Int
+  };
+type Size__428150171 = {height : Float; width : Float};
+type SpineSpec__587292091 = {text : Text; width : Float};
+type SubscriptionRecord__132754268 =
+  {isActive : Bool; principal : Principal; updatedAt : Int};
+type TextPosition__275043184 =
+  {height : Float; width : Float; x : Float; y : Float};
+type UserProfile__491224006 = {name : Text};
+type UserRole__1054455867 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable fileOwnership :
+    {var root : Node__46230540<Text, Principal>; var size : Nat__490723111};
+  stable images :
+    {
+      var root : Node__46230540<Text, Image__1042730026>;
+      var size : Nat__490723111
+    };
+  stable var nextProjectId : Nat;
+  stable projectOwners :
+    {var root : Node__46230540<Text, Principal>; var size : Nat__490723111};
+  stable projects :
+    {
+      var root : Node__46230540<Text, Project__762223144>;
+      var size : Nat__490723111
+    };
+  stable subscriptions :
+    {
+      var root : Node__46230540<Principal, SubscriptionRecord__132754268>;
+      var size : Nat__490723111
+    };
+  stable userProfiles :
+    {
+      var root : Node__46230540<Principal, UserProfile__491224006>;
+      var size : Nat__490723111
+    }
+};

@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap");
+
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #faf6f0;
+  position: relative;
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-title {
+  font-family: "Crimson Text", Georgia, serif;
+  font-size: 4rem;
+  font-weight: 600;
+  color: #4a3728;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+  margin-top: 0;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  color: #7a6355;
+  margin-bottom: 0.75rem;
+  margin-top: 0;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.hero-tagline {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  color: #8a7468;
+  margin-bottom: 2.5rem;
+  margin-top: 0;
+  line-height: 1.6;
+}
+
+.hero-cta {
+  background: #c4674a;
+  color: #ffffff;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.15rem;
+  font-family: Georgia, "Times New Roman", serif;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  letter-spacing: 0.01em;
+}
+
+.hero-cta:hover {
+  background: #a8563c;
+}
+
+.hero-cta:active {
+  background: #8f4a32;
+}
+
+.hero-secondary {
+  font-size: 0.9rem;
+  color: #8a7468;
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.landing-footer {
+  position: absolute;
+  bottom: 1.5rem;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #a89a8e;
+  letter-spacing: 0.05em;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero {
+    padding: 2rem 1rem;
+  }
+}

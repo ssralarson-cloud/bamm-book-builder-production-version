@@ -1,0 +1,22 @@
+{
+  "overview": "Bamm Book Builder is a children's book creation platform that helps authors produce KDP-ready print-on-demand books. Users create projects, write pages, upload illustrations, build covers, and export print-ready PDFs that meet Amazon KDP specifications.",
+  "features": [
+    "KDP-compliant interior PDF export with full-bleed pages",
+    "Full-wrap cover PDF with dynamic spine width calculation",
+    "Page editor with image upload and text overlay",
+    "Cover builder with front, back, and spine panels",
+    "Subscription gating with Stripe billing integration",
+    "Admin backdoor for testing without subscription",
+    "Boho/Montessori landing page with earthy palette"
+  ],
+  "category": "productivity",
+  "tags": [
+    "children-s-books",
+    "publishing",
+    "kdp",
+    "pdf-export",
+    "book-builder",
+    "print-on-demand"
+  ],
+  "last_updated": "2026-04-11T23:41:05.852Z"
+}

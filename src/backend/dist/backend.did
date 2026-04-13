@@ -1,0 +1,201 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = record {name: text;};
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type TextPosition = 
+ record {
+   height: float64;
+   width: float64;
+   x: float64;
+   y: float64;
+ };
+type SpineSpec = 
+ record {
+   "text": text;
+   width: float64;
+ };
+type Size = 
+ record {
+   height: float64;
+   width: float64;
+ };
+type ProjectSettings = 
+ record {
+   font: text;
+   fontSize: float64;
+   lineSpacing: float64;
+   margin: float64;
+ };
+type Project = 
+ record {
+   cover: CoverSpec;
+   createdAt: int;
+   id: text;
+   kdpValidation: KDPValidation;
+   owner: principal;
+   pages: vec Page;
+   settings: ProjectSettings;
+   story: text;
+   title: text;
+   updatedAt: int;
+ };
+type Position = 
+ record {
+   x: float64;
+   y: float64;
+ };
+type PageLayout = 
+ record {
+   imagePosition: ImagePosition;
+   textPosition: TextPosition;
+ };
+type Page = 
+ record {
+   imageUrl: opt text;
+   layout: PageLayout;
+   pageNumber: nat;
+   "text": text;
+ };
+type MarginSpec = 
+ record {
+   bottom: float64;
+   left: float64;
+   right: float64;
+   top: float64;
+ };
+type Layout = 
+ record {
+   position: Position;
+   size: Size;
+ };
+type KDPValidation = 
+ record {
+   bleed: BleedSpec;
+   errors: vec text;
+   isValid: bool;
+   margin: MarginSpec;
+   spineWidth: float64;
+   trimSize: Dimensions;
+   warnings: vec text;
+ };
+type ImagePosition = 
+ record {
+   height: float64;
+   width: float64;
+   x: float64;
+   y: float64;
+ };
+type Image = 
+ record {
+   dpi: float64;
+   id: text;
+   owner: principal;
+   pageId: opt text;
+   path: text;
+   projectId: text;
+   uploaded: int;
+ };
+type Dimensions = 
+ record {
+   height: float64;
+   width: float64;
+ };
+type CoverSpec = 
+ record {
+   back: CoverElement;
+   bleed: BleedSpec;
+   dimensions: Dimensions;
+   front: CoverElement;
+   spine: SpineSpec;
+ };
+type CoverElement = 
+ record {
+   imageUrl: opt text;
+   layout: Layout;
+   "text": text;
+ };
+type BleedSpec = 
+ record {
+   bottom: float64;
+   left: float64;
+   right: float64;
+   top: float64;
+ };
+service : {
+  _devAdminGrant: () -> ();
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addImage: (projectId: text, path: text, dpi: float64) -> (text);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createProject: (title: text) -> (nat);
+  deleteImage: (id: text) -> ();
+  deleteProject: (id: text) -> ();
+  dropFileReference: (path: text) -> ();
+  generateImagePrompt: (projectId: text, pageText: text, projectContext:
+   text) -> (text);
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getDeploymentUrl: () -> (text) query;
+  getFileOwner: (path: text) -> (opt principal) query;
+  getImage: (id: text) -> (opt Image) query;
+  getKDPComplianceStatus: (projectId: text) -> (opt bool) query;
+  getKDPValidationReport: (projectId: text) -> (opt KDPValidation) query;
+  getProject: (id: text) -> (opt Project) query;
+  getUserProfile: (user: principal) -> (opt UserProfile) query;
+  isCallerAdmin: () -> (bool) query;
+  isSubscribed: () -> (bool) query;
+  listImages: (projectId: text) -> (vec Image) query;
+  listProjects: () -> (vec Project) query;
+  registerFileReference: (path: text, hash: text) -> ();
+  saveCallerUserProfile: (profile: UserProfile) -> ();
+  setSubscription: (user: principal, isActive: bool) -> ();
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateProject: (project: Project) -> ();
+  validateKDP: (projectId: text) -> (opt KDPValidation) query;
+}

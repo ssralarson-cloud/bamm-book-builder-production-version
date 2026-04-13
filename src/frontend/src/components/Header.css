@@ -1,0 +1,36 @@
+.simple-header {
+  position: relative;
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.simple-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333333;
+  letter-spacing: 0.5px;
+}
+
+.simple-nav-button {
+  color: #555555;
+  transition: all 0.2s ease;
+}
+
+.simple-nav-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333333;
+}
+
+.simple-auth-button {
+  font-weight: 600;
+  background: #4a90e2;
+  color: #ffffff;
+  border: 1px solid #4a90e2;
+  transition: all 0.2s ease;
+}
+
+.simple-auth-button:hover {
+  background: #357abd;
+  border-color: #357abd;
+}

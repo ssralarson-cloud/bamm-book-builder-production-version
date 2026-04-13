@@ -1,0 +1,12 @@
+.simple-sidebar {
+  background: #f9f9f9;
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
+  min-height: 100vh;
+}
+
+.simple-sidebar-content {
+  padding: 1.5rem;
+  background-color: #ffffff;
+  min-height: calc(100vh - 100px);
+}
