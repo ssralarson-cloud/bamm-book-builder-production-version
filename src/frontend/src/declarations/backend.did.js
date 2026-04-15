@@ -121,6 +121,11 @@ export const Project = IDL.Record({
   'settings' : ProjectSettings,
   'pages' : IDL.Vec(Page),
 });
+export const SubscriptionRecord = IDL.Record({
+  'principal' : IDL.Principal,
+  'isActive' : IDL.Bool,
+  'updatedAt' : IDL.Int,
+});
 export const http_header = IDL.Record({
   'value' : IDL.Text,
   'name' : IDL.Text,
@@ -196,11 +201,17 @@ export const idlService = IDL.Service({
       ['query'],
     ),
   'getProject' : IDL.Func([IDL.Text], [IDL.Opt(Project)], ['query']),
+  'getSubscription' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(SubscriptionRecord)],
+      ['query'],
+    ),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
       ['query'],
     ),
+  'initializeAccessControl' : IDL.Func([], [], []),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'isSubscribed' : IDL.Func([], [IDL.Bool], ['query']),
   'listImages' : IDL.Func([IDL.Text], [IDL.Vec(Image)], ['query']),
@@ -327,6 +338,11 @@ export const idlFactory = ({ IDL }) => {
     'settings' : ProjectSettings,
     'pages' : IDL.Vec(Page),
   });
+  const SubscriptionRecord = IDL.Record({
+    'principal' : IDL.Principal,
+    'isActive' : IDL.Bool,
+    'updatedAt' : IDL.Int,
+  });
   const http_header = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
   const http_request_result = IDL.Record({
     'status' : IDL.Nat,
@@ -399,11 +415,17 @@ export const idlFactory = ({ IDL }) => {
         ['query'],
       ),
     'getProject' : IDL.Func([IDL.Text], [IDL.Opt(Project)], ['query']),
+    'getSubscription' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(SubscriptionRecord)],
+        ['query'],
+      ),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],
         ['query'],
       ),
+    'initializeAccessControl' : IDL.Func([], [], []),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'isSubscribed' : IDL.Func([], [IDL.Bool], ['query']),
     'listImages' : IDL.Func([IDL.Text], [IDL.Vec(Image)], ['query']),

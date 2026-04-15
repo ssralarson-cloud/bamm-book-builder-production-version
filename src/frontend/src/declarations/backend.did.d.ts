@@ -91,6 +91,11 @@ export interface ProjectSettings {
 }
 export interface Size { 'height' : number, 'width' : number }
 export interface SpineSpec { 'text' : string, 'width' : number }
+export interface SubscriptionRecord {
+  'principal' : Principal,
+  'isActive' : boolean,
+  'updatedAt' : bigint,
+}
 export interface TextPosition {
   'x' : number,
   'y' : number,
@@ -163,7 +168,9 @@ export interface _SERVICE {
   'getKDPComplianceStatus' : ActorMethod<[string], [] | [boolean]>,
   'getKDPValidationReport' : ActorMethod<[string], [] | [KDPValidation]>,
   'getProject' : ActorMethod<[string], [] | [Project]>,
+  'getSubscription' : ActorMethod<[Principal], [] | [SubscriptionRecord]>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'initializeAccessControl' : ActorMethod<[], undefined>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'isSubscribed' : ActorMethod<[], boolean>,
   'listImages' : ActorMethod<[string], Array<Image>>,

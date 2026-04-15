@@ -47,6 +47,12 @@ type TextPosition =
    x: float64;
    y: float64;
  };
+type SubscriptionRecord = 
+ record {
+   isActive: bool;
+   "principal": principal;
+   updatedAt: int;
+ };
 type SpineSpec = 
  record {
    "text": text;
@@ -187,7 +193,9 @@ service : {
   getKDPComplianceStatus: (projectId: text) -> (opt bool) query;
   getKDPValidationReport: (projectId: text) -> (opt KDPValidation) query;
   getProject: (id: text) -> (opt Project) query;
+  getSubscription: (user: principal) -> (opt SubscriptionRecord) query;
   getUserProfile: (user: principal) -> (opt UserProfile) query;
+  initializeAccessControl: () -> ();
   isCallerAdmin: () -> (bool) query;
   isSubscribed: () -> (bool) query;
   listImages: (projectId: text) -> (vec Image) query;

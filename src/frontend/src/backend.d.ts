@@ -42,6 +42,11 @@ export interface TextPosition {
     height: number;
     width: number;
 }
+export interface SubscriptionRecord {
+    principal: Principal;
+    isActive: boolean;
+    updatedAt: bigint;
+}
 export interface ProjectSettings {
     font: string;
     margin: number;
@@ -151,7 +156,9 @@ export interface backendInterface {
     getKDPComplianceStatus(projectId: string): Promise<boolean | null>;
     getKDPValidationReport(projectId: string): Promise<KDPValidation | null>;
     getProject(id: string): Promise<Project | null>;
+    getSubscription(user: Principal): Promise<SubscriptionRecord | null>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
+    initializeAccessControl(): Promise<void>;
     isCallerAdmin(): Promise<boolean>;
     isSubscribed(): Promise<boolean>;
     listImages(projectId: string): Promise<Array<Image>>;

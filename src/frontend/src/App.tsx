@@ -94,7 +94,12 @@ const queryClient = new QueryClient({
     queries: {
       retry: 1,
       refetchOnWindowFocus: false,
-      staleTime: 30000,
+      // 60 seconds stale time: prevents queries from being marked stale and
+      // re-fetched immediately when navigating between pages. This is the
+      // key guard against the "listProjects works then fails after navigation"
+      // race condition — a query that already succeeded won't re-fire during
+      // the brief window when isFetching flickers during a route transition.
+      staleTime: 60_000,
     },
   },
 });

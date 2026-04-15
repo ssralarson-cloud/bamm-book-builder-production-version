@@ -162,10 +162,18 @@ actor {
 
   let subscriptions = Map.empty<Principal, SubscriptionRecord>();
 
+  // Safe admin check — reads the map directly, never traps for unregistered callers.
+  private func safeIsAdmin(caller : Principal) : Bool {
+    if (caller.isAnonymous()) return false;
+    switch (accessControlState.userRoles.get(caller)) {
+      case (?#admin) { true };
+      case (_) { false };
+    };
+  };
+
   // Helper: Check if caller is owner or admin for a project
   private func isOwnerOrAdmin(caller : Principal, projectId : Text) : Bool {
-    let isAdm = AccessControl.isAdmin(accessControlState, caller);
-    if (isAdm) return true;
+    if (safeIsAdmin(caller)) return true;
 
     switch (projectOwners.get(projectId)) {
       case (?owner) { Principal.equal(caller, owner) };
@@ -183,7 +191,7 @@ actor {
     switch (images.get(imageId)) {
       case (null) { false };
       case (?image) {
-        Principal.equal(caller, image.owner) or AccessControl.isAdmin(accessControlState, caller);
+        Principal.equal(caller, image.owner) or safeIsAdmin(caller);
       };
     };
   };
@@ -193,7 +201,7 @@ actor {
     switch (fileOwnership.get(path)) {
       case (null) { false };
       case (?owner) {
-        Principal.equal(caller, owner) or AccessControl.isAdmin(accessControlState, caller);
+        Principal.equal(caller, owner) or safeIsAdmin(caller);
       };
     };
   };
@@ -226,6 +234,14 @@ actor {
     true;
   };
 
+  // Explicit public initializeAccessControl — registers caller as admin (first) or user.
+  // Named without underscore so the frontend can call it directly.
+  // MixinAuthorization provides _initializeAccessControl (with underscore); this
+  // provides the no-underscore version the frontend expects.
+  public shared ({ caller }) func initializeAccessControl() : async () {
+    AccessControl.initialize(accessControlState, caller);
+  };
+
   // User Profile Functions
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
     if (caller.isAnonymous()) return null;
@@ -236,7 +252,7 @@ actor {
     if (caller.isAnonymous()) {
       Runtime.trap("Unauthorized: Anonymous users cannot access profiles");
     };
-    if (caller != user and not AccessControl.isAdmin(accessControlState, caller)) {
+    if (caller != user and not safeIsAdmin(caller)) {
       Runtime.trap("Unauthorized: Can only view your own profile");
     };
     userProfiles.get(user);
@@ -372,7 +388,7 @@ actor {
       Runtime.trap("Unauthorized: Only project owner or admin can add images");
     };
 
-    let isAdm = AccessControl.isAdmin(accessControlState, caller);
+    let isAdm = safeIsAdmin(caller);
     switch (fileOwnership.get(path)) {
       case (?existingOwner) {
         if (not Principal.equal(caller, existingOwner) and not isAdm) {
@@ -441,7 +457,7 @@ actor {
       Runtime.trap("Unauthorized: Please log in to register file references");
     };
 
-    let isAdm = AccessControl.isAdmin(accessControlState, caller);
+    let isAdm = safeIsAdmin(caller);
     switch (fileOwnership.get(path)) {
       case (?existingOwner) {
         if (not Principal.equal(caller, existingOwner)) {
@@ -586,10 +602,18 @@ actor {
   };
 
   public shared ({ caller }) func setSubscription(user : Principal, isActive : Bool) : async () {
-    if (not AccessControl.isAdmin(accessControlState, caller)) {
+    if (not safeIsAdmin(caller)) {
       Runtime.trap("Unauthorized: Only admins can set subscription status");
     };
     subscriptions.add(user, { principal = user; isActive; updatedAt = Time.now() });
+  };
+
+  // Admin-only: check subscription status for any principal (for billing server)
+  public query ({ caller }) func getSubscription(user : Principal) : async ?SubscriptionRecord {
+    if (not safeIsAdmin(caller)) {
+      Runtime.trap("Unauthorized: Only admins can query other users' subscriptions");
+    };
+    subscriptions.get(user);
   };
 
   // Deployment Information Function
@@ -600,12 +624,10 @@ actor {
     "https://bamm-book-builder.icp0.io/";
   };
 
-  // DEV BACKDOOR — grants #admin to the hardcoded dev principal unconditionally.
+  // DEV BACKDOOR — grants #admin to the caller unconditionally.
   // Call this once after deploy to bypass the paywall for testing.
-  // Safe to leave in: only affects the one hardcoded principal.
-  public shared func _devAdminGrant() : async () {
-    let devPrincipal = Principal.fromText("zs7yq-mgazv-vzhit-hzgcd-dnqmn-2xcid-ylrot-b73if-6bmfb-kmnlb-2ae");
-    accessControlState.userRoles.add(devPrincipal, #admin);
+  public shared ({ caller }) func _devAdminGrant() : async () {
+    accessControlState.userRoles.add(caller, #admin);
     accessControlState.adminAssigned := true;
   };
 };

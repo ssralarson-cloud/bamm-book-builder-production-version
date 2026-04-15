@@ -20,7 +20,9 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useActor } from "../hooks/useActor";
+// Use the EXTENDED hook so we get isInitialized / isAuthenticated flags
+// and a stable actor reference that doesn't race on navigation.
+import { useActor } from "../hooks/useActorExtended";
 import { useInternetIdentity } from "../hooks/useInternetIdentity";
 import {
   type SubscriptionStatus,
@@ -33,7 +35,8 @@ import "./SubscribePage.css";
 export default function SubscribePage() {
   const navigate = useNavigate();
   const { identity, loginStatus } = useInternetIdentity();
-  const { actor } = useActor();
+  // Use extended hook — guarantees actor is ready before _devAdminGrant is callable
+  const { actor, isInitialized } = useActor();
   const [subscriptionStatus, setSubscriptionStatus] =
     useState<SubscriptionStatus | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,8 +44,10 @@ export default function SubscribePage() {
   const [isClaimingAdmin, setIsClaimingAdmin] = useState(false);
   const [email, setEmail] = useState("");
 
-  const isAuthenticated = !!identity;
-  const userPrincipal = identity?.getPrincipal().toString();
+  const isAuthenticated = !!identity && !identity.getPrincipal().isAnonymous();
+  const userPrincipal = isAuthenticated
+    ? identity.getPrincipal().toString()
+    : undefined;
 
   useEffect(() => {
     async function fetchSubscriptionStatus() {
@@ -113,7 +118,22 @@ export default function SubscribePage() {
     });
 
   const handleDevAdminGrant = async () => {
-    if (!actor || !isAuthenticated) return;
+    // Gate on isInitialized (not just actor presence) to ensure the actor
+    // has a non-anonymous identity attached before calling _devAdminGrant
+    if (!actor || !isInitialized || !isAuthenticated) {
+      toast.error("Please wait for the session to be ready and log in first.");
+      return;
+    }
+
+    // Guard: check the method exists on this version of the canister
+    const actorAsAny = actor as unknown as Record<string, unknown>;
+    if (typeof actorAsAny._devAdminGrant !== "function") {
+      toast.error(
+        "Dev admin grant not available on this canister version. Please redeploy the backend.",
+      );
+      return;
+    }
+
     setIsClaimingAdmin(true);
     try {
       await actor._devAdminGrant();
@@ -278,7 +298,7 @@ export default function SubscribePage() {
               }}
               className="subscribe-input"
               disabled={isCreatingSession}
-              data-ocid="subscribe-email-input"
+              data-ocid="subscribe.email_input"
             />
           </div>
 
@@ -287,7 +307,7 @@ export default function SubscribePage() {
             className="subscribe-cta"
             onClick={handleEmailCheckout}
             disabled={isCreatingSession || !email.trim()}
-            data-ocid="subscribe-cta-btn"
+            data-ocid="subscribe.submit_button"
           >
             {isCreatingSession ? (
               <>
@@ -309,6 +329,7 @@ export default function SubscribePage() {
               style={{ marginTop: "0.5rem", background: "#5a9a60" }}
               onClick={handlePrincipalCheckout}
               disabled={isCreatingSession}
+              data-ocid="subscribe.principal_checkout_button"
             >
               {isCreatingSession ? (
                 <Loader2 size={18} className="animate-spin" />
@@ -330,13 +351,17 @@ export default function SubscribePage() {
             type="button"
             className="subscribe-dev-btn"
             onClick={handleDevAdminGrant}
-            disabled={isClaimingAdmin || !actor}
-            data-ocid="dev-claim-admin-btn"
+            // Disabled until actor is fully initialized — prevents calling
+            // _devAdminGrant with an anonymous or partially-ready actor
+            disabled={isClaimingAdmin || !actor || !isInitialized}
+            data-ocid="subscribe.dev_admin_button"
           >
             {isClaimingAdmin ? (
               <>
                 <Loader2 size={14} className="animate-spin" /> Claiming...
               </>
+            ) : !isInitialized ? (
+              "Initializing..."
             ) : (
               "Dev: Claim Admin Access"
             )}

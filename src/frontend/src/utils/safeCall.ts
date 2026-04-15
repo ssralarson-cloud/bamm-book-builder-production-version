@@ -5,10 +5,10 @@
 export function safeCall<T>(
   operation: string,
   fn: () => Promise<T>,
-  context?: Record<string, any>,
+  context?: Record<string, unknown>,
 ): Promise<T> {
-  return fn().catch((error: any) => {
-    const errorMsg = error?.message || String(error);
+  return fn().catch((error: unknown) => {
+    const errorMsg = error instanceof Error ? error.message : String(error);
     const timestamp = new Date().toISOString();
 
     console.error(`[safeCall:${operation}] Error caught:`, {
@@ -26,7 +26,16 @@ export function safeCall<T>(
       );
     }
 
-    if (errorMsg.includes("reject code 5") || errorMsg.includes("code: 5")) {
+    // REJECT CODE 5 — canister trap. Common causes:
+    //   - backend method doesn't exist (old deployed WASM)
+    //   - userRoles map bug in access-control.mo
+    //   - calling with anonymous identity before initializeAccessControl
+    if (
+      errorMsg.includes("reject code 5") ||
+      errorMsg.includes("code: 5") ||
+      errorMsg.includes("Canister Error") ||
+      errorMsg.includes("REJECT_CODE_5")
+    ) {
       console.error(
         `[safeCall:${operation}] ❌ REJECT CODE 5 (Canister Error)`,
       );
